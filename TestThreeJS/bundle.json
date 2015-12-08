@@ -21,7 +21,8 @@
   "bundle": {
     "bower": {
       "#dest#/jquery": "#src#/jquery/dist/jquery*.{js,map}",
-      "#dest#/threeJs": "#src#/three.js/*.{js,map}"
+      "#dest#/threeJs": "#src#/three.js/*.{js,map}",
+      "#dest#/dat-gui": "#src#/dat-gui/build/*.{js,map}"
     },
     "less": {
       "#test#/sample": [ "#test#/sample.less" ]

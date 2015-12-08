@@ -62,10 +62,30 @@ camera.lookAt(scene.position);
 
 /* Render ------------------------------------------------------ */
 function render() {
+    cube.rotation.x += guiControl.rotationX;
+    cube.rotation.y += guiControl.rotationY;
+    cube.rotation.z += guiControl.rotationZ;
+
     requestAnimationFrame(render);
-    cube.rotation.x += 0.1;
-    cube.rotation.y += 0.1;
     renderer.render(scene, camera);
 }
-//render();
-renderer.render(scene, camera);
+//renderer.render(scene, camera);
+
+
+/* Dat.GUI ------------------------------------------------------ */
+var guiControl = {
+    rotationX: 0.01,
+    rotationY: 0.01,
+    rotationZ: 0.01
+};
+
+var datGUI = new dat.GUI();
+datGUI.add(guiControl, 'rotationX', 0, 1);
+datGUI.add(guiControl, 'rotationY', 0, 1);
+datGUI.add(guiControl, 'rotationZ', 0, 1);
+
+
+
+
+/* -------------------------------------------------------------- */
+render();
