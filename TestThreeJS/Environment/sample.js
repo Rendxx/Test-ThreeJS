@@ -72,8 +72,8 @@ render();
 /* Dat.GUI ------------------------------------------------------ */
 var cameraControl = {
     distance: 100,
-    rotateX: 45,
-    rotateZ: 45
+    polarA: 90,
+    polarB: -45
 };
 
 var datGUI = new dat.GUI();
@@ -81,28 +81,27 @@ var datGUI = new dat.GUI();
 // controller - camera
 var f_camera = datGUI.addFolder('Camera');
 var con_distance = f_camera.add(cameraControl, 'distance', 20, 1000);
-var con_rotateX = f_camera.add(cameraControl, 'rotateX', -90, 90);
-var con_rotateZ = f_camera.add(cameraControl, 'rotateZ', 0, 360);
+var con_polarA = f_camera.add(cameraControl, 'polarA', 0, 360);
+var con_polarB = f_camera.add(cameraControl, 'polarB', -90, 90);
 
 var setCamera = function () {
     var r = cameraControl.distance;
-    var a = cameraControl.rotateX / 180 * Math.PI;
-    var b = cameraControl.rotateZ / 180 * Math.PI;
+    var a = cameraControl.polarA / 180 * Math.PI;
+    var b = cameraControl.polarB / 180 * Math.PI;
 
-    camera.position.x = r * Math.sin(a) * Math.cos(b);
-    camera.position.y = r * Math.sin(a) * Math.sin(b);
-    camera.position.z = r * Math.cos(a);
-    console.log(Math.sin(a), Math.cos(a));
+    camera.position.y = r * Math.sin(b);
+    camera.position.z = r * Math.cos(b) * Math.sin(a);
+    camera.position.x = r * Math.cos(b) * Math.cos(a);
     camera.lookAt(scene.position);
 };
 
 con_distance.onChange(function (value) {
     setCamera();
 });
-con_rotateX.onChange(function (value) {
+con_polarA.onChange(function (value) {
     setCamera();
 });
-con_rotateZ.onChange(function (value) {
+con_polarB.onChange(function (value) {
     setCamera();
 });
 
