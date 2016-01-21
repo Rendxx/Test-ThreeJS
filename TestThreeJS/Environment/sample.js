@@ -1,6 +1,7 @@
 ﻿/* Basic ------------------------------------------------------ */
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 500);
+camera.rotation.order = "XYZ";
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setClearColor(0xdddddd);
@@ -72,8 +73,8 @@ render();
 /* Dat.GUI ------------------------------------------------------ */
 var cameraControl = {
     distance: 100,
-    polarA: 90,
-    polarB: -45
+    rotateZ: 90,
+    rotateX: 0
 };
 
 var datGUI = new dat.GUI();
@@ -81,27 +82,38 @@ var datGUI = new dat.GUI();
 // controller - camera
 var f_camera = datGUI.addFolder('Camera');
 var con_distance = f_camera.add(cameraControl, 'distance', 20, 1000);
-var con_polarA = f_camera.add(cameraControl, 'polarA', 0, 360);
-var con_polarB = f_camera.add(cameraControl, 'polarB', -90, 90);
+var con_rotateZ = f_camera.add(cameraControl, 'rotateZ', -90, 90);
+var con_rotateX = f_camera.add(cameraControl, 'rotateX', -90, 90);
 
 var setCamera = function () {
-    var r = cameraControl.distance;
-    var a = cameraControl.polarA / 180 * Math.PI;
-    var b = cameraControl.polarB / 180 * Math.PI;
-
-    camera.position.y = r * Math.sin(b);
-    camera.position.z = r * Math.cos(b) * Math.sin(a);
-    camera.position.x = r * Math.cos(b) * Math.cos(a);
+    camera.position.z = 100;
+    camera.position.x = cameraControl.rotateZ;
+    camera.position.y = cameraControl.rotateX;
     camera.lookAt(scene.position);
+    return;
+
+
+    var r = cameraControl.distance;
+    var a = cameraControl.rotateZ / 180 * Math.PI;
+    var b = cameraControl.rotateX / 180 * Math.PI;
+
+    camera.position.z = r * Math.cos(b);
+    camera.position.x = r * Math.sin(b) * Math.sin(a);
+    camera.position.y = r * Math.sin(b) * Math.cos(a);
+
+    camera.lookAt(scene.position);
+    console.log(camera.position);
+    //camera.rotation.x = -b;
+    //camera.rotation.z = -a;
 };
 
 con_distance.onChange(function (value) {
     setCamera();
 });
-con_polarA.onChange(function (value) {
+con_rotateZ.onChange(function (value) {
     setCamera();
 });
-con_polarB.onChange(function (value) {
+con_rotateX.onChange(function (value) {
     setCamera();
 });
 
