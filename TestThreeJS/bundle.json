@@ -7,10 +7,12 @@
       "dest": "lib"
     },
     "js": {
-      "test": "test"
+      "test": "test",
+      "environment": "Environment"
     },
     "less": {
-      "test": "test"
+      "test": "test",
+      "environment": "Environment"
     }
   },
 
@@ -25,7 +27,8 @@
       "#dest#/dat-gui": "#src#/dat-gui/build/*.{js,map}"
     },
     "less": {
-      "#test#/sample": [ "#test#/sample.less" ]
+      "#test#/sample": [ "#test#/sample.less" ],
+      "#environment#/sample": [ "#environment#/sample.less" ]
     },
     "js": {
     }

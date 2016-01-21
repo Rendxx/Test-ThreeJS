@@ -15,6 +15,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
+    <Content Include="Environment\sample.html" />
+    <Content Include="Environment\sample.js" />
     <Content Include="test\sample.html" />
     <Content Include="test\sample.js" />
   </ItemGroup>
@@ -24,6 +26,7 @@
   <ItemGroup>
     <None Include="bower.json" />
     <None Include="bundle.json" />
+    <Content Include="Environment\sample.less" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
