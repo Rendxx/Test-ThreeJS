@@ -57,8 +57,11 @@ createWall(-3, 0, 10, 2, 0);
 var lights = {
     ambient: null,
     spot: null,
-    directional: null
+    directional: null,
+    hemisphere: null,
+    point: null
 };
+
 
 lights.ambient = new THREE.AmbientLight(0x404040);
 
@@ -72,7 +75,13 @@ lights.directional.castShadow = true;
 lights.directional.position.set(10, 10, 2);
 scene.add(lights.directional);
 
+lights.hemisphere = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+scene.add(lights.hemisphere);
 
+lights.point = new THREE.PointLight(0x0000ff, 1, 100);
+lights.point.castShadow = true;
+lights.point.position.set(20, 20, 2);
+scene.add(lights.point);
 
 /* Render ------------------------------------------------------ */
 function render() {
@@ -129,7 +138,9 @@ setCamera();
 var lightControl = {
     ambient: true,
     spot: false,
-    directional: false
+    directional: false,
+    hemisphere:false,
+    point: false
 };
 
 var ambientOn = false;
@@ -138,6 +149,8 @@ var f_light = datGUI.addFolder('Light');
 var con_ambient = f_light.add(lightControl, 'ambient');
 var con_spot = f_light.add(lightControl, 'spot');
 var con_directional = f_light.add(lightControl, 'directional');
+var con_hemisphere = f_light.add(lightControl, 'hemisphere');
+var con_point = f_light.add(lightControl, 'point');
 
 var setLight = function () {
     for (var i in lights) {
@@ -168,6 +181,14 @@ con_spot.onChange(function (value) {
 });
 
 con_directional.onChange(function (value) {
+    setLight();
+});
+
+con_hemisphere.onChange(function (value) {
+    setLight();
+});
+
+con_point.onChange(function (value) {
     setLight();
 });
 
