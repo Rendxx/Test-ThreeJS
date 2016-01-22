@@ -62,25 +62,38 @@ var lights = {
     point: null
 };
 
-
+// ambient
 lights.ambient = new THREE.AmbientLight(0x404040);
 
+// spot
 lights.spot = new THREE.SpotLight(0xff0000);
 lights.spot.castShadow = true;
-lights.spot.position.set(15, 15, 2);
+lights.spot.position.set(6, 8, 2);
 scene.add(lights.spot);
 
+
+var spotGeometry = new THREE.OctahedronGeometry(1, 0);
+var spotMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+var obj_spot = new THREE.Mesh(spotMaterial, spotGeometry);
+
+obj_spot.position.set(6, 8, 2);
+scene.add(obj_spot);
+
+
+// directional
 lights.directional = new THREE.DirectionalLight(0x00ff00, 0.5);
 lights.directional.castShadow = true;
 lights.directional.position.set(10, 10, 2);
 scene.add(lights.directional);
 
+// hemisphere
 lights.hemisphere = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
 scene.add(lights.hemisphere);
 
+// point
 lights.point = new THREE.PointLight(0x0000ff, 1, 100);
 lights.point.castShadow = true;
-lights.point.position.set(20, 20, 2);
+lights.point.position.set(0, 8, 2);
 scene.add(lights.point);
 
 /* Render ------------------------------------------------------ */
