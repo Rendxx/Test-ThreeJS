@@ -25,17 +25,21 @@ grid.setColors(color, 0x000000);
 
 
 /* Plane ------------------------------------------------------ */
-var planeGeometry = new THREE.PlaneGeometry(50, 50);
+var planeGeometry = new THREE.BoxGeometry(50, 50, 1);
 var planeMaterial = new THREE.MeshLambertMaterial({ color: 0xdddddd });
 var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.position.x = 1;
+plane.position.y = 1;
+plane.position.z = 1;
 
+plane.castShadow = true;
 plane.receiveShadow = true;
 scene.add(plane);
 
 
 /* Walls ------------------------------------------------------ */
-var createWall = function (x, y, len, wid, rotate) {
-    var cubeGeometry = new THREE.BoxGeometry(wid, len, 6);
+var createWall = function (x, y, len, wid, rotate, deep) {
+    var cubeGeometry = new THREE.BoxGeometry(wid, len, deep||6);
     var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
     var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
@@ -48,6 +52,7 @@ var createWall = function (x, y, len, wid, rotate) {
     scene.add(cube);
 };
 
+createWall(0, 0, 10, 10, 90,1);
 createWall(0, 10, 20, 2, 90);
 createWall(11, 7, 8, 2, 0);
 createWall(4, 4, 12, 2, 90);
@@ -67,9 +72,11 @@ var lights = {
 lights.ambient = new THREE.AmbientLight(0x404040);
 
 // spot
-lights.spot = new THREE.SpotLight(0xff0000);
+lights.spot = new THREE.SpotLight(0xff0000,5, 40);
 lights.spot.castShadow = true;
 lights.spot.position.set(6, 8, 2);
+lights.spot.shadowCameraNear = 1;
+lights.spot.shadowCameraFar = 40;
 scene.add(lights.spot);
 
 var spot_Geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -92,13 +99,12 @@ scene.add(lights.hemisphere);
 lights.point = new THREE.PointLight(0x0000ff, 1, 15);
 lights.point.castShadow = true;
 lights.point.position.set(-3, 7, 2);
+lights.point.shadowCameraNear = 1;
+lights.point.shadowCameraFar = 40;
 scene.add(lights.point);
 
-var point_Geometry = new THREE.BoxGeometry(1, 1, 1);
-var point_Material = new THREE.MeshLambertMaterial({ color: 0x0000ff });
-var obj_point = new THREE.Mesh(point_Geometry, point_Material);
-obj_point.position.set(-3, 7, 2);
-scene.add(obj_point);
+var pointLightHelper = new THREE.PointLightHelper(lights.point, 1);
+scene.add(pointLightHelper);
 
 /* Render ------------------------------------------------------ */
 function render() {
@@ -215,7 +221,8 @@ setLight();
 // controller - light - move ---------------------------------------------
 var lightMove = {
     x: 0,
-    y: 0
+    y: 0,
+    z: 0
 };
 
 var datGUI = new dat.GUI();
@@ -224,17 +231,21 @@ var datGUI = new dat.GUI();
 var f_lightmove = datGUI.addFolder('Light Move');
 var con_moveX = f_lightmove.add(lightMove, 'x', -50, 50);
 var con_moveY = f_lightmove.add(lightMove, 'y', -50, 50);
+var con_moveZ = f_lightmove.add(lightMove, 'z', -50, 50);
 
 var setLightPos = function () {
-    obj_spot.position.set(lightMove.x, lightMove.y, 2);
-    lights.spot.position.set(lightMove.x, lightMove.y, 2);
-    //camera.lookAt(scene.position);
+    pointLightHelper.position.set(lightMove.x, lightMove.y, lightMove.z);
+    lights.point.position.set(lightMove.x, lightMove.y, lightMove.z);
 };
 
 con_moveX.onChange(function (value) {
     setLightPos();
 });
 con_moveY.onChange(function (value) {
+    setLightPos();
+});
+
+con_moveZ.onChange(function (value) {
     setLightPos();
 });
 
