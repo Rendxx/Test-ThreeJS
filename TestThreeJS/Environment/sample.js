@@ -53,11 +53,25 @@ createWall(4, 4, 12, 2, 90);
 createWall(-11, 3, 16, 2, 0);
 createWall(-3, 0, 10, 2, 0);
 
-/* Spot Light ------------------------------------------------------ */
-var spotLight = new THREE.SpotLight(0xffffff);
-spotLight.castShadow = true;
-spotLight.position.set(15, 30, 50);
-scene.add(spotLight);
+/* Light ------------------------------------------------------ */
+var lights = {
+    ambient: null,
+    spot: null,
+    directional: null
+};
+
+lights.ambient = new THREE.AmbientLight(0x404040);
+
+lights.spot = new THREE.SpotLight(0xff0000);
+lights.spot.castShadow = true;
+lights.spot.position.set(15, 15, 2);
+scene.add(lights.spot);
+
+lights.directional = new THREE.DirectionalLight(0x00ff00, 0.5);
+lights.directional.castShadow = true;
+lights.directional.position.set(10, 10, 2);
+scene.add(lights.directional);
+
 
 
 /* Render ------------------------------------------------------ */
@@ -86,17 +100,9 @@ var con_rotateZ = f_camera.add(cameraControl, 'rotateZ', 0, 360);
 var con_rotateX = f_camera.add(cameraControl, 'rotateX', -90, 90);
 
 var setCamera = function () {
-    //camera.position.z = 100;
-    //camera.position.x = cameraControl.rotateZ;
-    //camera.position.y = cameraControl.rotateX;
-    //camera.lookAt(scene.position);
-    //return;
     var r = cameraControl.distance;
     var a = cameraControl.rotateZ / 180 * Math.PI;
     var b = cameraControl.rotateX / 180 * Math.PI;
-
-
-
 
     camera.rotation.z = -a;
     camera.rotation.x = -b;
@@ -118,3 +124,51 @@ con_rotateX.onChange(function (value) {
 });
 
 setCamera();
+
+// controller - light ---------------------------------------------
+var lightControl = {
+    ambient: true,
+    spot: false,
+    directional: false
+};
+
+var ambientOn = false;
+
+var f_light = datGUI.addFolder('Light');
+var con_ambient = f_light.add(lightControl, 'ambient');
+var con_spot = f_light.add(lightControl, 'spot');
+var con_directional = f_light.add(lightControl, 'directional');
+
+var setLight = function () {
+    for (var i in lights) {
+        if (i == 'ambient') {
+            if (lightControl['ambient'] && !ambientOn) {
+                scene.add(lights.ambient);
+                ambientOn = true;
+            } else if (!lightControl['ambient'] && ambientOn) {
+                scene.remove(lights.ambient)
+                ambientOn = false;;
+            }
+        } else {
+            if (lightControl[i]) {
+                lights[i].intensity = 1;
+            } else {
+                lights[i].intensity = 0;
+            }
+        }
+    }
+};
+
+con_ambient.onChange(function (value) {
+    setLight();
+});
+
+con_spot.onChange(function (value) {
+    setLight();
+});
+
+con_directional.onChange(function (value) {
+    setLight();
+});
+
+setLight();
