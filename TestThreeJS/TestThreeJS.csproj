@@ -14,6 +14,8 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Environment2\sample.html" />
+    <Content Include="Environment2\sample.js" />
     <Content Include="gulpfile.js" />
     <Content Include="Environment\sample.html" />
     <Content Include="Environment\sample.js" />
@@ -27,6 +29,7 @@
     <None Include="bower.json" />
     <None Include="bundle.json" />
     <Content Include="Environment\sample.less" />
+    <Content Include="Environment2\sample.less" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
