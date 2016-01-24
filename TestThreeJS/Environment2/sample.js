@@ -18,7 +18,6 @@
     var point = 0;
     var spot = 0;
     var light;
-
     
     function init() {
         /*creates empty scene object and renderer*/
@@ -26,7 +25,7 @@
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .1, 5000);
         renderer = new THREE.WebGLRenderer({ antialias: true });
 
-        renderer.setClearColor(0xdddddd);
+        renderer.setClearColor(0xeeeeee);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.shadowMapEnabled = true;
         renderer.shadowMapSoft = true;
@@ -45,7 +44,7 @@
         /*scene.add(grid);*/
 
         /*create cube*/
-        cubeGeometry = new THREE.BoxGeometry(5, 5, 5);
+        cubeGeometry = new THREE.BoxGeometry(1, 2, 3);
         cubeMaterial = new THREE.MeshPhongMaterial({ color: 0xff3300 });
         cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
@@ -58,6 +57,26 @@
         planeGeometry = new THREE.PlaneGeometry(100, 100, 100);
         planeMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
         plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        
+        /*add wall*/
+        var createWall = function (z, x, len, wid, rotate, deep) {
+            var cubeGeometry = new THREE.BoxGeometry(len, deep || 6, wid);
+            var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
+            var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+            cube.rotation.y = rotate / 180 * Math.PI;
+            cube.position.x = x;
+            cube.position.y = 2;
+            cube.position.z = z
+            cube.castShadow = true;
+            cube.receiveShadow = true;
+            scene.add(cube);
+        }
+        createWall(0, 10, 20, 2, 90);
+        createWall(11, 7, 8, 2, 0);
+        createWall(4, 4, 12, 2, 90);
+        createWall(-11, 3, 16, 2, 0);
+        createWall(-3, 0, 10, 2, 0);
 
         /*position and add objects to scene*/
         plane.rotation.x = -.5 * Math.PI;
@@ -239,40 +258,40 @@
             arrayOfLights[1].intensity = value;
         });
         directFolder.add(guiControls, 'shadowCameraNearD', 0, 100).name("Near").onChange(function (value) {
-            arrayOfLights[1].shadowCamera.near = value;
-            arrayOfLights[1].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[1].shadow.camera.near = value;
+            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
         });
         directFolder.add(guiControls, 'shadowLeft', -30, 30).name("Left").onChange(function (value) {
-            arrayOfLights[1].shadowCamera.left = value;
-            arrayOfLights[1].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[1].shadow.camera.left = value;
+            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
         });
         directFolder.add(guiControls, 'shadowRight', -30, 30).name("Right").onChange(function (value) {
-            arrayOfLights[1].shadowCamera.right = value;
-            arrayOfLights[1].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[1].shadow.camera.right = value;
+            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
         });
         directFolder.add(guiControls, 'shadowTop', -30, 30).name("Top").onChange(function (value) {
-            arrayOfLights[1].shadowCamera.top = value;
-            arrayOfLights[1].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[1].shadow.camera.top = value;
+            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
         });
         directFolder.add(guiControls, 'shadowBottom', -30, 30).name("Bottom").onChange(function (value) {
-            arrayOfLights[1].shadowCamera.bottom = value;
-            arrayOfLights[1].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[1].shadow.camera.bottom = value;
+            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
         });
         directFolder.add(guiControls, 'shadowCameraFarD', 0, 100).name("Far").onChange(function (value) {
-            arrayOfLights[1].shadowCamera.far = value;
-            arrayOfLights[1].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[1].shadow.camera.far = value;
+            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
         });
         directFolder.add(guiControls, 'shadowCameraVisibleD').onChange(function (value) {
             arrayOfLights[1].shadowCameraVisible = value;
-            arrayOfLights[1].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
         });
         directFolder.add(guiControls, 'shadowBiasD', 0, 1).onChange(function (value) {
             arrayOfLights[1].shadowBias = value;
-            arrayOfLights[1].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
         });
         directFolder.add(guiControls, 'shadowDarknessD', 0, 1).onChange(function (value) {
             arrayOfLights[1].shadowDarkness = value;
-            arrayOfLights[1].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
         });
         directFolder.close();
 
@@ -325,28 +344,28 @@
             arrayOfLights[3].exponent = value;
         });
         spotFolder.add(guiControls, 'shadowCameraNear', 0, 100).name("Near").onChange(function (value) {
-            arrayOfLights[3].shadowCamera.near = value;
-            arrayOfLights[3].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[3].shadow.camera.near = value;
+            arrayOfLights[3].shadow.camera.updateProjectionMatrix();
         });
         spotFolder.add(guiControls, 'shadowCameraFar', 0, 5000).name("Far").onChange(function (value) {
-            arrayOfLights[3].shadowCamera.far = value;
-            arrayOfLights[3].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[3].shadow.camera.far = value;
+            arrayOfLights[3].shadow.camera.updateProjectionMatrix();
         });
         spotFolder.add(guiControls, 'shadowCameraFov', 1, 180).name("Fov").onChange(function (value) {
-            arrayOfLights[3].shadowCamera.fov = value;
-            arrayOfLights[3].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[3].shadow.camera.fov = value;
+            arrayOfLights[3].shadow.camera.updateProjectionMatrix();
         });
         spotFolder.add(guiControls, 'shadowCameraVisible').onChange(function (value) {
             arrayOfLights[3].shadowCameraVisible = value;
-            arrayOfLights[3].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[3].shadow.camera.updateProjectionMatrix();
         });
         spotFolder.add(guiControls, 'shadowBias', 0, 1).onChange(function (value) {
             arrayOfLights[3].shadowBias = value;
-            arrayOfLights[3].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[3].shadow.camera.updateProjectionMatrix();
         });
         spotFolder.add(guiControls, 'shadowDarkness', 0, 1).onChange(function (value) {
             arrayOfLights[3].shadowDarkness = value;
-            arrayOfLights[3].shadowCamera.updateProjectionMatrix();
+            arrayOfLights[3].shadow.camera.updateProjectionMatrix();
         });
         spotFolder.close();
 
@@ -358,7 +377,7 @@
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
     }
-
+    
     function addLight() {
         if (guiControls.lightSelector == 0 && ambient == 0) {
             scene.add(arrayOfLights[guiControls.lightSelector]);
@@ -452,7 +471,7 @@
 
         renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     });
+
     init();
     animate();
-
 });
