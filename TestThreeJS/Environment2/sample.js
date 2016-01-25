@@ -7,6 +7,7 @@
     var cube, torusKnot, plane;
     var spotLight, hemiLight, pointLightHelper, hemiLightHelper;
     var shadowHelper_spot, shadowHelper_direct;
+    var walls = [];
     var stats;
     var SCREEN_WIDTH, SCREEN_HEIGHT;
 
@@ -56,13 +57,13 @@
 
         /*create plane*/
         planeGeometry = new THREE.PlaneGeometry(100, 100, 100);
-        planeMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+        planeMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
         plane = new THREE.Mesh(planeGeometry, planeMaterial);
 
         /*add wall*/
         var createWall = function (z, x, len, wid, rotate, deep) {
             var cubeGeometry = new THREE.BoxGeometry(len, deep || 6, wid);
-            var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
+            var cubeMaterial = new THREE.MeshPhongMaterial({ color: 0xbb44bb });
             var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
             cube.rotation.y = rotate / 180 * Math.PI;
@@ -72,6 +73,8 @@
             cube.castShadow = true;
             cube.receiveShadow = true;
             scene.add(cube);
+
+            walls.push(cube);
         }
         createWall(0, 10, 20, 2, 90);
         createWall(11, 7, 8, 2, 0);
@@ -478,6 +481,8 @@
         cubeMaterial.needsUpdate = true;
         torMaterial.needsUpdate = true;
         planeMaterial.needsUpdate = true;
+
+        for (var i in walls) walls[i].material.needsUpdate = true;
 
         arrayOfLights[1].position.x = guiControls.lightXD;
         arrayOfLights[1].position.y = guiControls.lightYD;
