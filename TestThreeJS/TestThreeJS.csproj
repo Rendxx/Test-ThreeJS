@@ -16,6 +16,7 @@
   <ItemGroup>
     <Content Include="BlenderLoader\sample.html" />
     <Content Include="BlenderLoader\sample.js" />
+    <Content Include="BlenderLoader\wood-2.jpg" />
     <Content Include="ShaderMaterial\sample.html" />
     <Content Include="ShaderMaterial\sample.js" />
     <Content Include="Environment2\sample.html" />
@@ -30,6 +31,7 @@
     <Folder Include="lib\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BlenderLoader\table.2.json" />
     <None Include="bower.json" />
     <None Include="bundle.json" />
     <Content Include="Environment\sample.less" />

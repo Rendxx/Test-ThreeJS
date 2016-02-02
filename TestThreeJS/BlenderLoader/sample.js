@@ -186,6 +186,17 @@
         stats.domElement.style.left = '0px';
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
+
+        AddBlenderMesh('table.2.json');
+    }
+
+    function AddBlenderMesh(file) {
+        var loader = new THREE.JSONLoader();
+        var mesh = null
+        loader.load(file, function (geometry, materials) {
+            mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+            scene.add(mesh);
+        });
     }
 
     function render() {
