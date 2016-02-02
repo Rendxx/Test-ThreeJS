@@ -14,6 +14,8 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="BlenderLoader\sample.html" />
+    <Content Include="BlenderLoader\sample.js" />
     <Content Include="ShaderMaterial\sample.html" />
     <Content Include="ShaderMaterial\sample.js" />
     <Content Include="Environment2\sample.html" />
@@ -33,6 +35,7 @@
     <Content Include="Environment\sample.less" />
     <Content Include="Environment2\sample.less" />
     <Content Include="ShaderMaterial\sample.less" />
+    <Content Include="BlenderLoader\sample.less" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

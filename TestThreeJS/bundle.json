@@ -8,11 +8,15 @@
     },
     "js": {
       "test": "test",
-      "environment": "Environment"
+      "environment": "Environment",
+      "environment2": "Environment2",
+      "blenderLoader": "BlenderLoader"
     },
     "less": {
       "test": "test",
-      "environment": "Environment"
+      "environment": "Environment",
+      "environment2": "Environment2",
+      "blenderLoader": "BlenderLoader"
     }
   },
 
@@ -30,7 +34,9 @@
     },
     "less": {
       "#test#/sample": [ "#test#/sample.less" ],
-      "#environment#/sample": [ "#environment#/sample.less" ]
+      "#environment#/sample": [ "#environment#/sample.less" ],
+      "#environment2#/sample": [ "#environment2#/sample.less" ],
+      "#blenderLoader#/sample": [ "#blenderLoader#/sample.less" ]
     },
     "js": {
     }
