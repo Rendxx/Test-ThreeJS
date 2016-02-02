@@ -195,6 +195,8 @@
         var mesh = null
         loader.load(file, function (geometry, materials) {
             mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
             scene.add(mesh);
         });
     }
