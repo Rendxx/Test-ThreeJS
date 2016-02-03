@@ -187,7 +187,8 @@
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
 
-        AddBlenderMesh('table.2.json');
+        //AddBlenderMesh('table.2.json');
+        AddBlenderMesh('xyz.json');
     }
 
     function AddBlenderMesh(file) {

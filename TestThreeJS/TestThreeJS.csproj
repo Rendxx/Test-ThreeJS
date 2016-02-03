@@ -32,6 +32,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlenderLoader\table.2.json" />
+    <Content Include="BlenderLoader\xyz.blend" />
+    <Content Include="BlenderLoader\xyz.json" />
     <None Include="bower.json" />
     <None Include="bundle.json" />
     <Content Include="Environment\sample.less" />
