@@ -15,6 +15,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Animation\Player-Texture-2.png" />
+    <Content Include="Animation\Player-Texture.png" />
     <Content Include="Animation\sample.html" />
     <Content Include="Animation\sample.js" />
     <Content Include="BlenderLoader\sample.html" />
@@ -41,6 +42,7 @@
     <Content Include="Animation\animationTest.blend1" />
     <Content Include="Animation\animationTest.json" />
     <Content Include="Animation\Cube.001Geometry.1.animations.json" />
+    <Content Include="Animation\player-2.json" />
     <None Include="bower.json" />
     <None Include="bundle.json" />
     <Content Include="Environment\sample.less" />

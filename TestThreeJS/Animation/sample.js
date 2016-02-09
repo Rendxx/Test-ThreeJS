@@ -68,33 +68,34 @@
         $("#webGL-container").append(stats.domElement);
 
         //AddBlenderMesh('table.2.json');
-        AddBlenderMesh('animationTest.json');
+        AddBlenderMesh('player-2.json');
     }
 
     function AddBlenderMesh(file) {
         var loader = new THREE.JSONLoader();
-        var mesh = null
+        var mesh = null;
         loader.load(file, function (geometry, materials) {
-            for (var i = 0; i < materials.length; i++) {
-                materials[i].skinning = true;
-            }
-            mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
+            //for (var i = 0; i < materials.length; i++) {
+            //    materials[i].skinning = true;
+            //}
+            //mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
+            mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
             mesh.castShadow = true;
             mesh.receiveShadow = true;
 
-            action.t1 = new THREE.AnimationAction(geometry.animations[0]);
-            action.t2 = new THREE.AnimationAction(geometry.animations[1]);
-            action.t1.weight = 1;
-            action.t2.weight = 0;
+            //action.t1 = new THREE.AnimationAction(geometry.animations[0]);
+            //action.t2 = new THREE.AnimationAction(geometry.animations[1]);
+            //action.t1.weight = 1;
+            //action.t2.weight = 0;
 
-            mixer = new THREE.AnimationMixer(mesh);
-            mixer.addAction(action.t1);
-            mixer.addAction(action.t2);
+            //mixer = new THREE.AnimationMixer(mesh);
+            //mixer.addAction(action.t1);
+            //mixer.addAction(action.t2);
 
             scene.add(mesh);
 
-            var sk_helper = new THREE.SkeletonHelper(mesh);
-            scene.add(sk_helper);
+            //sk_helper = new THREE.SkeletonHelper(mesh);
+            //scene.add(sk_helper);
         });
     }
 
