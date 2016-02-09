@@ -1,12 +1,14 @@
 ﻿$(function () {
     var scene, camera, renderer;
     var controls, guiControls, datGUI;
-    var planeGeometry;
-    var planeMaterial;
     var axis, grid, color;
     var stats;
     var SCREEN_WIDTH, SCREEN_HEIGHT;
+    var sk_helper;
 
+    var action = {}, mixer, fadeAction;
+
+    var clock = new THREE.Clock();
     /*variables for lights*/
 
     function init() {
@@ -32,14 +34,6 @@
         color = new THREE.Color("rgb(255,0,0)");
         grid.setColors(color, 0x000000);
         /*scene.add(grid);*/
-
-        /*create plane*/
-        planeGeometry = new THREE.PlaneGeometry(100, 100, 100);
-        planeMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
-        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.rotation.x = -.5 * Math.PI;
-        plane.receiveShadow = true;
-        scene.add(plane);
 
         camera.position.x = 40;
         camera.position.y = 40;
@@ -71,17 +65,30 @@
         $("#webGL-container").append(stats.domElement);
 
         //AddBlenderMesh('table.2.json');
-        //AddBlenderMesh('xyz.json');
+        AddBlenderMesh('animationTest.json');
     }
 
     function AddBlenderMesh(file) {
         var loader = new THREE.JSONLoader();
         var mesh = null
         loader.load(file, function (geometry, materials) {
-            mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
+            for (var i = 0; i < materials.length; i++) {
+                materials[i].skinning = true;
+            }
+            mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+
+            action.idle = new THREE.AnimationAction(geometry.animations[0]);
+            action.idle.weight = 1;
+
+            mixer = new THREE.AnimationMixer(mesh);
+            mixer.addAction(action.idle);
+
             scene.add(mesh);
+
+            var sk_helper = new THREE.SkeletonHelper(mesh);
+            scene.add(sk_helper);
         });
     }
 
@@ -89,13 +96,16 @@
         /*necessary to make lights function*/
         //cubeMaterial.needsUpdate = true;
         //torMaterial.needsUpdate = true;
-        planeMaterial.needsUpdate = true;
     }
 
     function animate() {
         requestAnimationFrame(animate);
         render();
         stats.update();
+        if (sk_helper) sk_helper.update();
+
+        var delta = clock.getDelta();
+        if (mixer) mixer.update(delta);
         renderer.render(scene, camera);
     }
 

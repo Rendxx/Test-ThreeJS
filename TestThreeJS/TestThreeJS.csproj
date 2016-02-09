@@ -14,6 +14,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Animation\Player-Texture-2.png" />
     <Content Include="Animation\sample.html" />
     <Content Include="Animation\sample.js" />
     <Content Include="BlenderLoader\sample.html" />
@@ -36,6 +37,10 @@
     <Content Include="BlenderLoader\table.2.json" />
     <Content Include="BlenderLoader\xyz.blend" />
     <Content Include="BlenderLoader\xyz.json" />
+    <Content Include="Animation\animationTest.blend" />
+    <Content Include="Animation\animationTest.blend1" />
+    <Content Include="Animation\animationTest.json" />
+    <Content Include="Animation\Cube.001Geometry.1.animations.json" />
     <None Include="bower.json" />
     <None Include="bundle.json" />
     <Content Include="Environment\sample.less" />
