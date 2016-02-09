@@ -11,6 +11,7 @@
     var clock = new THREE.Clock();
     /*variables for lights*/
 
+
     function init() {
         /*creates empty scene object and renderer*/
         scene = new THREE.Scene();
@@ -40,21 +41,23 @@
         camera.position.z = 40;
         camera.lookAt(scene.position);
 
-        guiControls = {
-        };
-
-        arrayOfLights = [
-            new THREE.AmbientLight(),
-            new THREE.SpotLight()
-        ];
-        
-        var light = new THREE.AmbientLight();
         // Ambient
+        var light = new THREE.AmbientLight();
         light.color.setHex(0x333333);
         scene.add(light);
 
-
-        //datGUI = new dat.GUI();
+        // dat gui
+        guiControls = {
+            animation1: function () {
+                fadeAction('t1');
+            },
+            animation2: function () {
+                fadeAction('t2');
+            }
+        };
+        datGUI = new dat.GUI();
+        datGUI.add(guiControls, 'animation1');
+        datGUI.add(guiControls, 'animation2');
 
         $("#webGL-container").append(renderer.domElement);
         // status track
@@ -79,11 +82,14 @@
             mesh.castShadow = true;
             mesh.receiveShadow = true;
 
-            action.idle = new THREE.AnimationAction(geometry.animations[0]);
-            action.idle.weight = 1;
+            action.t1 = new THREE.AnimationAction(geometry.animations[0]);
+            action.t2 = new THREE.AnimationAction(geometry.animations[1]);
+            action.t1.weight = 1;
+            action.t2.weight = 0;
 
             mixer = new THREE.AnimationMixer(mesh);
-            mixer.addAction(action.idle);
+            mixer.addAction(action.t1);
+            mixer.addAction(action.t2);
 
             scene.add(mesh);
 
@@ -97,6 +103,17 @@
         //cubeMaterial.needsUpdate = true;
         //torMaterial.needsUpdate = true;
     }
+
+
+    fadeAction = function () {
+        var activeActionName = 't1';
+        return function (name) {
+            if (name == activeActionName) return;
+            mixer.crossFade(action[activeActionName], action[name], .3);
+            activeActionName = name;
+        };
+    }();
+
 
     function animate() {
         requestAnimationFrame(animate);
