@@ -226,13 +226,13 @@
         arrayOfLights[1].position.y = guiControls.spot.lightY;
         arrayOfLights[1].position.z = guiControls.spot.lightZ;
         if (mesh != null) {
-            mesh.rotation.y += .01;
+            //mesh.rotation.y += .01;
 
             mesh.skeleton.bones[0].rotation.x = guiControls.bone.Bone_0;
             mesh.skeleton.bones[1].rotation.x = guiControls.bone.Bone_1;
             mesh.skeleton.bones[2].rotation.x = guiControls.bone.Bone_2;
             mesh.skeleton.bones[3].rotation.x = guiControls.bone.Bone_3;
-
+            sk_helper.update();
         }
     }
 
