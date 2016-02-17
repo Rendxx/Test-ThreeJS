@@ -10,6 +10,7 @@
     var walls = [];
     var stats;
     var SCREEN_WIDTH, SCREEN_HEIGHT;
+    var mesh = null;
 
     /*variables for lights*/
     var arrayOfLights;
@@ -61,6 +62,7 @@
         camera.lookAt(scene.position);
 
         guiControls = {
+            rotation: 0,
             ambient: {
                 ambColor: 0x555555
             },
@@ -114,6 +116,9 @@
             arrayOfLights[0].color.setHex(value);
         });
 
+        datGUI.add(guiControls, 'rotation', -180, 180).onChange(function (value) {
+            mesh.rotation.y = value/180*Math.PI;
+        });
         /*spot gui controls*/
         var shadowHelper_spot = null;
         var spotFolder = datGUI.addFolder('Spot Light');
@@ -193,7 +198,6 @@
 
     function AddBlenderMesh(file) {
         var loader = new THREE.JSONLoader();
-        var mesh = null
         loader.load(file, function (geometry, materials) {
             mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
             mesh.castShadow = true;
