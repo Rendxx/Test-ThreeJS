@@ -18,6 +18,7 @@
     <Content Include="Animation\Player-Texture.png" />
     <Content Include="Animation\sample.html" />
     <Content Include="Animation\sample.js" />
+    <Content Include="BlenderLoader\table_wood_1_1.tex.png" />
     <Content Include="BoneControl\Player-Texture-2.png" />
     <Content Include="BoneControl\Player-Texture.png" />
     <Content Include="BoneControl\sample.html" />
@@ -49,6 +50,7 @@
     <Content Include="Animation\Cube.001Geometry.1.animations.json" />
     <Content Include="Animation\player-2.json" />
     <Content Include="BoneControl\animationTest.json" />
+    <Content Include="BlenderLoader\table.1.json" />
     <None Include="bower.json" />
     <None Include="bundle.json" />
     <Content Include="Environment\sample.less" />

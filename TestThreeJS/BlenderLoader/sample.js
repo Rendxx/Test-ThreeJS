@@ -193,7 +193,7 @@
         $("#webGL-container").append(stats.domElement);
 
         //AddBlenderMesh('table.2.json');
-        AddBlenderMesh('xyz.json');
+        AddBlenderMesh('table.1.json');
     }
 
     function AddBlenderMesh(file) {
