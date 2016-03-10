@@ -19,6 +19,9 @@
     <Content Include="Animation\sample.html" />
     <Content Include="Animation\sample.js" />
     <Content Include="BlenderLoader\table_wood_1_1.tex.png" />
+    <Content Include="TestField\cabinet_wood_1_1.tex.png" />
+    <Content Include="TestField\sample.html" />
+    <Content Include="TestField\sample.js" />
     <Content Include="BoneControl\Player-Texture-2.png" />
     <Content Include="BoneControl\Player-Texture.png" />
     <Content Include="BoneControl\sample.html" />
@@ -61,6 +64,7 @@
     <Content Include="Environment2\sample.less" />
     <Content Include="ShaderMaterial\sample.less" />
     <Content Include="BlenderLoader\sample.less" />
+    <Content Include="TestField\cabinet_b.1.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
