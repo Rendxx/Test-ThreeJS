@@ -74,7 +74,7 @@
         
         guiControls = {
             ambient: {
-                ambColor: 0x555555
+                ambColor: 0x000000
             },
             spot: {
                 lightX: 20,
@@ -91,7 +91,7 @@
                 shadowMapWidth: 2056,
                 shadowMapHeight: 2056,
                 shadowBias: 0.00,
-                shadowDarkness: 1
+                shadowDarkness: 0.9
             },
             spot2: {
                 lightX: -20,
@@ -108,7 +108,7 @@
                 shadowMapWidth: 2056,
                 shadowMapHeight: 2056,
                 shadowBias: 0.00,
-                shadowDarkness: 1
+                shadowDarkness: 0.9
             }
         };
 
