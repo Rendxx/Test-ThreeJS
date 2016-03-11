@@ -6,6 +6,9 @@
     var cube, plane;
     var controls, guiControls, datGUI, stats;
     var spriteTL, spriteTR, spriteBL, spriteBR, spriteC;
+    var _sprite1, _sprite2;
+
+    var tween1, tween2, tween3, tween1_b, tween2_b, tween3_b;
 
     /*variables for lights*/
     var ambient;
@@ -56,6 +59,7 @@
         sprite2.position.set(-100, 50, 0);
         sprite2.scale.set(32, 32, 1.0); // imageWidth, imageHeight
         scene.add(sprite2);
+        _sprite1 = sprite2;
 
         var end_mat = new THREE.SpriteMaterial({ map: end_tex, color: 0x00ff00 });
         var sprite2 = new THREE.Sprite(end_mat);
@@ -78,6 +82,7 @@
             { fontsize: 32, fontface: "Georgia", borderColor: { r: 0, g: 0, b: 255, a: 1.0 } });
         spritey.position.set(55, 105, 55);
         scene.add(spritey);
+        _sprite2 = spritey;
     };
 
     function createHUDSprites(texture) {
@@ -108,7 +113,7 @@
         sceneOrtho.add(spriteC);
 
         updateHUDSprites();
-
+        createTween();
     }
 
     function updateHUDSprites() {
@@ -224,6 +229,16 @@
         scene.add(ambient);
     };
 
+    function createTween() {
+        tween1 = new TWEEN.Tween(spriteTL.material).to({ opacity: 0 }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+        tween2 = new TWEEN.Tween(_sprite1.material).to({ opacity: 0 }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+        tween3 = new TWEEN.Tween(_sprite2.material).to({ opacity: 0 }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+
+        tween1_b = new TWEEN.Tween(spriteTL.material).to({ opacity: 1 }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+        tween2_b = new TWEEN.Tween(_sprite1.material).to({ opacity: 1 }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+        tween3_b = new TWEEN.Tween(_sprite2.material).to({ opacity: 1 }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+    }
+
     function addDatGui() {
         /*datGUI controls object*/
         guiControls = new function () {
@@ -232,6 +247,26 @@
             this.rotationZ = 0.0;
             /*ambient light values*/
             this.ambColor = 0xdddddd;
+
+            this.fadeIn = function () {
+                tween1_b.stop();
+                tween2_b.stop();
+                tween3_b.stop();
+
+                tween1.start();
+                tween2.start();
+                tween3.start();
+            }
+
+            this.fadeOut = function () {
+                tween1.stop();
+                tween2.stop();
+                tween3.stop();
+
+                tween1_b.start();
+                tween2_b.start();
+                tween3_b.start();
+            }
         }
 
         /*ambient light parameters*/
@@ -244,6 +279,8 @@
         datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
             ambient.color.setHex(value);
         });
+        datGUI.add(guiControls, 'fadeIn');
+        datGUI.add(guiControls, 'fadeOut');
     };
 
     function render() {
@@ -259,6 +296,7 @@
         renderer.render(scene, camera);
         renderer.clearDepth();
         renderer.render(sceneOrtho, cameraOrtho);
+        TWEEN.update();
     }
 
     function animate() {
