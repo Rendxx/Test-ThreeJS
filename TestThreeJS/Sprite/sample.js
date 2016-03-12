@@ -167,11 +167,10 @@
                                       + borderColor.b + "," + borderColor.a + ")";
 
         context.lineWidth = borderThickness;
-        roundRect(context, borderThickness / 2, borderThickness / 2, textWidth + borderThickness, fontsize * 1.4 + borderThickness, 6);
         // 1.4 is extra height factor for text below baseline: g,j,p,q.
 
         // text color
-        context.fillStyle = "rgba(0, 0, 0, 1.0)";
+        context.fillStyle = "rgba(30, 30, 30, 1.0)";
 
         context.fillText(message, borderThickness, fontsize + borderThickness);
 
@@ -184,24 +183,7 @@
         sprite.scale.set(100, 50, 1.0);
         return sprite;
     }
-
-    // function for drawing rounded rectangles
-    function roundRect(ctx, x, y, w, h, r) {
-        ctx.beginPath();
-        ctx.moveTo(x + r, y);
-        ctx.lineTo(x + w - r, y);
-        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-        ctx.lineTo(x + w, y + h - r);
-        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-        ctx.lineTo(x + r, y + h);
-        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-        ctx.lineTo(x, y + r);
-        ctx.quadraticCurveTo(x, y, x + r, y);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-    }
-
+    
     function addObj() {
         /*create cube*/
         cubeGeometry = new THREE.BoxGeometry(1, 2, 3);
@@ -248,7 +230,7 @@
             /*ambient light values*/
             this.ambColor = 0xdddddd;
 
-            this.fadeIn = function () {
+            this.fadeOut = function () {
                 tween1_b.stop();
                 tween2_b.stop();
                 tween3_b.stop();
@@ -258,7 +240,7 @@
                 tween3.start();
             }
 
-            this.fadeOut = function () {
+            this.fadeIn = function () {
                 tween1.stop();
                 tween2.stop();
                 tween3.stop();
