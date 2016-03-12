@@ -47,13 +47,13 @@
         /*add wall*/
         walls = [];
         var createWall = function (z, x, len, wid, rotate, deep) {
-            var cubeGeometry = new THREE.BoxGeometry(len, deep || 6, wid);
+            var cubeGeometry = new THREE.BoxGeometry(len, deep || 16, wid);
             var cubeMaterial = new THREE.MeshPhongMaterial({ color: 0xbb44bb });
             var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
             cube.rotation.y = rotate / 180 * Math.PI;
             cube.position.x = x;
-            cube.position.y = 2;
+            cube.position.y = 8;
             cube.position.z = z
             cube.castShadow = true;
             cube.receiveShadow = true;
@@ -91,7 +91,7 @@
                 shadowMapWidth: 2056,
                 shadowMapHeight: 2056,
                 shadowBias: 0.00,
-                shadowDarkness: 0.9
+                shadowDarkness: 1
             },
             spot2: {
                 lightX: -20,
@@ -108,7 +108,7 @@
                 shadowMapWidth: 2056,
                 shadowMapHeight: 2056,
                 shadowBias: 0.00,
-                shadowDarkness: 0.9
+                shadowDarkness: 1
             }
         };
 
@@ -249,7 +249,7 @@
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
 
-        AddBlenderMesh('animationTest.json');
+        AddBlenderMesh('cabinet_b.1.json');
     }
 
     function AddBlenderMesh(file) {
@@ -261,7 +261,7 @@
             mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
             mesh.castShadow = true;
             mesh.receiveShadow = true;
-            mesh.skeleton.bones[0].rotation.x = Math.PI/2;
+            //mesh.skeleton.bones[0].rotation.x = Math.PI/2;
 
             scene.add(mesh);
         });
@@ -280,6 +280,10 @@
         arrayOfLights[2].position.x = guiControls.spot2.lightX;
         arrayOfLights[2].position.y = guiControls.spot2.lightY;
         arrayOfLights[2].position.z = guiControls.spot2.lightZ;
+
+        for (var i in mesh.materials) {
+            mesh.materials[i].needsUpdate = true;
+        }
     }
 
     function animate() {
