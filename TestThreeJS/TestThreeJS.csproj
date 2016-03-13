@@ -19,6 +19,11 @@
     <Content Include="Animation\sample.html" />
     <Content Include="Animation\sample.js" />
     <Content Include="BlenderLoader\table_wood_1_1.tex.png" />
+    <Content Include="MultiCamera\cabinet_wood_1_1.tex.png" />
+    <Content Include="MultiCamera\Player-Texture-2.png" />
+    <Content Include="MultiCamera\Player-Texture.png" />
+    <Content Include="MultiCamera\sample.html" />
+    <Content Include="MultiCamera\sample.js" />
     <Content Include="MultiLight\cabinet_wood_1_1.tex.png" />
     <Content Include="MultiLight\Player-Texture-2.png" />
     <Content Include="MultiLight\Player-Texture.png" />
@@ -72,6 +77,8 @@
     <Content Include="BlenderLoader\sample.less" />
     <Content Include="TestField\cabinet_b.1.json" />
     <Content Include="MultiLight\cabinet_b.1.json" />
+    <Content Include="MultiCamera\animationTest.json" />
+    <Content Include="MultiCamera\cabinet_b.1.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>
