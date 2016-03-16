@@ -32,6 +32,8 @@
     <Content Include="MultiLight\Player-Texture.png" />
     <Content Include="MultiLight\sample.html" />
     <Content Include="MultiLight\sample.js" />
+    <Content Include="WebWorker\sample.html" />
+    <Content Include="WebWorker\sample.js" />
     <Content Include="TestField\cabinet_wood_1_1.tex.png" />
     <Content Include="TestField\sample.html" />
     <Content Include="TestField\sample.js" />
