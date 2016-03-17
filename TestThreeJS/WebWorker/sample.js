@@ -4,6 +4,8 @@
     var cubeMaterial, planeMaterial;
     var cube, plane;
     var controls, guiControls, datGUI, stats;
+    var rotationX = 0, rotationY = 0, rotationZ = 0;
+    var worker;
 
     /*variables for lights*/
     var ambient;
@@ -30,6 +32,7 @@
         addObj();
         addDatGui();
         customize();
+        setupWorker();
         
         $("#webGL-container").append(renderer.domElement);
         /*stats*/
@@ -38,6 +41,15 @@
         stats.domElement.style.left = '0px';
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
+    }
+
+    function setupWorker() {
+        worker = new Worker("worker.js");
+        worker.onmessage = function (e) {
+            rotationX = e.data.x;
+            rotationY = e.data.y;
+            rotationZ = e.data.z;
+        }
     }
 
     function customize() {
@@ -84,18 +96,24 @@
         ambient.color.setHex(guiControls.ambColor);
         /*adds controls to scene*/
         datGUI = new dat.GUI();
-        datGUI.add(guiControls, 'rotationX', 0, 1);
-        datGUI.add(guiControls, 'rotationY', 0, 1);
-        datGUI.add(guiControls, 'rotationZ', 0, 1);
+        datGUI.add(guiControls, 'rotationX', 0, 1).onChange(function (value) {
+            worker.postMessage({ x: value });
+        });
+        datGUI.add(guiControls, 'rotationY', 0, 1).onChange(function (value) {
+            worker.postMessage({ y: value });
+        });
+        datGUI.add(guiControls, 'rotationZ', 0, 1).onChange(function (value) {
+            worker.postMessage({ z: value });
+        });
         datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
             ambient.color.setHex(value);
         });
     };
 
     function render() {
-        cube.rotation.x += guiControls.rotationX;
-        cube.rotation.y += guiControls.rotationY;
-        cube.rotation.z += guiControls.rotationZ;
+        cube.rotation.x = rotationX;
+        cube.rotation.y = rotationY;
+        cube.rotation.z = rotationZ;
 
         /*necessary to make lights function*/
         cubeMaterial.needsUpdate = true;
