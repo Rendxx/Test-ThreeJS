@@ -1,6 +1,6 @@
 ﻿// three.js Custom ShaderMaterial with Multiple Textures
 
-var mesh, renderer, scene, camera, controls;
+var mesh, renderer, scene, camera, controls, light, ambient, panel, guiControls;
 
 init();
 animate();
@@ -55,6 +55,29 @@ function init() {
     mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
+
+    /*create plane*/
+    var planeGeometry = new THREE.PlaneGeometry(500, 500, 500);
+    var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+    plane = new THREE.Mesh(planeGeometry, planeMaterial);
+
+    /*position and add objects to scene*/
+    plane.rotation.x = -.5 * Math.PI;
+    plane.receiveShadow = true;
+    scene.add(plane);
+
+    // light
+    light = new THREE.SpotLight();
+    light.castShadow = true;
+    light.position.set(200, 200, 200);
+    light.intensity = 1;
+    light.shadowDarkness = 1;
+    scene.add(light);
+
+    ambient = new THREE.AmbientLight();
+    ambient.color.setHex(0x333333);
+    scene.add(ambient);
+    addDatGui();
 }
 
 function animate() {
@@ -71,6 +94,21 @@ function animate() {
 
 }
 
+function addDatGui() {
+    /*datGUI controls object*/
+    guiControls = new function () {
+        /*ambient light values*/
+        this.ambColor = 0xdddddd;
+    }
+
+    /*ambient light parameters*/
+    ambient.color.setHex(guiControls.ambColor);
+    /*adds controls to scene*/
+    datGUI = new dat.GUI();
+    datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
+        ambient.color.setHex(value);
+    });
+};
 // Utility
 // ---------------------------------------------------------------------------------
 
