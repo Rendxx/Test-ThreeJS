@@ -74,7 +74,7 @@
         scene.add(sprite2);
 
 
-        var spritey = makeTextSprite(" Hello, ", { fontsize: 24, borderColor: { r: 255, g: 0, b: 0, a: 1.0 }, backgroundColor: { r: 255, g: 100, b: 100, a: 0.8 } });
+        var spritey = makeTextSprite(" Hello, ", { fontsize: 80, borderColor: { r: 255, g: 0, b: 0, a: 1.0 }, backgroundColor: { r: 255, g: 100, b: 100, a: 0.8 } });
         spritey.position.set(-85, 105, 55);
         scene.add(spritey);
 
