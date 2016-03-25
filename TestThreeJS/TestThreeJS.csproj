@@ -32,6 +32,8 @@
     <Content Include="MultiLight\Player-Texture.png" />
     <Content Include="MultiLight\sample.html" />
     <Content Include="MultiLight\sample.js" />
+    <Content Include="Sprite-Text\sample.html" />
+    <Content Include="Sprite-Text\sample.js" />
     <Content Include="WebWorker\worker.js" />
     <Content Include="WebWorker\sample.html" />
     <Content Include="WebWorker\sample.js" />
