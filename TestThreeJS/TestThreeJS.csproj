@@ -22,6 +22,12 @@
     <Content Include="CameraRender\cabinet_wood_1_1.tex.png" />
     <Content Include="CameraRender\sample.html" />
     <Content Include="CameraRender\sample.js" />
+    <Content Include="Howler\bell.wav" />
+    <Content Include="Howler\cabinet.wav" />
+    <Content Include="Howler\door.wav" />
+    <Content Include="Howler\scream.wav" />
+    <Content Include="Howler\step.mp3" />
+    <Content Include="Howler\step.wav" />
     <Content Include="MultiCamera\cabinet_wood_1_1.tex.png" />
     <Content Include="MultiCamera\Player-Texture-2.png" />
     <Content Include="MultiCamera\Player-Texture.png" />
@@ -34,6 +40,8 @@
     <Content Include="MultiLight\sample.js" />
     <Content Include="Sprite-Text\sample.html" />
     <Content Include="Sprite-Text\sample.js" />
+    <Content Include="Howler\sample.html" />
+    <Content Include="Howler\sample.js" />
     <Content Include="WebWorker\worker.js" />
     <Content Include="WebWorker\sample.html" />
     <Content Include="WebWorker\sample.js" />
