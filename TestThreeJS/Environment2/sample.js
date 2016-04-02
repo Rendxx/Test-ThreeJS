@@ -365,7 +365,7 @@
             arrayOfLights[3].angle = value;
         });
         spotFolder.add(guiControls, 'exponent', 0, 50).onChange(function (value) {
-            arrayOfLights[3].exponent = value;
+            arrayOfLights[3].penumbra = value;
         });
         spotFolder.add(guiControls, 'shadowCameraNear', 0, 100).name("Near").onChange(function (value) {
             arrayOfLights[3].shadow.camera.near = value;
