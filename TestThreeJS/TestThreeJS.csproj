@@ -18,6 +18,8 @@
     <Content Include="Animation\Player-Texture.png" />
     <Content Include="Animation\sample.html" />
     <Content Include="Animation\sample.js" />
+    <Content Include="BlenderLoader\Door\door_wood_1.icon.png" />
+    <Content Include="BlenderLoader\Door\door_wood_1.png" />
     <Content Include="BlenderLoader\table_wood_1_1.tex.png" />
     <Content Include="CameraRender\cabinet_wood_1_1.tex.png" />
     <Content Include="CameraRender\sample.html" />
@@ -28,6 +30,12 @@
     <Content Include="Howler\scream.wav" />
     <Content Include="Howler\step.mp3" />
     <Content Include="Howler\step.wav" />
+    <Content Include="ModelLoaderTest\Door\door_wood_1.icon.png" />
+    <Content Include="ModelLoaderTest\Door\door_wood_1.png" />
+    <Content Include="ModelLoaderTest\sample.html" />
+    <Content Include="ModelLoaderTest\sample.js" />
+    <Content Include="ModelLoaderTest\Table\table_wood_1_1.tex.png" />
+    <Content Include="ModelLoaderTest\Table\wood-2.jpg" />
     <Content Include="MultiCamera\cabinet_wood_1_1.tex.png" />
     <Content Include="MultiCamera\Player-Texture-2.png" />
     <Content Include="MultiCamera\Player-Texture.png" />
@@ -85,6 +93,9 @@
     <Content Include="BoneControl\animationTest.json" />
     <Content Include="BlenderLoader\table.1.json" />
     <Content Include="MultiLight\animationTest.json" />
+    <Content Include="BlenderLoader\Door\door_wood_1.data.json" />
+    <Content Include="BlenderLoader\Door\door_wood_1.json" />
+    <Content Include="BlenderLoader\Door\door_wood_1_b.json" />
     <None Include="bower.json" />
     <None Include="bundle.json" />
     <Content Include="Environment\sample.less" />
@@ -96,6 +107,13 @@
     <Content Include="MultiCamera\animationTest.json" />
     <Content Include="MultiCamera\cabinet_b.1.json" />
     <Content Include="CameraRender\cabinet_b.1.json" />
+    <Content Include="ModelLoaderTest\Door\door_wood_1.data.json" />
+    <Content Include="ModelLoaderTest\Door\door_wood_1.json" />
+    <Content Include="ModelLoaderTest\Door\door_wood_1_b.json" />
+    <Content Include="ModelLoaderTest\Table\table.1.json" />
+    <Content Include="ModelLoaderTest\Table\table.2.json" />
+    <Content Include="ModelLoaderTest\xyz.blend" />
+    <Content Include="ModelLoaderTest\xyz.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
   </ItemGroup>

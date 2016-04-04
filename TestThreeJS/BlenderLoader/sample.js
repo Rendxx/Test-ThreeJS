@@ -193,7 +193,8 @@
         $("#webGL-container").append(stats.domElement);
 
         //AddBlenderMesh('table.2.json');
-        AddBlenderMesh('table.1.json');
+        //AddBlenderMesh('table.1.json');
+        AddBlenderMesh2('/BlenderLoader/Door/door_wood_1_b.json');
     }
 
     function AddBlenderMesh(file) {
@@ -202,6 +203,21 @@
             mesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(materials));
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+            scene.add(mesh);
+        });
+    }
+
+    function AddBlenderMesh2(file) {
+        var loader = new THREE.JSONLoader();
+        
+        loader.load(file, function (geometry, materials) {
+            for (var i = 0; i < materials.length; i++) {
+                materials[i].skinning = true;
+            }
+            mesh = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+
             scene.add(mesh);
         });
     }
