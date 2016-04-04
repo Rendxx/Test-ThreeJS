@@ -108,8 +108,8 @@
         $("#webGL-container").append(stats.domElement);
 
         //AddBlenderMesh('table.2.json');
-        AddBlenderMesh('Door/door_wood_1_b.json', -10, 0);
-        AddBlenderMesh('Table/table.1.json', 10, 0);
+        //AddBlenderMesh('Door/door_wood_1_b.json', -10, 0);
+        //AddBlenderMesh('Table/table.1.json', 10, 0);
     }
 
     function AddBlenderMesh(file, x, z) {
