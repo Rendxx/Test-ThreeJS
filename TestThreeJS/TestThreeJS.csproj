@@ -30,6 +30,9 @@
     <Content Include="Howler\scream.wav" />
     <Content Include="Howler\step.mp3" />
     <Content Include="Howler\step.wav" />
+    <Content Include="UVTest\ground_ceramic.icon.png" />
+    <Content Include="UVTest\sample.html" />
+    <Content Include="UVTest\sample.js" />
     <Content Include="ModelLoaderTest\Door\door_wood_1.icon.png" />
     <Content Include="ModelLoaderTest\Door\door_wood_1.png" />
     <Content Include="ModelLoaderTest\sample.html" />
@@ -50,6 +53,7 @@
     <Content Include="Sprite-Text\sample.js" />
     <Content Include="Howler\sample.html" />
     <Content Include="Howler\sample.js" />
+    <Content Include="UVTest\wall.png" />
     <Content Include="WebWorker\worker.js" />
     <Content Include="WebWorker\sample.html" />
     <Content Include="WebWorker\sample.js" />
