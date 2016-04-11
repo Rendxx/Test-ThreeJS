@@ -30,6 +30,8 @@
     <Content Include="Howler\scream.wav" />
     <Content Include="Howler\step.mp3" />
     <Content Include="Howler\step.wav" />
+    <Content Include="PowerfulShadow\sample.html" />
+    <Content Include="PowerfulShadow\sample.js" />
     <Content Include="UVTest\ground_ceramic.icon.png" />
     <Content Include="UVTest\sample.html" />
     <Content Include="UVTest\sample.js" />
