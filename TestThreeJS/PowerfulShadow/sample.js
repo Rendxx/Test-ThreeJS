@@ -75,9 +75,9 @@
         wall.receiveShadow = true;
         scene.add(wall);
 
-        cube.position.x = 30;
-        cube.position.y = 30;
-        cube.position.z = 20;
+        cube.position.x = -40;
+        cube.position.y = 20;
+        cube.position.z = -40;
         cube.castShadow = true;
         cube.receiveShadow = true;
         scene.add(cube);
