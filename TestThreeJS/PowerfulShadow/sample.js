@@ -76,6 +76,7 @@
         var block_mesh = new THREE.Mesh(blockGeometry, new THREE.MeshPhongMaterial({ color: 0x000055 }));
         block_mesh.material.side = THREE.DoubleSide;
         block_mesh.position.set(0, 0, -10);
+        block_mesh.rotation.y =  Math.PI;
         block_mesh.castShadow = true;
         block_mesh.updateMatrix();
         view_block.push(block_mesh);
@@ -133,11 +134,11 @@
         scene.add(ambient);
 
         spot = new THREE.SpotLight()
-        scene.add(spot);
         spot.castShadow = true;
         spot.position.set(20, 35, 40);
         spot.penumbra = 0.5;
         spot.target = cube;
+        scene.add(spot);
 
         spotHelper = new THREE.CameraHelper(spot.shadow.camera);
         scene.add(spotHelper);  
