@@ -6,7 +6,7 @@
     var controls, guiControls, datGUI, stats;
     var spotHelper;
 
-    var view_camera, viewHelper;
+    var view_light, viewHelper;
 
     /*variables for lights*/
     var ambient,spot;
@@ -47,14 +47,14 @@
     }
 
     function customize() {
-        view_camera = new THREE.PerspectiveCamera(45, 16 / 9, .1, 3000);
-        view_camera.position.x = -60;
-        view_camera.position.y = 20;
-        view_camera.position.z = -60;
-        view_camera.lookAt(cube.position)
-        view_camera.updateProjectionMatrix();
-        scene.add(view_camera);
-        viewHelper = new THREE.CameraHelper(view_camera);
+        view_light = new THREE.SpotLight(0x990099);
+        view_light.castShadow = true;
+        view_light.position.set(-60, 35, -60);
+        view_light.penumbra = 0.5;
+        view_light.target = cube;
+        scene.add(view_light);
+
+        viewHelper = new THREE.CameraHelper(view_light.shadow.camera);
         scene.add(viewHelper);
     };
     
@@ -131,9 +131,9 @@
         spot.position.y = guiControls.lightY;
         spot.position.z = guiControls.lightZ;
         /*view light parameters*/
-        view_camera.position.x = guiControls.viewX;
-        view_camera.position.y = guiControls.viewY;
-        view_camera.position.z = guiControls.viewZ;
+        view_light.position.x = guiControls.viewX;
+        view_light.position.y = guiControls.viewY;
+        view_light.position.z = guiControls.viewZ;
 
         /*adds controls to scene*/
         datGUI = new dat.GUI();
@@ -154,11 +154,9 @@
         spot.position.y = guiControls.lightY;
         spot.position.z = guiControls.lightZ;
 
-        view_camera.position.x = guiControls.viewX;
-        view_camera.position.y = guiControls.viewY;
-        view_camera.position.z = guiControls.viewZ;
-        view_camera.lookAt(cube.position)
-        view_camera.updateProjectionMatrix();
+        view_light.position.x = guiControls.viewX;
+        view_light.position.y = guiControls.viewY;
+        view_light.position.z = guiControls.viewZ;
 
         /*necessary to make lights function*/
         cubeMaterial.needsUpdate = true;
@@ -169,7 +167,7 @@
         requestAnimationFrame(animate);
         render();
         stats.update();
-        renderer.render(scene, camera, undefined, undefined, view_camera);
+        renderer.render(scene, camera);
     }
 
     $(window).resize(function () {
