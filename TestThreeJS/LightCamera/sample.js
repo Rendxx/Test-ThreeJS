@@ -145,9 +145,13 @@
         spotFolder.add(guiControls, 'lightX', -180, 180);
         spotFolder.add(guiControls, 'lightY', 0, 180);
         spotFolder.add(guiControls, 'lightZ', -180, 180);
-        datGUI.add(guiControls, 'viewX', -180, 180);
-        datGUI.add(guiControls, 'viewY', 0, 180);
-        datGUI.add(guiControls, 'viewZ', -180, 180);
+        spotFolder.open();
+
+        var viewFolder = datGUI.addFolder('View');
+        viewFolder.add(guiControls, 'viewX', -180, 180);
+        viewFolder.add(guiControls, 'viewY', 0, 180);
+        viewFolder.add(guiControls, 'viewZ', -180, 180);
+        viewFolder.open();
     };
 
     function render() {
