@@ -52,6 +52,7 @@
         view_light.position.set(-60, 35, -60);
         view_light.penumbra = 0.5;
         view_light.target = cube;
+        view_light.viewer = 1;
         scene.add(view_light);
 
         viewHelper = new THREE.CameraHelper(view_light.shadow.camera);
