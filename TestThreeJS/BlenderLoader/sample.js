@@ -30,8 +30,8 @@
 
         renderer.setClearColor(0x000000);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.shadowMapEnabled = true;
-        renderer.shadowMapSoft = true;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.soft = true;
 
         /*add controls*/
         controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -101,11 +101,6 @@
         arrayOfLights[1].castShadow = true;
         arrayOfLights[1].position.set(guiControls.spot.lightX, guiControls.spot.lightY, guiControls.spot.lightZ);
         arrayOfLights[1].intensity = guiControls.spot.intensity;
-        arrayOfLights[1].shadowCameraNear = guiControls.spot.shadowCameraNear;
-        arrayOfLights[1].shadowCameraFar = guiControls.spot.shadowCameraFar;
-        arrayOfLights[1].shadowCameraVisible = guiControls.spot.shadowCameraVisible;
-        arrayOfLights[1].shadowBias = guiControls.spot.shadowBias;
-        arrayOfLights[1].shadowDarkness = guiControls.spot.shadowDarkness;
         scene.add(arrayOfLights[1]);
 
 
@@ -140,49 +135,6 @@
         spotFolder.add(guiControls.spot, 'angle', 0.001, 1.570).onChange(function (value) {
             arrayOfLights[1].angle = value;
         });
-        spotFolder.add(guiControls.spot, 'exponent', 0, 50).onChange(function (value) {
-            arrayOfLights[1].exponent = value;
-        });
-        spotFolder.add(guiControls.spot, 'shadowCameraNear', 0, 100).name("Near").onChange(function (value) {
-            arrayOfLights[1].shadow.camera.near = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
-        });
-        spotFolder.add(guiControls.spot, 'shadowCameraFar', 0, 5000).name("Far").onChange(function (value) {
-            arrayOfLights[1].shadow.camera.far = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
-        });
-        spotFolder.add(guiControls.spot, 'shadowCameraFov', 1, 180).name("Fov").onChange(function (value) {
-            arrayOfLights[1].shadow.camera.fov = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
-        });
-        spotFolder.add(guiControls.spot, 'shadowCameraVisible').onChange(function (value) {
-            if (value) {
-                if (shadowHelper_spot == null) {
-                    shadowHelper_spot = new THREE.CameraHelper(arrayOfLights[1].shadow.camera);
-                    scene.add(shadowHelper_spot);
-                }
-            } else {
-                if (shadowHelper_spot != null) {
-                    scene.remove(shadowHelper_spot);
-                    shadowHelper_spot = null;
-                }
-            }
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
-        });
-        spotFolder.add(guiControls.spot, 'shadowBias', 0, 1).onChange(function (value) {
-            arrayOfLights[1].shadowBias = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
-        });
-        spotFolder.add(guiControls.spot, 'shadowDarkness', 0, 1).onChange(function (value) {
-            arrayOfLights[1].shadowDarkness = value;
-            if (shadowHelper_spot != null) shadowHelper_spot.update();
-            arrayOfLights[1].shadow.camera.updateProjectionMatrix();
-        });
 
         $("#webGL-container").append(renderer.domElement);
         // status track
@@ -194,7 +146,7 @@
 
         //AddBlenderMesh('table.2.json');
         //AddBlenderMesh('table.1.json');
-        AddBlenderMesh2('/BlenderLoader/Door/door_wood_1_b.json');
+        AddBlenderMesh2('/BlenderLoader/bobo/player-bobo.json');
     }
 
     function AddBlenderMesh(file) {
