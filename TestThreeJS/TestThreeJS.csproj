@@ -31,6 +31,9 @@
     <Content Include="Howler\scream.wav" />
     <Content Include="Howler\step.mp3" />
     <Content Include="Howler\step.wav" />
+    <Content Include="LightIssue\sample.html" />
+    <Content Include="LightIssue\sample.js" />
+    <Content Include="LightIssue\three.js" />
     <Content Include="LightCamera\sample.html" />
     <Content Include="LightCamera\sample.js" />
     <Content Include="LightCamera\three.js" />
