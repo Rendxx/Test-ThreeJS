@@ -42,32 +42,50 @@
         cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
         /*create plane*/
+        planeGeometry = [];
+        planeMaterial = [];
+        plane = [];
 
         var textureLoader = new THREE.TextureLoader();
-        textureLoader.load('ceramic.png', function (tex) {
-            var w = 500, h = 500;
-            tex.wrapS = THREE.RepeatWrapping;
-            tex.wrapT = THREE.RepeatWrapping;
-            planeGeometry = new THREE.PlaneGeometry(w, h,1,1);
-            // set uv
-            var uvs = planeGeometry.faceVertexUvs[0];
-            uvs[0][0].set(0, h/16);
-            uvs[0][1].set(0, 0);
-            uvs[0][2].set(w/16, h/16);
-            uvs[1][0].set(0, 0);
-            uvs[1][1].set(w/16, 0);
-            uvs[1][2].set(w/16, h/16);
 
-            planeMaterial = new THREE.MeshPhongMaterial({ map: tex });
-            planeMaterial.side = THREE.DoubleSide;
-            plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        var loadText = function (i) {
 
-            /*position and add objects to scene*/
-            plane.rotation.x = -.5 * Math.PI;
-            plane.receiveShadow = true;
-            scene.add(plane);
-        });
+            textureLoader.load('ceramic.png', function (tex) {
 
+                var w = 100, h = 100;
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.RepeatWrapping;
+
+                var geometry = new THREE.PlaneGeometry(w, h, 1, 1);
+                // set uv
+                var uvs = geometry.faceVertexUvs[0];
+                uvs[0][0].set(0, h / 16);
+                uvs[0][1].set(0, 0);
+                uvs[0][2].set(w / 16, h / 16);
+                uvs[1][0].set(0, 0);
+                uvs[1][1].set(w / 16, 0);
+                uvs[1][2].set(w / 16, h / 16);
+
+                var material = new THREE.MeshPhongMaterial({ map: tex });
+                material.side = THREE.DoubleSide;
+                var p = new THREE.Mesh(geometry, material);
+
+                /*position and add objects to scene*/
+                p.rotation.x = -.5 * Math.PI;
+                p.position.y = i * 20;
+                p.receiveShadow = true;
+                scene.add(p);
+
+                planeGeometry[i] = geometry;
+                planeMaterial[i] = material;
+                plane[i] = p;
+
+            });
+        };
+
+        for (var i = 0; i < 1; i++) {
+            loadText(i);
+        }
         cube.position.x = -40;
         cube.position.y = 20;
         cube.position.z = -40;
@@ -87,7 +105,7 @@
         scene.add(spot);
 
         spot2 = new THREE.SpotLight(0x990099);
-        spot2.castShadow = true;
+        spot2.castShadow = false;
         spot2.position.set(-60, 35, -60);
         spot2.penumbra = 0.5;
         spot2.target = cube;
@@ -95,7 +113,8 @@
     };
     function render() {
         cubeMaterial.needsUpdate = true;
-        if (planeMaterial !== undefined) planeMaterial.needsUpdate = true;
+        for (var i = 0, l = planeMaterial.length; i < l; i++)
+            planeMaterial[i].needsUpdate = true;
     }
 
     function animate() {
