@@ -4,6 +4,7 @@
     var controls;
     var ambient, spot, spot2;
 
+    //function renderObjects( renderList, camera, fog, overrideMaterial )
     function init() {
         var SCREEN_WIDTH = window.innerWidth;
         var SCREEN_HEIGHT = window.innerHeight;
