@@ -36,6 +36,7 @@
     <Content Include="LightCamera\sample.html" />
     <Content Include="LightCamera\sample.js" />
     <Content Include="LightCamera\three.js" />
+    <Content Include="LightIssue\three.js" />
     <Content Include="PowerfulShadow\sample.html" />
     <Content Include="PowerfulShadow\sample.js" />
     <Content Include="UVTest\ground_ceramic.icon.png" />
