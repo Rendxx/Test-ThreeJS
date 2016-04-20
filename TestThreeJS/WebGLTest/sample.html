@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="../lib/jquery.js"></script>
+    <script type="text/javascript" src="../lib/dat.gui.min.js"></script>
+    <title>WebGL Test</title>
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f2f2f2;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: auto;
+        }
+    </style>
+    <script id="2d-vertex-shader" type="x-shader/x-vertex">
+        attribute vec2 a_position;
+
+        void main() {
+        gl_Position = vec4(a_position, 0, 1);
+        }
+    </script>
+
+    <script id="2d-fragment-shader" type="x-shader/x-fragment">
+        void main() {
+        gl_FragColor = vec4(0, 1, 0, 1);  // green
+        }
+    </script>
+</head>
+<body>
+    <div id="webGL-container">
+        <canvas id="canvas1" style="border:1px solid #ddd;"></canvas>
+    </div>
+    <script type="text/javascript" src="sample.js"></script>
+</body>
+</html>

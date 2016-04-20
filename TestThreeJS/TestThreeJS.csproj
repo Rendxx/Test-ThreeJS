@@ -63,6 +63,8 @@
     <Content Include="Howler\sample.html" />
     <Content Include="Howler\sample.js" />
     <Content Include="UVTest\wall.png" />
+    <Content Include="WebGLTest\sample.html" />
+    <Content Include="WebGLTest\sample.js" />
     <Content Include="WebWorker\worker.js" />
     <Content Include="WebWorker\sample.html" />
     <Content Include="WebWorker\sample.js" />
