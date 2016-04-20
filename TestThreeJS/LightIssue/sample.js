@@ -33,9 +33,11 @@
         /*create plane*/
         var geometry = new THREE.PlaneGeometry(200, 200, 1, 1);
         var material = new THREE.MeshPhongMaterial({ color: 0xcccccc });
+        material.side = THREE.DoubleSide;
         plane = new THREE.Mesh(geometry, material);
         plane.rotation.x = -.5 * Math.PI;
         plane.receiveShadow = true;
+
         scene.add(plane);
 
         /*scene lights*/
@@ -46,7 +48,7 @@
         scene.add(spot);
 
         spot2 = new THREE.SpotLight(0x990099);
-        spot2.castShadow = false;
+        spot2.castShadow = true;
         spot2.position.set(-60, 35, -60);
         spot2.target = plane;
         scene.add(spot2);

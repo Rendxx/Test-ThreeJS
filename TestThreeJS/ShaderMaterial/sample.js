@@ -1,6 +1,6 @@
 ﻿// three.js Custom ShaderMaterial with Multiple Textures
 
-var mesh, renderer, scene, camera, controls, light, ambient, panel, guiControls;
+var mesh, renderer, scene, camera, controls, light, light2, guiControls;
 
 init();
 animate();
@@ -39,13 +39,9 @@ function init() {
         texture2: { type: "t", value: texture2 }
     };
 
-    // attributes
-    var attributes = {
-    };
 
     // material
     var material = new THREE.ShaderMaterial({
-        attributes: attributes,
         uniforms: uniforms,
         vertexShader: document.getElementById('vertex_shader').textContent,
         fragmentShader: document.getElementById('fragment_shader').textContent
@@ -56,28 +52,17 @@ function init() {
     scene.add(mesh);
 
 
-    /*create plane*/
-    var planeGeometry = new THREE.PlaneGeometry(500, 500, 500);
-    var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
-    plane = new THREE.Mesh(planeGeometry, planeMaterial);
-
-    /*position and add objects to scene*/
-    plane.rotation.x = -.5 * Math.PI;
-    plane.receiveShadow = true;
-    scene.add(plane);
-
     // light
     light = new THREE.SpotLight();
     light.castShadow = true;
     light.position.set(200, 200, 200);
-    light.intensity = 1;
-    light.shadowDarkness = 1;
     scene.add(light);
 
-    ambient = new THREE.AmbientLight();
-    ambient.color.setHex(0x333333);
-    scene.add(ambient);
-    addDatGui();
+    // light2
+    light2 = new THREE.SpotLight();
+    light2.castShadow = true;
+    light2.position.set(-200, 200, -200);
+    scene.add(light2);
 }
 
 function animate() {
@@ -93,22 +78,6 @@ function animate() {
     renderer.render(scene, camera);
 
 }
-
-function addDatGui() {
-    /*datGUI controls object*/
-    guiControls = new function () {
-        /*ambient light values*/
-        this.ambColor = 0xdddddd;
-    }
-
-    /*ambient light parameters*/
-    ambient.color.setHex(guiControls.ambColor);
-    /*adds controls to scene*/
-    datGUI = new dat.GUI();
-    datGUI.addColor(guiControls, 'ambColor').onChange(function (value) {
-        ambient.color.setHex(value);
-    });
-};
 // Utility
 // ---------------------------------------------------------------------------------
 
