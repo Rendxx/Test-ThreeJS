@@ -1,40 +1,93 @@
 ﻿
 $(function () {
+    main();
+});
+
+function main() {
+    var image = new Image();
+    image.src = "image1.png";  // MUST BE SAME DOMAIN!!!
+    image.onload = function () {
+        render(image);
+    }
+}
+
+ 
+function render(image) {
     var canvas = document.getElementById("canvas1");
     var gl = canvas.getContext("webgl");
 
     // setup a GLSL program
     var program = createProgramFromScripts(gl, "2d-vertex-shader", "2d-fragment-shader");
     gl.useProgram(program);
-
-    // look up where the vertex data needs to go.
+    
+    // look up where the texture coordinates need to go.
     var positionLocation = gl.getAttribLocation(program, "a_position");
-    var texcoordLocation = gl.getAttribLocation(program, "a_texcoords");
+    var texCoordLocation = gl.getAttribLocation(program, "a_texCoord");
 
-    // Create a buffer and put a single clipspace rectangle in
-    // it (2 triangles)
+    //-------------------------------------------------------------------------
+
+    // provide texture coordinates for the rectangle.
+    var texCoordBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        0.0, 0.0,
+        1.0, 0.0,
+        0.0, 1.0,
+        0.0, 1.0,
+        1.0, 0.0,
+        1.0, 1.0]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(texCoordLocation);
+    gl.vertexAttribPointer(texCoordLocation, 2, gl.FLOAT, false, 0, 0);
+
+    //-------------------------------------------------------------------------
+
+    // Create a texture.
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // Set the parameters so we can render any size image.
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+    // Upload the image into the texture.
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+    var resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+    // set the resolution
+    gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+
+    //-------------------------------------------------------------------------
+    
+    // Create a buffer for the position of the rectangle corners.
     var buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-
-    gl.enableVertexAttribArray(texcoordLocation);
-    gl.vertexAttribPointer(texcoordLocation, 2, gl.FLOAT, false, 0, 0);
-
-    gl.bufferData(gl.ARRAY_BUFFER,
-        new Float32Array([
-            -1.0, -1.0,
-             1.0, -1.0,
-            -1.0, 1.0,
-            -1.0, 1.0,
-             1.0, -1.0,
-             1.0, 1.0]),
-        gl.STATIC_DRAW);
     gl.enableVertexAttribArray(positionLocation);
     gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
-    // draw
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
-});
+    // Set a rectangle the same size as the image.
+    setRectangle(gl, 0, 0, image.width, image.height);
 
+    // Draw the rectangle.
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+}
+
+function setRectangle(gl, x, y, width, height) {
+    var x1 = x;
+    var x2 = x + width;
+    var y1 = y;
+    var y2 = y + height;
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+       x1, y1,
+       x2, y1,
+       x1, y2,
+       x1, y2,
+       x2, y1,
+       x2, y2]), gl.STATIC_DRAW);
+}
+
+//---------------------------------------------------------------------------------------------
 /**
  * Creates and compiles a shader.
  *

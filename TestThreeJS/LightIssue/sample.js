@@ -2,7 +2,7 @@
     var scene, camera, renderer;
     var plane;
     var controls;
-    var ambient, spot, spot2;
+    var spot, spot2;
 
     //function renderObjects( renderList, camera, fog, overrideMaterial )
     function init() {
@@ -39,9 +39,6 @@
         scene.add(plane);
 
         /*scene lights*/
-        ambient = new THREE.AmbientLight();
-        scene.add(ambient);
-
         spot = new THREE.SpotLight()
         spot.castShadow = true;
         spot.position.set(20, 35, 40);
