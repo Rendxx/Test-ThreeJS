@@ -9,13 +9,17 @@ $(function () {
 
     // look up where the vertex data needs to go.
     var positionLocation = gl.getAttribLocation(program, "a_position");
+    var texcoordLocation = gl.getAttribLocation(program, "a_texcoords");
 
     // Create a buffer and put a single clipspace rectangle in
     // it (2 triangles)
     var buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(
-        gl.ARRAY_BUFFER,
+
+    gl.enableVertexAttribArray(texcoordLocation);
+    gl.vertexAttribPointer(texcoordLocation, 2, gl.FLOAT, false, 0, 0);
+
+    gl.bufferData(gl.ARRAY_BUFFER,
         new Float32Array([
             -1.0, -1.0,
              1.0, -1.0,

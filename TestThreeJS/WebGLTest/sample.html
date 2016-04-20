@@ -25,15 +25,25 @@
     </style>
     <script id="2d-vertex-shader" type="x-shader/x-vertex">
         attribute vec2 a_position;
+        attribute vec2 a_texcoord;
+
+        uniform mat4 u_matrix;
+        varying vec2 v_texcoord;
 
         void main() {
-        gl_Position = vec4(a_position, 0, 1);
+        gl_Position = u_matrix * a_position;
+        v_texcoord = a_texcoord;
         }
     </script>
 
     <script id="2d-fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+
+        varying vec2 v_texcoord;
+        uniform sampler2D u_texture;
+
         void main() {
-        gl_FragColor = vec4(0, 1, 0, 1);  // green
+        gl_FragColor = texture2D(u_texture, v_texcoord);
         }
     </script>
 </head>
