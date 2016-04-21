@@ -66,8 +66,8 @@ function render(images) {
     // Set each texture unit to use a particular texture.
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, textures[0]);
-    gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, textures[1]);
+    //gl.activeTexture(gl.TEXTURE1);
+    //gl.bindTexture(gl.TEXTURE_2D, textures[1]);
 
     // set the resolution
     gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
