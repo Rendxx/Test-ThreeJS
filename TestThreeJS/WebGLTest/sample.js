@@ -1,18 +1,13 @@
 ﻿
 $(function () {
-    main();
+    loadImages([
+      "image1.png",
+      "image2.png"
+    ], render);
 });
+//---------------------------------------------------------------------------------------------
 
-function main() {
-    var image = new Image();
-    image.src = "image1.png";  // MUST BE SAME DOMAIN!!!
-    image.onload = function () {
-        render(image);
-    }
-}
-
- 
-function render(image) {
+function render(images) {
     var canvas = document.getElementById("canvas1");
     var gl = canvas.getContext("webgl");
 
@@ -40,21 +35,40 @@ function render(image) {
     gl.vertexAttribPointer(texCoordLocation, 2, gl.FLOAT, false, 0, 0);
 
     //-------------------------------------------------------------------------
+    // create 2 textures
+    var textures = [];
+    for (var ii = 0; ii < 2; ++ii) {
+        var texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
 
-    // Create a texture.
-    var texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
+        // Set the parameters so we can render any size image.
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
-    // Set the parameters so we can render any size image.
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        // Upload the image into the texture.
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, images[ii]);
 
-    // Upload the image into the texture.
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-
+        // add the texture to the array of textures.
+        textures.push(texture);
+    }
     var resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+
+    // lookup the sampler locations.
+    var u_image0Location = gl.getUniformLocation(program, "u_image0");
+    var u_image1Location = gl.getUniformLocation(program, "u_image1");
+
+    // set which texture units to render with.
+    gl.uniform1i(u_image0Location, 0);
+    gl.uniform1i(u_image1Location, 1);
+
+    // Set each texture unit to use a particular texture.
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, textures[0]);
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, textures[1]);
+
     // set the resolution
     gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
 
@@ -67,7 +81,7 @@ function render(image) {
     gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
     // Set a rectangle the same size as the image.
-    setRectangle(gl, 0, 0, image.width, image.height);
+    setRectangle(gl, 0, 0, images[0].width, images[0].height);
 
     // Draw the rectangle.
     gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -85,6 +99,32 @@ function setRectangle(gl, x, y, width, height) {
        x1, y2,
        x2, y1,
        x2, y2]), gl.STATIC_DRAW);
+}
+
+
+//---------------------------------------------------------------------------------------------
+function loadImage(url, callback) {
+    var image = new Image();
+    image.src = url;
+    image.onload = callback;
+    return image;
+}
+
+function loadImages(urls, callback) {
+    var images = [];
+    var imagesToLoad = urls.length;
+
+    var onImageLoad = function () {
+        --imagesToLoad;
+        if (imagesToLoad == 0) {
+            callback(images);
+        }
+    };
+
+    for (var ii = 0; ii < imagesToLoad; ++ii) {
+        var image = loadImage(urls[ii], onImageLoad);
+        images.push(image);
+    }
 }
 
 //---------------------------------------------------------------------------------------------

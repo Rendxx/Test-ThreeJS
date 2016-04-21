@@ -43,19 +43,60 @@
 
     <script id="2d-fragment-shader" type="x-shader/x-fragment">
         precision mediump float;
-
-        // our texture
-        uniform sampler2D u_image;
+        uniform sampler2D u_image0;
         uniform sampler2D u_image1;
 
-        // the texCoords passed in from the vertex shader.
         varying vec2 v_texCoord;
 
         void main() {
-        vec2 t = vec2( 4.0, 2.0 );
-        gl_FragColor = texture2D(u_image1, v_texCoord);
+        vec4 color0 = texture2D(u_image0, v_texCoord);
+        vec4 color1 = texture2D(u_image1, v_texCoord);
+        gl_FragColor = color0 * color1;
         }
     </script>
+
+
+    <!--<script id="vertex_shader" type="x-shader/x-vertex">
+        precision lowp float;
+        #define GLSLIFY 1
+        attribute vec2 aVertexPosition;
+        attribute vec2 aTextureCoord;
+        attribute vec4 aColor;
+        attribute float aTextureId;
+        uniform mat3 projectionMatrix;
+
+        varying vec2 vTextureCoord;
+        varying vec4 vColor;
+        varying float vTextureId;
+
+        void main(void){
+
+        gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
+        vTextureCoord = aTextureCoord;
+        vTextureId = aTextureId;
+        vColor = vec4(aColor.rgb * aColor.a, aColor.a);
+
+        }";
+
+    </script>
+
+    <script id="fragment_shader" type="x-shader/x-fragment">
+        precision lowp float;
+        varying vec2 vTextureCoord;
+        varying vec4 vColor;
+        varying float vTextureId;
+        uniform sampler2D uSamplers[xxxxxxxxxxxxxxxxxxx];
+
+        void main(void){
+        vec4 color;
+        %forloop%
+        gl_FragColor = color * vColor;
+        }
+
+    </script>-->
+
+
+
 </head>
 <body>
     <div id="webGL-container">
