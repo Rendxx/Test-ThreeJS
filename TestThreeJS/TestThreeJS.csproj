@@ -21,7 +21,9 @@
     <Content Include="BlenderLoader\bobo\player-bobo.tex.png" />
     <Content Include="BlenderLoader\Door\door_wood_1.icon.png" />
     <Content Include="BlenderLoader\Door\door_wood_1.png" />
+    <Content Include="BlenderLoader\shelf\shelf_wood_2_1.tex.dds" />
     <Content Include="BlenderLoader\table_wood_1_1.tex.png" />
+    <Content Include="BlenderLoader\table_wood_2_1.tex.png" />
     <Content Include="CameraRender\cabinet_wood_1_1.tex.png" />
     <Content Include="CameraRender\sample.html" />
     <Content Include="CameraRender\sample.js" />
@@ -120,6 +122,7 @@
     <Content Include="BlenderLoader\Door\door_wood_1.json" />
     <Content Include="BlenderLoader\Door\door_wood_1_b.json" />
     <Content Include="BlenderLoader\bobo\player-bobo.json" />
+    <Content Include="BlenderLoader\shelf\shelf.json" />
     <None Include="bower.json" />
     <None Include="bundle.json" />
     <Content Include="Environment\sample.less" />

@@ -146,7 +146,8 @@
 
         //AddBlenderMesh('table.2.json');
         //AddBlenderMesh('table.1.json');
-        AddBlenderMesh2('/BlenderLoader/bobo/player-bobo.json');
+        //AddBlenderMesh2('/BlenderLoader/bobo/player-bobo.json');
+        AddBlenderMesh('/BlenderLoader/shelf/shelf.json');
     }
 
     function AddBlenderMesh(file) {
