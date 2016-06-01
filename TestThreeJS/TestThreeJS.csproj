@@ -45,8 +45,11 @@
     <Content Include="LightCamera\three.js" />
     <Content Include="LightIssue\three-r75.js" />
     <Content Include="LightIssue\three.js" />
+    <Content Include="Particle\disc.png" />
     <Content Include="PowerfulShadow\sample.html" />
     <Content Include="PowerfulShadow\sample.js" />
+    <Content Include="Particle\sample.html" />
+    <Content Include="Particle\sample.js" />
     <Content Include="UVTest\ground_ceramic.icon.png" />
     <Content Include="UVTest\sample.html" />
     <Content Include="UVTest\sample.js" />
