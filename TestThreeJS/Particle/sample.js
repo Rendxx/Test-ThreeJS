@@ -38,14 +38,27 @@
         
     function addObj() {
 
-        var cubeGeometry = new THREE.CubeGeometry(50, 50, 50, 20, 20, 20);
+        var geometry = new THREE.Geometry();
+
+        var posArr = [
+            [10, 10, 10],
+            [20, 20, 20],
+            [30, 30, 30],
+            [40, 40, 40],
+            [50, 50, 50]
+        ];
+        for (var i = 0, l = posArr.length; i < l; i++) {
+            geometry.vertices.push(new THREE.Vector3(posArr[i][0],posArr[i][1],posArr[i][2]));
+        }
+
+
         var textureLoader = new THREE.TextureLoader();
         var discTexture = textureLoader.load('disc.png');
         var particleMaterial = new THREE.PointsMaterial({ map: discTexture, size: 12, color: 0xff0000, opacity: true, alphaTest: 0.5 });
-        var particleCube = new THREE.Points(cubeGeometry, particleMaterial);
-        particleCube.position.set(0, 50, 0);
+        var particle = new THREE.Points(geometry, particleMaterial);
+        particle.position.set(0, 50, 0);
 
-        scene.add(particleCube);
+        scene.add(particle);
     };
 
     function render() {
