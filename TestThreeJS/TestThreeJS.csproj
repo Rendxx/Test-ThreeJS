@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
+    <Folder Include="PerformanceTest\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlenderLoader\table.2.json" />
