@@ -50,6 +50,9 @@
     <Content Include="PowerfulShadow\sample.js" />
     <Content Include="Particle\sample.html" />
     <Content Include="Particle\sample.js" />
+    <Content Include="TextureAnimation\effort.blood.png" />
+    <Content Include="TextureAnimation\sample.html" />
+    <Content Include="TextureAnimation\sample.js" />
     <Content Include="UVTest\ground_ceramic.icon.png" />
     <Content Include="UVTest\sample.html" />
     <Content Include="UVTest\sample.js" />
@@ -147,6 +150,7 @@
     <Content Include="ModelLoaderTest\xyz.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
+    <Content Include="TextureAnimation\effort.blood.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
