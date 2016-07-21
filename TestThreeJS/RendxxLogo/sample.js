@@ -53,11 +53,11 @@
                 exponent: 0.5,
                 shadowCameraNear: 10,
                 shadowCameraFar: 80,
-                shadowCameraFov: 100,
+                shadowCameraFov: 30,
                 shadowCameraVisible: false,
                 shadowMapWidth: 2056,
                 shadowMapHeight: 2056,
-                shadowBias: 0.00,
+                shadowBias: 0.0001,
                 shadowDarkness: 1
             }
         };
@@ -76,6 +76,12 @@
 
         // Spot
         arrayOfLights[1].castShadow = true;
+        arrayOfLights[1].shadowMapWidth = guiControls.spot.shadowMapWidth;
+        arrayOfLights[1].shadowMapHeight = guiControls.spot.shadowMapHeight;
+        arrayOfLights[1].exponent = guiControls.spot.exponent;
+        arrayOfLights[1].angle = guiControls.spot.angle;
+        arrayOfLights[1].shadowBias = guiControls.spot.shadowBias;
+        arrayOfLights[1].shadowDarkness = guiControls.spot.shadowDarkness;
         arrayOfLights[1].position.set(guiControls.spot.lightX, guiControls.spot.lightY, guiControls.spot.lightZ);
         arrayOfLights[1].intensity = guiControls.spot.intensity;
         scene.add(arrayOfLights[1]);
