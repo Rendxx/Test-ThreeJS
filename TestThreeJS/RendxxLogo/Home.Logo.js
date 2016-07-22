@@ -5,7 +5,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
     var Data = {
         bgColor: 0xeeeeee,
         ambientColor: 0x150D09,
-        lightPos: [0,0, 40],
+        lightPos: [10,10, 10],
         html: {
             'scene': {
                 'interaction': '<div class="scene-interaction"></div>',
@@ -134,12 +134,13 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             spotLight.shadow.mapSize.width = 4096;
             spotLight.shadow.mapSize.height = 4096;
             spotLight.shadow.bias = 0.0001;
-            spotLight.shadow.far = 800;
-            spotLight.shadow.near = 10;
+            spotLight.shadow.far = 100;
+            spotLight.shadow.fov = 100;
+            spotLight.shadow.near = 1;
+            spotLight.distance =100;
             spotLight.decay = 1;
-            //spotLight.angle = 1.570;
-            spotLight.intensity = 1;
-            spotLight.position.set(Data.lightPos[0], Data.lightPos[1], Data.lightPos[2]);
+            spotLight.angle = 1;
+            spotLight.intensity = 1.4;
             scene.add(spotLight);
 
             // model
@@ -152,6 +153,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             logoGrp = new THREE.Object3D();
             logoGrp.position.set(0, 0, -76);
             scene.add(logoGrp);
+            spotLight.position.set(Data.lightPos[0], Data.lightPos[1], Data.lightPos[2]);
             spotLight.target = logoGrp;
             
             //gray
