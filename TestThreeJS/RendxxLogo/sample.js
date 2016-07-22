@@ -104,12 +104,12 @@
         //gray
         grayPlane1 = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), new THREE.MeshBasicMaterial({ color: 0xbbbbbb }));
         grayPlane1.position.set(0, 0, -77);
-        grayPlane1.rotation.z = Math.PI / 5.5;
+        grayPlane1.rotation.z = -Math.PI * 3 / 32;
         scene.add(grayPlane1);
 
         grayPlane2 = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshBasicMaterial({ color: 0xeeeeee }));
         grayPlane2.position.set(0, 0, -78);
-        grayPlane2.rotation.z = Math.PI / 5.5;
+        grayPlane2.rotation.z = -Math.PI * 3 / 32;
         scene.add(grayPlane2);
     }
 
@@ -117,7 +117,7 @@
         var loader = new THREE.ObjectLoader();
         loader.load(file, function (obj) {
             obj.rotation.x = -Math.PI / 2;
-            obj.rotation.y = -Math.PI / 4;
+            obj.rotation.y = -Math.PI / 3;
             obj.position.z = -76;
             scene.add(obj);
         });
