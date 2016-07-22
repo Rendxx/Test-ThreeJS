@@ -1,22 +1,14 @@
 ﻿$(function () {
     var scene, camera, renderer;
     var controls, guiControls, datGUI;
-    var spotLight, hemiLight, pointLightHelper, hemiLightHelper;
-    var shadowHelper_spot, shadowHelper_direct;
-    var walls = [];
     var stats;
     var SCREEN_WIDTH, SCREEN_HEIGHT;
-    var mesh = null;
 
-    /*variables for lights*/
-    var arrayOfLights;
-    var ambient = 0;
-    var area = 0;
-    var directional = 0;
-    var hemisphere = 0;
-    var point = 0;
-    var spot = 0;
-    var light;
+    var ambient = null;
+    var directional = null;
+    var bgPlane = null;
+    var grayPlane1 = null;
+    var grayPlane2 = null;
 
     function init() {
         /*creates empty scene object and renderer*/
@@ -33,87 +25,65 @@
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.addEventListener('change', render);
 
-        camera.position.x = 40;
-        camera.position.y = 40;
-        camera.position.z = 40;
+        camera.position.x = 0;
+        camera.position.y = 0;
+        camera.position.z = 80;
         camera.lookAt(scene.position);
 
         guiControls = {
-            rotation: 0,
             ambient: {
                 ambColor: 0x333333
             },
             spot: {
                 lightX: 20,
                 lightY: 5,
-                lightZ: 40,
-                intensity: 1,
-                distance: 80,
-                angle: 1.570,
-                exponent: 0.5,
-                shadowCameraNear: 10,
-                shadowCameraFar: 80,
-                shadowCameraFov: 30,
-                shadowCameraVisible: false,
-                shadowMapWidth: 2056,
-                shadowMapHeight: 2056,
-                shadowBias: 0.0001,
-                shadowDarkness: 1
+                lightZ: 40
             }
         };
 
-        arrayOfLights = [
-            new THREE.AmbientLight(),
-            new THREE.SpotLight()
-        ];
+        ambient = new THREE.AmbientLight();
+        spot = new THREE.SpotLight();
 
-        var lightTarget = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial({ color: 0xff3300 }));
+        var lightTarget = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshPhongMaterial({ color: 0xff3300 }));
+        lightTarget.position.set(0,2.75,0);
         scene.add(lightTarget);
 
         // Ambient
-        arrayOfLights[0].color.setHex(guiControls.ambient.ambColor);
-        scene.add(arrayOfLights[0]);
+        ambient.color.setHex(guiControls.ambient.ambColor);
+        scene.add(ambient);
 
         // Spot
-        arrayOfLights[1].castShadow = true;
-        arrayOfLights[1].shadowMapWidth = guiControls.spot.shadowMapWidth;
-        arrayOfLights[1].shadowMapHeight = guiControls.spot.shadowMapHeight;
-        arrayOfLights[1].exponent = guiControls.spot.exponent;
-        arrayOfLights[1].angle = guiControls.spot.angle;
-        arrayOfLights[1].shadowBias = guiControls.spot.shadowBias;
-        arrayOfLights[1].shadowDarkness = guiControls.spot.shadowDarkness;
-        arrayOfLights[1].position.set(guiControls.spot.lightX, guiControls.spot.lightY, guiControls.spot.lightZ);
-        arrayOfLights[1].intensity = guiControls.spot.intensity;
-        scene.add(arrayOfLights[1]);
+        spot.castShadow = true;
+        spot.shadow.mapSize.width = 4096;
+        spot.shadow.mapSize.height = 4096;
+        spot.shadow.bias = 0.0001;
+        spot.shadow.far = 800;
+        spot.shadow.near = 10;
+        spot.exponent = 0.5;
+        spot.angle = 1.570;
+        spot.intensity = 1;
+        spot.position.set(guiControls.spot.lightX, guiControls.spot.lightY, guiControls.spot.lightZ);
+        scene.add(spot);
 
 
         datGUI = new dat.GUI();
         /*ambient light controls*/
         var ambFolder = datGUI.addFolder('Ambient Light');
         ambFolder.addColor(guiControls.ambient, 'ambColor').onChange(function (value) {
-            arrayOfLights[0].color.setHex(value);
+            ambient.color.setHex(value);
         });
 
         /*spot gui controls*/
         var shadowHelper_spot = null;
         var spotFolder = datGUI.addFolder('Spot Light');
         spotFolder.add(guiControls.spot, 'lightX', -60, 180).onChange(function (value) {
-            arrayOfLights[1].position.x = value;
+            spot.position.x = value;
         });
         spotFolder.add(guiControls.spot, 'lightY', 0, 180).onChange(function (value) {
-            arrayOfLights[1].position.y = value;
+            spot.position.y = value;
         });
         spotFolder.add(guiControls.spot, 'lightZ', -60, 180).onChange(function (value) {
-            arrayOfLights[1].position.z = value;
-        });
-        spotFolder.add(guiControls.spot, 'intensity', 0.01, 5).onChange(function (value) {
-            arrayOfLights[1].intensity = value;
-        });
-        spotFolder.add(guiControls.spot, 'distance', 0, 1000).onChange(function (value) {
-            arrayOfLights[1].distance = value;
-        });
-        spotFolder.add(guiControls.spot, 'angle', 0.001, 1.570).onChange(function (value) {
-            arrayOfLights[1].angle = value;
+            spot.position.z = value;
         });
 
         $("#webGL-container").append(renderer.domElement);
@@ -125,20 +95,39 @@
         $("#webGL-container").append(stats.domElement);
 
         AddBlenderMesh('/RendxxLogo/obj/City-2.json');
+
+        // bg
+        bgPlane = new THREE.Mesh(new THREE.PlaneGeometry(900, 900), new THREE.MeshBasicMaterial({ color: 0xeeeeee }));
+        bgPlane.position.set(0, 0, -80);
+        scene.add(bgPlane);
+
+        //gray
+        grayPlane1 = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), new THREE.MeshBasicMaterial({ color: 0xbbbbbb }));
+        grayPlane1.position.set(0, 0, -77);
+        grayPlane1.rotation.z = Math.PI / 5.5;
+        scene.add(grayPlane1);
+
+        grayPlane2 = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshBasicMaterial({ color: 0xeeeeee }));
+        grayPlane2.position.set(0, 0, -78);
+        grayPlane2.rotation.z = Math.PI / 5.5;
+        scene.add(grayPlane2);
     }
 
     function AddBlenderMesh(file) {
         var loader = new THREE.ObjectLoader();
         loader.load(file, function (obj) {
+            obj.rotation.x = -Math.PI / 2;
+            obj.rotation.y = -Math.PI / 4;
+            obj.position.z = -76;
             scene.add(obj);
         });
     }
 
     function render() {
 
-        arrayOfLights[1].position.x = guiControls.spot.lightX;
-        arrayOfLights[1].position.y = guiControls.spot.lightY;
-        arrayOfLights[1].position.z = guiControls.spot.lightZ;
+        spot.position.x = guiControls.spot.lightX;
+        spot.position.y = guiControls.spot.lightY;
+        spot.position.z = guiControls.spot.lightZ;
     }
 
     function animate() {
