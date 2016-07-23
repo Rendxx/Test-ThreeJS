@@ -27,6 +27,7 @@
     <Content Include="RendxxLogo\obj\City_tex_06.png" />
     <Content Include="RendxxLogo\obj\City_tex_ground.png" />
     <Content Include="RendxxLogo\Home.Logo.js" />
+    <Content Include="RendxxLogo\obj\cloud2.png" />
     <Content Include="RendxxLogo\obj\ground_logo.png" />
     <Content Include="RendxxLogo\sample.html" />
     <Content Include="RendxxLogo\sample.js" />

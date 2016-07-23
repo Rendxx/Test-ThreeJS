@@ -5,16 +5,20 @@ window.Rendxx.Home = window.Rendxx.Home || {};
     var Data = {
         bgColor: 0xeeeeee,
         ambientColor: 0x150D09,
-        lightPos: [10, 20, 10],
+        lightPos: [5, 20, 15],
         rotateSpeed: Math.PI/120,
         html: {
             'scene': {
                 'interaction': '<div class="scene-interaction"></div>',
-                'webgl': '<div class="scene-webgl"></div>'
+                'webgl': '<div class="scene-webgl"></div>',
+                'front': '<div class="scene-front"></div>',
+                'back': '<div class="scene-back"></div>'
             },
             'interaction': {
                 'center': '<div class="_center"></div>'
-            }
+            },
+            'words': '<div class="_words">KEEP CALM & CARRY ON</div>',
+            'cloud': '<div class="_cloud"></div>'
         }
     };
 
@@ -33,16 +37,16 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             width = 0,
             height = 0,
             ambientLight, spotLight, spotTarget,
-            grayPlane, grayPlane1, grayPlane2, bgPlane, building, groundLogo, logoGrp;
+            grayPlane, grayPlane1, grayPlane2, bgPlane, building, groundLogo, logoGrp, logoGrpWrap,
+            lineGrp, arc, pointer, pointerInner;
 
         // cache
         var getMousePos = null;
         var mousePos = [0, 0],
             current = [0, 0],
             rotation = [0, 0],
-            original = [0, 0],
+            original_modelRotation = [0, 0],
             mouseDownRotation = [0, 0],
-            cameraRadius = 0,
             centerWid = 0,
             centerHeight = 0;
 
@@ -53,14 +57,18 @@ window.Rendxx.Home = window.Rendxx.Home || {};
         var render = function () {
             if (!isInited || !mousedown) return;
             rotation[0] = (mousePos[0] - mouseDownRotation[0]) / (centerWid);
-            rotation[1] = (mousePos[1] - mouseDownRotation[1]) / (centerHeight);
+            rotation[1] = -(mousePos[1] - mouseDownRotation[1]) / (centerHeight);
             mouseDownRotation = [mousePos[0], mousePos[1]];
             rotation[0] *= (1 - Math.abs(rotation[0] + current[0]));
+            rotation[1] *= (1 - Math.abs(rotation[1] + current[1]));
 
             current[0] = Math.max(Math.min(rotation[0] + current[0], 1),-1);
-            current[1] = rotation[1] + current[1];
+            current[1] = Math.max(Math.min(rotation[1] + current[1], 1), -1);
 
-            logoGrp.rotation.z = -current[0] * Math.PI / 2 + original[0];
+            logoGrp.rotation.z = -current[0] * Math.PI / 2 + original_modelRotation[0];
+            logoGrpWrap.rotation.x = -current[1] * Math.PI / 2;
+
+            pointer.rotation.z = -current[0] * Math.PI / 4;
         };
 
         var animate= function () {
@@ -84,24 +92,30 @@ window.Rendxx.Home = window.Rendxx.Home || {};
 
 
         var _startDrag = function (e) {
+            if (!isInited) return;
             e.preventDefault();
             mousedown = true;
             if (getMousePos === null) _setupMouseFunc(e);
             html['scene']['interaction'].bind("mousemove", _onDrag);
             html['scene']['interaction'].bind("touchmove", _onDrag);
-            mouseDownRotation = getMousePos(e);
+            mousePos = mouseDownRotation = getMousePos(e);
+            tween['mouseLeave2'].stop();
+            tween['mouseEnter2'].start();
         };
 
         var _onDrag = function (e) {
+            if (!isInited) return;
             e.preventDefault();
             mousePos = getMousePos(e);
         };
 
         var _stopDrag = function (e) {
-            if (!mousedown) return;
+            if (!isInited||!mousedown) return;
             mousedown = false;
             html['scene']['interaction'].unbind("mousemove", _onDrag);
             html['scene']['interaction'].unbind("touchmove", _onDrag);
+            tween['mouseEnter2'].stop();
+            tween['mouseLeave2'].start();
             e.preventDefault();
         };
 
@@ -129,19 +143,25 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             });
             html['interaction']['center'].click(function () {
                 html['interaction']['center'].unbind('mouseenter').unbind('mouseleave').unbind('click');
+
                 tween['mouseClick'].start();
+                html['words'].css({
+                    'transform': 'translateX(0)',
+                    'opacity': 1
+                });
             });
             html['scene']['interaction'].bind("mousedown", _startDrag);
             html['scene']['interaction'].bind("touchstart", _startDrag);
 
             $('body').bind("mouseup", _stopDrag);
             $('body').bind("touchend", _stopDrag);
+            $('body').bind("mouseleave", _stopDrag);
         };
 
         var _setupAnimation = function () {
             tween = {};
 
-            var tweenData = { t: 0};
+            var tweenData = { t: 0, t2: 0};
             var radian_diff_1 = (Math.PI / 6 + Math.PI * 3 / 32) / 20,
                 radian_origin_1 = -Math.PI * 3 / 32,
                 radian_diff_2 = (Math.PI / 12) / 20,
@@ -160,31 +180,101 @@ window.Rendxx.Home = window.Rendxx.Home || {};
                             logoGrp.rotation.z = radian_origin_2 + radian_diff_2 * tweenData.t;
                             camera.position.z = posZ_origin - posZ_diff * tweenData.t;
                         }).easing(TWEEN.Easing.Quadratic.InOut);
+
+            tween['mouseEnter2'] = new TWEEN.Tween(tweenData).to({ t2: 10 }, 300)
+                        .onUpdate(function () {
+                            var t = tweenData.t2;
+                            arc.material.opacity = t / 20;
+                            pointerInner.material.opacity = t / 10;
+                            lineGrp.position.x = 0.1 * t-1;
+                        }).easing(TWEEN.Easing.Quadratic.InOut);
+            tween['mouseLeave2'] = new TWEEN.Tween(tweenData).to({ t2: 0 }, 300)
+                        .onUpdate(function () {
+                            var t = tweenData.t2;
+                            arc.material.opacity = t / 20;
+                            pointerInner.material.opacity = t / 10;
+                            lineGrp.position.x = 0.1 * t-1;
+                        }).easing(TWEEN.Easing.Quadratic.InOut);
+
             tween['mouseClick'] = new TWEEN.Tween(tweenData).to({ t: 60 }, 1600)
                         .onUpdate(function () {
                             var t = tweenData.t;
                             if (t <= 20) {
                                 grayPlane.rotation.z = radian_origin_1 + radian_diff_1 * t;
-                            } else if (t>50) {
+                            } else if (t>30 && t<=40) {
                                 //grayPlane1.material.opacity = (30 - t) / 10;
-                                grayPlane2.material.opacity = (60 - t) / 10;
+                                grayPlane2.material.opacity = (40 - t) / 10;
                             } 
                             logoGrp.rotation.z = radian_origin_2 + radian_diff_2 * t;
                             camera.position.z = posZ_origin - posZ_diff * t;
 
                             if (t > 20) {
-                                bgPlane.position.z = -t;
+                                logoGrp.position.z = (-t + 20) / 10;
                                 logoGrp.rotation.x = (t - 20) * Math.PI * 5 / 320;
                                 camera.position.y = (t - 20) * -0.05;
                                 camera.lookAt(scene.position);
                             }
+                        }).onStart(function () {
+                            html['interaction']['center'].remove();
                         }).onComplete(function () {
                             isInited = true;
-                            original = [logoGrp.rotation.z, logoGrp.rotation.x];
-                            cameraRadius = camera.position.z;
+                            original_modelRotation = [logoGrp.rotation.z, logoGrp.rotation.x];
                             logoGrp.remove(grayPlane);
-                            scene.remove(bgPlane);
+
                         }).easing(TWEEN.Easing.Quadratic.InOut);
+        };
+
+        var _setupLine = function () {
+
+            //lineGrp, arc, marker;
+            lineGrp = new THREE.Object3D();
+            lineGrp.position.y = 3;
+            lineGrp.position.x = 4;
+            //lineGrp.rotation.z = Math.PI  / 4;
+            lineGrp.rotation.x = Math.PI;
+            scene.add(lineGrp);
+            
+            // cricle
+            var lineGeometry1 = new THREE.CircleGeometry(16, 64, -Math.PI*1 / 4, Math.PI / 2);
+            var lineGeometry2 = new THREE.CircleGeometry(15.5, 64, -Math.PI * 1 / 4, Math.PI /2);
+            var lineGeometry = new THREE.Geometry();
+
+            var i = 1;
+            for (; i < 65; i++) {
+                lineGeometry.vertices.push(lineGeometry1.vertices[i]);
+                if (i % 4 === 1) {
+                    lineGeometry.vertices.push(lineGeometry2.vertices[i]);
+                    lineGeometry.vertices.push(lineGeometry1.vertices[i]);
+                }
+            }
+            lineGeometry.vertices.push(lineGeometry1.vertices[i]);
+            lineGeometry.vertices.push(lineGeometry2.vertices[i]);
+            lineGeometry.vertices.push(lineGeometry1.vertices[i]);
+
+            var lineMaterial = new THREE.LineBasicMaterial({
+                color: 0x888888,
+                linewidth:2,
+                transparent:true,
+                opacity: 0
+            });
+
+            arc = new THREE.Line(lineGeometry, lineMaterial);
+            lineGrp.add(arc);
+
+            // pointer
+            var geometryPointer = new THREE.BoxGeometry(3,0.2);
+            var MaterialPointer = new THREE.MeshBasicMaterial({
+                color: 0x666666,
+                transparent: true,
+                opacity: 0
+            });
+            pointer = new THREE.Object3D();
+            lineGrp.add(pointer);
+
+            pointerInner = new THREE.Mesh(geometryPointer, MaterialPointer);
+            pointerInner.position.x = 15.2;
+            pointerInner.position.z = -0.1;
+            pointer.add(pointerInner);
         };
 
         var _setupModel = function () {
@@ -213,15 +303,13 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             scene.add(spotLight);
 
             // model
-            // bg
-            bgPlane = new THREE.Mesh(new THREE.PlaneGeometry(900, 900), new THREE.MeshBasicMaterial({ color: 0xeeeeee }));
-            bgPlane.position.set(0, 0, -3);
-            scene.add(bgPlane);
-
             // logoGrp
+            logoGrpWrap = new THREE.Object3D();
+            scene.add(logoGrpWrap);
+
             logoGrp = new THREE.Object3D();
             logoGrp.position.set(0, 0, 0);
-            scene.add(logoGrp);
+            logoGrpWrap.add(logoGrp);
             spotLight.position.set(Data.lightPos[0], Data.lightPos[1], Data.lightPos[2]);
             spotLight.target = logoGrp;
             
@@ -240,6 +328,11 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             logoGrp.add(grayPlane);
 
             // building
+            groundLogo = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture("/RendxxLogo/obj/ground_logo.png"), transparent: true, side: THREE.FrontSide }));
+            groundLogo.rotation.z = Math.PI / 3;
+            groundLogo.position.z = 0.2;
+            logoGrp.add(groundLogo);
+
             var loader = new THREE.ObjectLoader();
             loader.load('/RendxxLogo/obj/City-2.json', function (obj) {
                 building = obj;
@@ -247,11 +340,6 @@ window.Rendxx.Home = window.Rendxx.Home || {};
                 obj.rotation.y = Math.PI / 6;
                 obj.position.z =0;
                 logoGrp.add(obj);
-
-                groundLogo = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture("/RendxxLogo/obj/ground_logo.png"), transparent: true, side: THREE.FrontSide }));
-                groundLogo.rotation.z = Math.PI / 3;
-                groundLogo.position.z = 0.2;
-                logoGrp.add(groundLogo);
                 isloaded = true;
             });
 
@@ -261,10 +349,10 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             // basic
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .1, 5000);
-            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             html['scene']['webgl'].append(renderer.domElement);
 
-            renderer.setClearColor(Data.bgColor);
+            //renderer.setClearColor(Data.bgColor);
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.soft = true;
@@ -279,6 +367,8 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             html['scene'] = {};
             html['scene']['interaction'] = $(Data.html['scene']['interaction']).appendTo(html['container']);
             html['scene']['webgl'] = $(Data.html['scene']['webgl']).appendTo(html['container']);
+            html['scene']['front'] = $(Data.html['scene']['front']).appendTo(html['container']);
+            html['scene']['back'] = $(Data.html['scene']['back']).appendTo(html['container']);
             width = html['scene']['webgl'].width();
             height = html['scene']['webgl'].height();
             
@@ -286,6 +376,9 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             html['interaction']['center'] = $(Data.html['interaction']['center']).appendTo(html['scene']['interaction']);
             centerWid = html['interaction']['center'].width();
             centerHeight = html['interaction']['center'].height();
+
+            html['words'] = $(Data.html['words']).appendTo(html['scene']['front']);
+            html['cloud'] = $(Data.html['cloud']).appendTo(html['scene']['back']);
         };
 
         var _init = function () {
@@ -294,6 +387,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             _setupModel();
             _setupAnimation();
             _setupInteraction();
+            _setupLine();
             $(window).resize(_resize);
             animate();
         };
