@@ -7,7 +7,8 @@ window.Rendxx.Home = window.Rendxx.Home || {};
         bgColor: 0xeeeeee,
         ambientColor: 0x150D09,
         lightPos: [5, 20, 15],
-        rotateSpeed: Math.PI/120,
+        rotateSpeed: Math.PI / 120,
+        root: '/RendxxLogo/logoModel/',
         html: {
             'scene': {
                 'interaction': '<div class="scene-interaction"></div>',
@@ -329,13 +330,13 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             logoGrp.add(grayPlane);
 
             // building
-            groundLogo = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture("/RendxxLogo/logoModel/ground_logo.png"), transparent: true, side: THREE.FrontSide }));
+            groundLogo = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(Data.root + "ground_logo.png"), transparent: true, side: THREE.FrontSide }));
             groundLogo.rotation.z = Math.PI / 3;
             groundLogo.position.z = 0.2;
             logoGrp.add(groundLogo);
 
             var loader = new THREE.ObjectLoader();
-            loader.load('/RendxxLogo/logoModel/City-2.json', function (obj) {
+            loader.load(Data.root + 'City-2.json', function (obj) {
                 building = obj;
                 obj.rotation.x = -Math.PI / 2;
                 obj.rotation.y = Math.PI / 6;
