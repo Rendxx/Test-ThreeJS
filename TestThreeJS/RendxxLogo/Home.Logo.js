@@ -220,7 +220,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
                             isInited = true;
                             original_modelRotation = [logoGrp.rotation.z, logoGrp.rotation.x];
                             logoGrp.remove(grayPlane);
-
+                            html['cloud'].css('opacity',1);
                         }).easing(TWEEN.Easing.Quadratic.InOut);
         };
 
