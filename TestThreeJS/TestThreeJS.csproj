@@ -18,6 +18,8 @@
     <Content Include="Animation\Player-Texture.png" />
     <Content Include="Animation\sample.html" />
     <Content Include="Animation\sample.js" />
+    <Content Include="RayCaster\sample.html" />
+    <Content Include="RayCaster\sample.js" />
     <Content Include="RendxxLogo\Home.Logo.js" />
     <Content Include="RendxxLogo\logoModel\City_tex_01.png" />
     <Content Include="RendxxLogo\logoModel\City_tex_02.png" />
@@ -29,7 +31,6 @@
     <Content Include="RendxxLogo\logoModel\cloud2.png" />
     <Content Include="RendxxLogo\logoModel\ground_logo.png" />
     <Content Include="RendxxLogo\sample.html" />
-    <Content Include="RendxxLogo\sample.js" />
     <Content Include="BlenderLoader\bobo\player-bobo.tex.png" />
     <Content Include="BlenderLoader\Door\door_wood_1.icon.png" />
     <Content Include="BlenderLoader\Door\door_wood_1.png" />
