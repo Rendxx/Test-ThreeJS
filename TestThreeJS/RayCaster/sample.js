@@ -1,7 +1,9 @@
 ﻿$(function () {
     var scene, camera, renderer;
     var controls, datGUI, stats;
-
+    var container = $("#webGL-container")[0];
+    var raycaster = new THREE.Raycaster();
+    var panel = [];
 
     /*variables for lights*/
     var ambient;
@@ -34,6 +36,8 @@
         stats.domElement.style.left = '0px';
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
+
+        container.addEventListener('mousemove', onMouseMove, false);
     }
 
     function addObj() {
@@ -59,7 +63,6 @@
                 [Math.PI / 2, 0, 0],
                 [-Math.PI / 2, 0, 0]
         ];
-        var panel = [];
         for (var i = 0, l = posArr.length; i < l; i++) {
             panel[i] = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshBasicMaterial({ color: colorArr[i] }));
             panel[i].position.set(posArr[i][0], posArr[i][1], posArr[i][2]);
@@ -88,6 +91,36 @@
 
         renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     });
+
+    // mouse
+
+
+    var onClickPosition = new THREE.Vector2();
+    var mouse = new THREE.Vector2();
+    var getMousePosition = function (dom, x, y) {
+        var rect = dom.getBoundingClientRect();
+        return [(x - rect.left) / rect.width, (y - rect.top) / rect.height];
+    };
+
+    var getIntersects = function (point, objects) {
+        mouse.set((point.x * 2) - 1, -(point.y * 2) + 1);
+        raycaster.setFromCamera(mouse, camera);
+        return raycaster.intersectObjects(objects);
+    };
+
+    function onMouseMove(evt) {
+        evt.preventDefault();
+        var array = getMousePosition(container, evt.clientX, evt.clientY);
+        onClickPosition.fromArray(array);
+
+        var intersects = getIntersects(onClickPosition, panel);
+
+        if (intersects.length > 0 && intersects[0].uv) {
+            var uv = intersects[0].uv;
+            console.log(uv);
+        }
+
+    };
 
     init();
     animate();
