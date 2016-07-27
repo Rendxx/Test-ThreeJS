@@ -11,7 +11,7 @@
         var SCREEN_HEIGHT = window.innerHeight;
         /*creates empty scene object and renderer*/
         camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
-        camera.position.y = -200;
+        camera.position.z = 200;
 
         scene = new THREE.Scene();
 
@@ -42,8 +42,8 @@
             [-size2, 0, 0],
             [0, 0, -size2],
             [size2, 0, 0],
-            [0, 0, size2],
-            [0, size2, 0]
+                [0, size2, 0],
+            [0, -size2, 0]
         ];
         var colorArr = [
             0x000088,
@@ -56,8 +56,8 @@
             [0, Math.PI / 2, 0],
             [0, 0, 0],
             [0, -Math.PI / 2, 0],
-                [0, -Math.PI, 0],
-                [Math.PI / 2, 0, 0]
+                [Math.PI / 2, 0, 0],
+                [-Math.PI / 2, 0, 0]
         ];
         var panel = [];
         for (var i = 0, l = posArr.length; i < l; i++) {
