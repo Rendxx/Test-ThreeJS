@@ -11,7 +11,7 @@
         var SCREEN_HEIGHT = window.innerHeight;
         /*creates empty scene object and renderer*/
         camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
-        camera.position.z = 1500;
+        camera.position.y = -200;
 
         scene = new THREE.Scene();
 
@@ -37,28 +37,35 @@
     }
 
     function addObj() {
-
-        var geometry = new THREE.Geometry();
-
+        var size2 = 50;
         var posArr = [
-            [10, 10, 10],
-            [20, 20, 20],
-            [30, 30, 30],
-            [40, 40, 40],
-            [50, 50, 50]
+            [-size2, 0, 0],
+            [0, 0, -size2],
+            [size2, 0, 0],
+            [0, 0, size2],
+            [0, size2, 0]
         ];
+        var colorArr = [
+            0x000088,
+            0x008800,
+            0x880000,
+            0x888800,
+            0x008888
+        ];
+        var rotateArr = [
+            [0, Math.PI / 2, 0],
+            [0, 0, 0],
+            [0, -Math.PI / 2, 0],
+                [0, -Math.PI, 0],
+                [Math.PI / 2, 0, 0]
+        ];
+        var panel = [];
         for (var i = 0, l = posArr.length; i < l; i++) {
-            geometry.vertices.push(new THREE.Vector3(posArr[i][0], posArr[i][1], posArr[i][2]));
+            panel[i] = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshBasicMaterial({ color: colorArr[i] }));
+            panel[i].position.set(posArr[i][0], posArr[i][1], posArr[i][2]);
+            panel[i].rotation.set(rotateArr[i][0], rotateArr[i][1], rotateArr[i][2]);
+            scene.add(panel[i]);
         }
-
-
-        var textureLoader = new THREE.TextureLoader();
-        var discTexture = textureLoader.load('disc.png');
-        var particleMaterial = new THREE.PointsMaterial({ map: discTexture, size: 12, color: 0xff0000, opacity: true, alphaTest: 0.5 });
-        var particle = new THREE.Points(geometry, particleMaterial);
-        particle.position.set(0, 50, 0);
-
-        scene.add(particle);
     };
 
     function render() {
