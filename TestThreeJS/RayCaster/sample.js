@@ -67,6 +67,7 @@
             panel[i] = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshBasicMaterial({ color: colorArr[i] }));
             panel[i].position.set(posArr[i][0], posArr[i][1], posArr[i][2]);
             panel[i].rotation.set(rotateArr[i][0], rotateArr[i][1], rotateArr[i][2]);
+            panel[i].name = i;
             scene.add(panel[i]);
         }
     };
@@ -117,7 +118,8 @@
 
         if (intersects.length > 0 && intersects[0].uv) {
             var uv = intersects[0].uv;
-            console.log(uv);
+            var name = intersects[0].object.name;
+            console.log(name+ ": "+uv.x+", "+uv.y);
         }
 
     };
