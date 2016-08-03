@@ -23,8 +23,32 @@
             height: 100%;
             overflow: hidden;
         }
-
     </style>
+
+    <!--shader -->
+    <script id="vertex_shader" type="x-shader/x-vertex">
+        varying vec2 vUv;
+
+        void main() {
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        vUv = uv;
+        }
+
+    </script>
+
+    <script id="fragment_shader" type="x-shader/x-fragment">
+        uniform vec3 cameraPos;
+        uniform sampler2D texture;
+        varying vec2 vUv;
+
+        void main() {
+        vec4 tColor = texture2D( texture, vUv );
+        float depth = 1.0-((gl_FragCoord.z/gl_FragCoord.w-80.0)/20.0);
+        gl_FragColor = vec4(tColor.r*depth,tColor.g*depth,tColor.b*depth,1.0);
+        }
+
+    </script>
+    <!--shader-->
 </head>
 <body>
     <div id="webGL-container">
