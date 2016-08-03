@@ -553,15 +553,15 @@
         "map":"F7F25B99-8709-3776-8D32-B0774203CF6B",
         "depthTest":true,
         "vertexColors":0,
-        "type":"MeshLambertMaterial",
+        "type":"MeshBasicMaterial",
         "name":"Material",
         "uuid":"FC9C3C1C-87E7-3748-8148-105003E5F3D5",
         "depthWrite":true,
         "blending":"NormalBlending",
-        "emissive":0,
         "color":13421772
     },{
         "map":"57C8C518-0CD0-3866-88FE-BBB14474EBD7",
+        "side":2,
         "depthTest":true,
         "vertexColors":0,
         "type":"MeshBasicMaterial",
