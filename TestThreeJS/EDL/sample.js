@@ -3,7 +3,7 @@
     var controls, datGUI, stats;
     var container = $("#webGL-container")[0];
     var raycaster = new THREE.Raycaster();
-    var panel = [];
+    var building = null;
 
     /*variables for lights*/
     var ambient;
@@ -19,6 +19,7 @@
 
         // render
         renderer = new THREE.WebGLRenderer();
+        renderer.setClearColor(0xeeeeee);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.autoClear = false; // To allow render overlay on top of sprited sphere
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -37,39 +38,17 @@
         stats.domElement.style.top = '0px';
         $("#webGL-container").append(stats.domElement);
 
-        container.addEventListener('mousemove', onMouseMove, false);
     }
 
     function addObj() {
-        var size2 = 50;
-        var posArr = [
-            [-size2, 0, 0],
-            [0, 0, -size2],
-            [size2, 0, 0],
-                [0, size2, 0],
-            [0, -size2, 0]
-        ];
-        var colorArr = [
-            0x000088,
-            0x008800,
-            0x880000,
-            0x888800,
-            0x008888
-        ];
-        var rotateArr = [
-            [0, Math.PI / 2, 0],
-            [0, 0, 0],
-            [0, -Math.PI / 2, 0],
-                [Math.PI / 2, 0, 0],
-                [-Math.PI / 2, 0, 0]
-        ];
-        for (var i = 0, l = posArr.length; i < l; i++) {
-            panel[i] = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshBasicMaterial({ color: colorArr[i] }));
-            panel[i].position.set(posArr[i][0], posArr[i][1], posArr[i][2]);
-            panel[i].rotation.set(rotateArr[i][0], rotateArr[i][1], rotateArr[i][2]);
-            panel[i].name = i;
-            scene.add(panel[i]);
-        }
+        var loader = new THREE.ObjectLoader();
+        loader.load('/EDL/logoModel/' + 'City-2.json', function (obj) {
+            building = obj;
+            //obj.rotation.x = -Math.PI / 2;
+            obj.position.z = 0;
+            scene.add(obj);
+            isloaded = true;
+        });
     };
 
     function render() {
@@ -94,35 +73,6 @@
     });
 
     // mouse
-
-
-    var onClickPosition = new THREE.Vector2();
-    var mouse = new THREE.Vector2();
-    var getMousePosition = function (dom, x, y) {
-        var rect = dom.getBoundingClientRect();
-        return [(x - rect.left) / rect.width, (y - rect.top) / rect.height];
-    };
-
-    var getIntersects = function (point, objects) {
-        mouse.set((point.x * 2) - 1, -(point.y * 2) + 1);
-        raycaster.setFromCamera(mouse, camera);
-        return raycaster.intersectObjects(objects);
-    };
-
-    function onMouseMove(evt) {
-        evt.preventDefault();
-        var array = getMousePosition(container, evt.clientX, evt.clientY);
-        onClickPosition.fromArray(array);
-
-        var intersects = getIntersects(onClickPosition, panel);
-
-        if (intersects.length > 0 && intersects[0].uv) {
-            var uv = intersects[0].uv;
-            var name = intersects[0].object.name;
-            console.log(name+ ": "+uv.x+", "+uv.y);
-        }
-
-    };
 
     init();
     animate();
