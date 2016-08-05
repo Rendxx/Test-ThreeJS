@@ -38,19 +38,19 @@
 
     <script id="fragment_shader" type="x-shader/x-fragment">
         uniform sampler2D texture;
+        uniform float disMax;
+        uniform float disMin;
         varying vec2 vUv;
 
         void main() {
         vec4 tColor = texture2D( texture, vUv );
-        float depth = 1.0-((gl_FragCoord.z/gl_FragCoord.w-80.0)/20.0);
-        depth=1.0;
-        gl_FragColor = vec4(tColor.r*depth,tColor.g*depth,tColor.b*depth,1.0);
+        float depth = 1.0-((1.0/gl_FragCoord.w-disMin)/(disMax-disMin));
         //gl_FragColor = vec4(depth,depth,depth,1.0);
+        gl_FragColor = vec4(tColor.rgb,depth);
         }
 
     </script>
     <!--shader-->
-
     <!--shader -->
     <script id="vertex_shader_screen" type="x-shader/x-vertex">
         varying vec2 vUv;
@@ -63,11 +63,38 @@
     </script>
 
     <script id="fragment_shader_screen" type="x-shader/x-fragment">
-        uniform sampler2D bufferTex;
+        uniform float screenWidth;
+        uniform float screenHeight;
+        uniform sampler2D texture;
         varying vec2 vUv;
+        float wid=2.0;
+
+        float getDepther(vec2 pos, float d){
+        vec4 f = texture2D( texture, pos );
+        if (f.a > d) return f.a;
+        return d;
+        }
 
         void main() {
-        gl_FragColor = texture2D( bufferTex, vUv );
+        vec4 f = texture2D( texture, vUv );
+        float dep=f.a;
+        if (f.a ==1.0) {
+        discard;
+        }else{
+
+        dep=getDepther(vUv+vec2(wid/screenWidth,0),dep);
+        dep=getDepther(vUv+vec2(wid/screenWidth,wid/screenHeight),dep);
+        dep=getDepther(vUv+vec2(0,wid/screenHeight),dep);
+        dep=getDepther(vUv+vec2(-wid/screenWidth,wid/screenHeight),dep);
+        dep=getDepther(vUv+vec2(-wid/screenWidth,0),dep);
+        dep=getDepther(vUv+vec2(-wid/screenWidth,-wid/screenHeight),dep);
+        dep=getDepther(vUv+vec2(0,-wid/screenHeight),dep);
+        dep=getDepther(vUv+vec2(-wid/screenWidth,-wid/screenHeight),dep);
+
+        float diff=1.0 - (dep-f.a)*20.0;
+        if (diff>1.0)diff=1.0;
+        gl_FragColor =  vec4(f.r*diff,f.g*diff,f.b*diff,1.0);
+        }
         }
 
     </script>

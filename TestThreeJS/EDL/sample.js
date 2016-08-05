@@ -15,7 +15,7 @@
         SCREEN_HEIGHT = window.innerHeight;
         /*creates empty scene object and renderer*/
         cameraRTT = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
-        cameraRTT.position.z = 1000;
+        cameraRTT.position.z = 50;
         camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, -10000, 10000);
         camera.position.z = 100;
 
@@ -26,14 +26,15 @@
         // render
         renderer = new THREE.WebGLRenderer();
         renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setClearColor(0xeeeeee);
         renderer.autoClear = false; // To allow render overlay on top of sprited sphere
         renderer.setSize(window.innerWidth, window.innerHeight);
 
         /*add controls*/
-        //controls = new THREE.OrbitControls(cameraRTT, renderer.domElement);
-        //controls.addEventListener('change', function () {
-        //    render();
-        //});
+        controls = new THREE.OrbitControls(cameraRTT, renderer.domElement);
+        controls.addEventListener('change', function () {
+            render();
+        });
 
         addMesh();
         addObj();
@@ -65,14 +66,42 @@
         quad.position.z = -100;
         sceneScreen.add(quad);
 
-        var ball = new THREE.Mesh(new THREE.PlaneGeometry(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), new THREE.MeshBasicMaterial({ color: 0xffffff, map: bufferTex }));
+        var ball = new THREE.Mesh(new THREE.PlaneGeometry(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2),
+                      new THREE.ShaderMaterial({
+                          uniforms: {
+                              "texture": { type: "t", value: bufferTex },
+                              "screenWidth": { type: "f", value: SCREEN_WIDTH / 2 },
+                              "screenHeight": { type: "f", value: SCREEN_HEIGHT / 2 }
+                          },
+                          vertexShader: document.getElementById('vertex_shader_screen').textContent,
+                          fragmentShader: document.getElementById('fragment_shader_screen').textContent,
+                          transparent:true
+                      })
+            );
         scene.add(ball);
     };
 
     function addObj() {
         var loader = new THREE.ObjectLoader();
         loader.load('/EDL/logoModel/' + 'City-2.json', function (obj) {
-            obj.scale.set(8, 8, 8);
+
+            obj.traverse(function (child) {
+                if (child instanceof THREE.Mesh) {
+                    var _uniforms = {
+                        "texture": { type: "t", value: child.material.map },
+                        "disMax": { type: "f", value: 80 },
+                        "disMin": { type: "f", value: 20 },
+                    };
+
+                    var material =
+                      new THREE.ShaderMaterial({
+                          uniforms: _uniforms,
+                          vertexShader: document.getElementById('vertex_shader').textContent,
+                          fragmentShader: document.getElementById('fragment_shader').textContent
+                      });
+                    child.material = material;
+                }
+            });
             screenRTT.add(obj);
         });
     };
@@ -80,7 +109,7 @@
     function render() {
         renderer.clear();
         renderer.render(screenRTT, cameraRTT, bufferTex, true);
-        renderer.render(sceneScreen, cameraRTT);
+        //renderer.render(sceneScreen, cameraRTT);
         renderer.render(scene, camera);
     }
 
