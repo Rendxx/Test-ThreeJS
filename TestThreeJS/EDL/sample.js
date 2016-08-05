@@ -1,7 +1,6 @@
 ﻿$(function () {
     var scene, camera, renderer;
     var sceneRTT, cameraRTT;
-    var sceneScreen;
     var bufferTex;
 
     var controls, datGUI, stats;
@@ -60,12 +59,7 @@
             depthWrite: false
         });
 
-        var plane = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
         
-        var quad = new THREE.Mesh(plane, materialScreen);
-        quad.position.z = -100;
-        sceneScreen.add(quad);
-
         var ball = new THREE.Mesh(new THREE.PlaneGeometry(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2),
                       new THREE.ShaderMaterial({
                           uniforms: {
@@ -109,7 +103,6 @@
     function render() {
         renderer.clear();
         renderer.render(screenRTT, cameraRTT, bufferTex, true);
-        //renderer.render(sceneScreen, cameraRTT);
         renderer.render(scene, camera);
     }
 
