@@ -67,7 +67,7 @@
         uniform float screenHeight;
         uniform sampler2D texture;
         varying vec2 vUv;
-        float wid=2.0;
+        float wid=1.5;
 
         float getDepther(vec2 pos, float d){
         vec4 f = texture2D( texture, pos );
@@ -91,7 +91,7 @@
         dep=getDepther(vUv+vec2(0,-wid/screenHeight),dep);
         dep=getDepther(vUv+vec2(-wid/screenWidth,-wid/screenHeight),dep);
 
-        float diff=1.0 - (dep-f.a)*20.0;
+        float diff=1.0 - (dep-f.a)*10.0;
         if (diff>1.0)diff=1.0;
         gl_FragColor =  vec4(f.r*diff,f.g*diff,f.b*diff,1.0);
         }
