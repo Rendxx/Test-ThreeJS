@@ -1,39 +1,41 @@
 ﻿$(function () {
     var scene, camera, renderer;
+    var sceneRTT, cameraRTT;
+    var sceneScreen;
+    var bufferTex;
+
     var controls, datGUI, stats;
     var container = $("#webGL-container")[0];
-    var raycaster = new THREE.Raycaster();
-    var building = null;
-    var uniforms = [];
 
-    /*variables for lights*/
-    var ambient;
+    var SCREEN_WIDTH = window.innerWidth;
+    var SCREEN_HEIGHT = window.innerHeight;
 
     function init() {
-        var SCREEN_WIDTH = window.innerWidth;
-        var SCREEN_HEIGHT = window.innerHeight;
+        SCREEN_WIDTH = window.innerWidth;
+        SCREEN_HEIGHT = window.innerHeight;
         /*creates empty scene object and renderer*/
-        camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
+        cameraRTT = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
+        cameraRTT.position.z = 1000;
+        camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, -10000, 10000);
         camera.position.z = 100;
 
         scene = new THREE.Scene();
+        screenRTT = new THREE.Scene();
+        sceneScreen = new THREE.Scene();
 
         // render
         renderer = new THREE.WebGLRenderer();
-        renderer.setClearColor(0xeeeeee);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.autoClear = false; // To allow render overlay on top of sprited sphere
         renderer.setSize(window.innerWidth, window.innerHeight);
 
         /*add controls*/
-        controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.addEventListener('change', function () {
+        //controls = new THREE.OrbitControls(cameraRTT, renderer.domElement);
+        //controls.addEventListener('change', function () {
+        //    render();
+        //});
 
-            var c = [camera.position.x, camera.position.y, camera.position.z];
-            for (var i = 0; i < uniforms.length; i++) uniforms[i]["cameraPos"].value = c;
-            render();
-        });
-
+        addMesh();
         addObj();
 
         $("#webGL-container").append(renderer.domElement);
@@ -46,43 +48,40 @@
 
     }
 
-    function addObj() {
+    function addMesh() {
+        // buffer
+        bufferTex = new THREE.WebGLRenderTarget(SCREEN_WIDTH , SCREEN_HEIGHT, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter });
 
+        var materialScreen = new THREE.ShaderMaterial({
+            uniforms: { tDiffuse: { type: "t", value: 0, texture: bufferTex } },
+            vertexShader: document.getElementById('vertex_shader_screen').textContent,
+            fragmentShader: document.getElementById('fragment_shader_screen').textContent,
+            depthWrite: false
+        });
+
+        var plane = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
+        
+        var quad = new THREE.Mesh(plane, materialScreen);
+        quad.position.z = -100;
+        sceneScreen.add(quad);
+
+        var ball = new THREE.Mesh(new THREE.PlaneGeometry(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), new THREE.MeshBasicMaterial({ color: 0xffffff, map: bufferTex }));
+        scene.add(ball);
+    };
+
+    function addObj() {
         var loader = new THREE.ObjectLoader();
         loader.load('/EDL/logoModel/' + 'City-2.json', function (obj) {
-            building = obj;
-            //obj.rotation.x = -Math.PI / 2;
-            obj.position.z = 0;
-            
-            obj.traverse(function (child) {
-                if (child instanceof THREE.Mesh) {
-                    var _uniforms = {
-                        "texture": { type: "t", value: child.material.map },
-                        "cameraPos": { type: "v3", value: [camera.position.x, camera.position.y, camera.position.z ] },
-                    };
-
-                    uniforms.push(_uniforms);
-
-                    var material =
-                      new THREE.ShaderMaterial({
-                          uniforms: _uniforms,
-                          vertexShader: document.getElementById('vertex_shader').textContent,
-                          fragmentShader: document.getElementById('fragment_shader').textContent
-                      });
-                    child.material = material;
-                }
-            });
-
-            scene.add(obj);
-            isloaded = true;
+            obj.scale.set(8, 8, 8);
+            screenRTT.add(obj);
         });
     };
 
     function render() {
-
         renderer.clear();
+        renderer.render(screenRTT, cameraRTT, bufferTex, true);
+        renderer.render(sceneScreen, cameraRTT);
         renderer.render(scene, camera);
-
     }
 
     function animate() {
@@ -92,8 +91,8 @@
     }
 
     $(window).resize(function () {
-        var SCREEN_WIDTH = window.innerWidth;
-        var SCREEN_HEIGHT = window.innerHeight;
+        SCREEN_WIDTH = window.innerWidth;
+        SCREEN_HEIGHT = window.innerHeight;
 
         camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
         camera.updateProjectionMatrix();

@@ -24,7 +24,6 @@
             overflow: hidden;
         }
     </style>
-
     <!--shader -->
     <script id="vertex_shader" type="x-shader/x-vertex">
         varying vec2 vUv;
@@ -37,14 +36,59 @@
     </script>
 
     <script id="fragment_shader" type="x-shader/x-fragment">
-        uniform vec3 cameraPos;
         uniform sampler2D texture;
         varying vec2 vUv;
 
         void main() {
         vec4 tColor = texture2D( texture, vUv );
         float depth = 1.0-((gl_FragCoord.z/gl_FragCoord.w-80.0)/20.0);
+        depth=1.0;
         gl_FragColor = vec4(tColor.r*depth,tColor.g*depth,tColor.b*depth,1.0);
+        }
+
+    </script>
+    <!--shader-->
+    <!--shader -->
+    <script id="fragment_shader_screen" type="x-shader/x-fragment">
+
+        varying vec2 vUv;
+        uniform sampler2D tDiffuse;
+
+        void main() {
+
+        gl_FragColor = texture2D( tDiffuse, vUv );
+
+        }
+
+    </script>
+
+    <script id="fragment_shader_pass_1" type="x-shader/x-fragment">
+
+        varying vec2 vUv;
+        uniform float time;
+
+        void main() {
+
+        float r = vUv.x;
+        if( vUv.y < 0.5 ) r = 0.0;
+        float g = vUv.y;
+        if( vUv.x < 0.5 ) g = 0.0;
+
+        gl_FragColor = vec4( r, g, time, 1.0 );
+
+        }
+
+    </script>
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+
+        varying vec2 vUv;
+
+        void main() {
+
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
         }
 
     </script>
@@ -56,6 +100,6 @@
     <script src="../lib/three.min.js"></script>
     <script src="../lib/OrbitControls.js"></script>
     <script src="../lib/stats.min.js"></script>
-    <script type="text/javascript" src="sample.js"></script>
+    <script type="text/javascript" src="test.js"></script>
 </body>
 </html>

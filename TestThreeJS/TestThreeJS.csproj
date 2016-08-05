@@ -18,6 +18,7 @@
     <Content Include="Animation\Player-Texture.png" />
     <Content Include="Animation\sample.html" />
     <Content Include="Animation\sample.js" />
+    <Content Include="RenderTex\test.js" />
     <Content Include="RenderTex\logoModel\City_tex_01.png" />
     <Content Include="RenderTex\logoModel\City_tex_02.png" />
     <Content Include="RenderTex\logoModel\City_tex_03.png" />
