@@ -18,6 +18,17 @@
     <Content Include="Animation\Player-Texture.png" />
     <Content Include="Animation\sample.html" />
     <Content Include="Animation\sample.js" />
+    <Content Include="RenderTex\logoModel\City_tex_01.png" />
+    <Content Include="RenderTex\logoModel\City_tex_02.png" />
+    <Content Include="RenderTex\logoModel\City_tex_03.png" />
+    <Content Include="RenderTex\logoModel\City_tex_04.png" />
+    <Content Include="RenderTex\logoModel\City_tex_05.png" />
+    <Content Include="RenderTex\logoModel\City_tex_06.png" />
+    <Content Include="RenderTex\logoModel\City_tex_ground.png" />
+    <Content Include="RenderTex\logoModel\cloud2.png" />
+    <Content Include="RenderTex\logoModel\ground_logo.png" />
+    <Content Include="RenderTex\sample.html" />
+    <Content Include="RenderTex\sample.js" />
     <Content Include="EDL\logoModel\City_tex_01.png" />
     <Content Include="EDL\logoModel\City_tex_02.png" />
     <Content Include="EDL\logoModel\City_tex_03.png" />
@@ -174,6 +185,7 @@
     <Content Include="ModelLoaderTest\xyz.json" />
     <Content Include="RendxxLogo\logoModel\City-2.json" />
     <Content Include="EDL\logoModel\City-2.json" />
+    <Content Include="RenderTex\logoModel\City-2.json" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
     <Content Include="TextureAnimation\effort.blood.json" />
