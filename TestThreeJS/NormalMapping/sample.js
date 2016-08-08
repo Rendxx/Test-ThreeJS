@@ -29,6 +29,8 @@
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.addEventListener('change', function () {
             render();
+            var pos = camera.position;
+            spot.position.set(pos.x, pos.y, pos.z);
         });
 
         addObj();
@@ -54,8 +56,13 @@
     }
 
     function addObj() {
+        var textureLoader = new THREE.TextureLoader();
         var cubeGeometry = new THREE.BoxGeometry(20, 20, 20);
-        var cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x336600 });
+        var cubeMaterial = new THREE.MeshPhongMaterial({
+            color: 0x3366bb,
+            //map: textureLoader.load("/NormalMapping/normalMap.jpg"),
+            normalMap: textureLoader.load("/NormalMapping/normalMap.jpg")
+        });
         cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
         scene.add(cube);
     };
