@@ -336,15 +336,50 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             logoGrp.add(groundLogo);
 
             var loader = new THREE.ObjectLoader();
-            loader.load(Data.root + 'City-2.json', function (obj) {
+            //loader.load(Data.root + 'City-2.json', function (obj) {
+            //    building = obj;
+            //    obj.rotation.x = -Math.PI / 2;
+            //    obj.rotation.y = Math.PI / 6;
+            //    obj.position.z =0;
+            //    logoGrp.add(obj);
+            //    isloaded = true;
+            //});
+
+            var textureLoader = new THREE.TextureLoader();
+            loader.load(Data.root + 'City-2-testNormalMap.json', function (obj) {
                 building = obj;
                 obj.rotation.x = -Math.PI / 2;
                 obj.rotation.y = Math.PI / 6;
-                obj.position.z =0;
+                obj.position.z = 0;
+
+                obj.traverse(function (child) {
+                    if (child instanceof THREE.Mesh) {
+                        var x = 0;
+                        //var _uniforms = {
+                        //    "texture": { type: "t", value: child.material.map },
+                        //    "disMax": { type: "f", value: 80 },
+                        //    "disMin": { type: "f", value: 20 },
+                        //};
+
+                        //var material =
+                        //  new THREE.ShaderMaterial({
+                        //      uniforms: _uniforms,
+                        //      vertexShader: document.getElementById('vertex_shader').textContent,
+                        //      fragmentShader: document.getElementById('fragment_shader').textContent
+                        //  });
+                        //child.material = material;
+                        if (child.name === "Cube.005") {
+                            var material = new THREE.MeshPhongMaterial({
+                                map: child.material.map,
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normal_ground.png")
+                              });
+                            child.material = material;
+                        }
+                    }
+                });
                 logoGrp.add(obj);
                 isloaded = true;
             });
-
         };
 
         var _setupWebGL = function () {
