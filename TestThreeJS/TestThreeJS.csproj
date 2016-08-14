@@ -21,6 +21,7 @@
     <Content Include="NormalMapping\normalMap.jpg" />
     <Content Include="NormalMapping\sample.html" />
     <Content Include="NormalMapping\sample.js" />
+    <Content Include="NormalMapping\test-normal.png" />
     <Content Include="RenderTex\test.js" />
     <Content Include="RenderTex\logoModel\City_tex_01.png" />
     <Content Include="RenderTex\logoModel\City_tex_02.png" />
@@ -193,6 +194,7 @@
     <Content Include="EDL\logoModel\City-2.json" />
     <Content Include="RenderTex\logoModel\City-2.json" />
     <Content Include="RendxxLogo\logoModel\City-2-testNormalMap.json" />
+    <Content Include="NormalMapping\test-normal.fla" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
     <Content Include="TextureAnimation\effort.blood.json" />

@@ -59,9 +59,9 @@
         var textureLoader = new THREE.TextureLoader();
         var cubeGeometry = new THREE.BoxGeometry(20, 20, 20);
         var cubeMaterial = new THREE.MeshPhongMaterial({
-            color: 0x3366bb,
+            color: 0x333333,
             //map: textureLoader.load("/NormalMapping/normalMap.jpg"),
-            normalMap: textureLoader.load("/NormalMapping/normalMap.jpg")
+            normalMap: textureLoader.load("/NormalMapping/test-normal.png")
         });
         cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
         scene.add(cube);
