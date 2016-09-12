@@ -298,10 +298,10 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             spotLight.shadow.far = 100;
             spotLight.shadow.fov = 100;
             spotLight.shadow.near = 1;
-            spotLight.distance =100;
+            spotLight.distance =200;
             spotLight.decay = 1;
             spotLight.angle = 1;
-            spotLight.intensity = 2;
+            spotLight.intensity = 1;
             scene.add(spotLight);
 
             // model
@@ -328,13 +328,12 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             grayPlane.position.set(0, 0, -2.45);
             grayPlane.rotation.z = -Math.PI * 3 / 32;
             logoGrp.add(grayPlane);
-            var maxAnisotropy = renderer.getMaxAnisotropy();
 
             // building
             groundLogo = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture(Data.root + "ground_logo.png"), transparent: true, side: THREE.FrontSide }));
             groundLogo.rotation.z = Math.PI / 3;
             groundLogo.position.z = 0.2;
-            groundLogo.material.map.anisotropy = maxAnisotropy;
+            groundLogo.material.map.anisotropy = 4;
             logoGrp.add(groundLogo);
 
             var loader = new THREE.ObjectLoader();
@@ -370,7 +369,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
                         //      fragmentShader: document.getElementById('fragment_shader').textContent
                         //  });
                         //child.material = material;
-                        child.material.map.anisotropy = maxAnisotropy;
+                        child.material.map.anisotropy = 4;
                         if (child.name === "Cube.005") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
