@@ -5,7 +5,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
     'use strict';
     var Data = {
         bgColor: 0xeeeeee,
-        ambientColor: 0x150D09,
+        ambientColor: 0x555555,
         lightPos: [5, 20, 15],
         rotateSpeed: Math.PI / 120,
         root: '/RendxxLogo/logoModel/',
@@ -395,13 +395,19 @@ window.Rendxx.Home = window.Rendxx.Home || {};
                                 normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_04.png")
                             });
                             child.material = material;
+                        } else if (child.name === "Cube.004") {
+                            var material = new THREE.MeshPhongMaterial({
+                                map: child.material.map,
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_05.png")
+                            });
+                            child.material = material;
                         } else if (child.name === "Cube.005") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
                                 normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_ground.png")
                             });
                             child.material = material;
-                        }
+                        } 
                     }
                 });
                 logoGrp.add(obj);
