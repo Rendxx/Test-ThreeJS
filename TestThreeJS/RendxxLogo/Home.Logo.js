@@ -373,7 +373,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
                         if (child.name === "Cube.005") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
-                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normal_ground.png")
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_ground.png")
                               });
                             child.material = material;
                         }
