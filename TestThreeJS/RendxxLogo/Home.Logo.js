@@ -304,6 +304,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             spotLight.intensity = 1;
             scene.add(spotLight);
 
+            var maxAnisotropy = renderer.getMaxAnisotropy();
             // model
             // logoGrp
             logoGrpWrap = new THREE.Object3D();
@@ -333,7 +334,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
             groundLogo = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture(Data.root + "ground_logo.png"), transparent: true, side: THREE.FrontSide }));
             groundLogo.rotation.z = Math.PI / 3;
             groundLogo.position.z = 0.2;
-            groundLogo.material.map.anisotropy = 4;
+            groundLogo.material.map.anisotropy = maxAnisotropy;
             logoGrp.add(groundLogo);
 
             var loader = new THREE.ObjectLoader();
@@ -369,12 +370,36 @@ window.Rendxx.Home = window.Rendxx.Home || {};
                         //      fragmentShader: document.getElementById('fragment_shader').textContent
                         //  });
                         //child.material = material;
-                        child.material.map.anisotropy = 4;
-                        if (child.name === "Cube.005") {
+                        child.material.map.anisotropy = maxAnisotropy;
+                        if (child.name === "Cube") {
+                            var material = new THREE.MeshPhongMaterial({
+                                map: child.material.map,
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_01.png")
+                            });
+                            child.material = material;
+                        } else if (child.name === "Cube.001") {
+                            var material = new THREE.MeshPhongMaterial({
+                                map: child.material.map,
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_02.png")
+                            });
+                            child.material = material;
+                        } else if (child.name === "Cube.002") {
+                            var material = new THREE.MeshPhongMaterial({
+                                map: child.material.map,
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_03.png")
+                            });
+                            child.material = material;
+                        } else if (child.name === "Cube.003") {
+                            var material = new THREE.MeshPhongMaterial({
+                                map: child.material.map,
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_04.png")
+                            });
+                            child.material = material;
+                        } else if (child.name === "Cube.005") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
                                 normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_ground.png")
-                              });
+                            });
                             child.material = material;
                         }
                     }
