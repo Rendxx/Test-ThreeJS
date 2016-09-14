@@ -5,7 +5,7 @@ window.Rendxx.Home = window.Rendxx.Home || {};
     'use strict';
     var Data = {
         bgColor: 0xeeeeee,
-        ambientColor: 0x555555,
+        ambientColor: 0x444444,
         lightPos: [5, 20, 15],
         rotateSpeed: Math.PI / 120,
         root: '/RendxxLogo/logoModel/',
