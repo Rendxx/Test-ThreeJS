@@ -4,6 +4,8 @@
     var container = $("#webGL-container")[0];
     var raycaster = new THREE.Raycaster();
     var panel = [];
+    var points;
+    var objList = [];
 
     /*variables for lights*/
     var ambient;
@@ -69,7 +71,27 @@
             panel[i].rotation.set(rotateArr[i][0], rotateArr[i][1], rotateArr[i][2]);
             panel[i].name = i;
             scene.add(panel[i]);
+            objList.push(panel[i]);
         }
+
+
+        var p_position = new Float32Array(2 * 3);
+        p_position[0] = 25;
+        p_position[1] = 5;
+        p_position[2] = 5;
+
+        p_position[3] = 5;
+        p_position[4] = 25;
+        p_position[5] = 5;
+
+        //material.depthTest = false;
+        var geometry = new THREE.BufferGeometry();
+        geometry.addAttribute('position', new THREE.BufferAttribute(p_position, 3));
+
+        points = new THREE.Points(geometry, new THREE.PointsMaterial({ size: 10 }));
+        points.name = 'points';
+        scene.add(points);
+        objList.push(points);
     };
 
     function render() {
@@ -114,7 +136,7 @@
         var array = getMousePosition(container, evt.clientX, evt.clientY);
         onClickPosition.fromArray(array);
 
-        var intersects = getIntersects(onClickPosition, panel);
+        var intersects = getIntersects(onClickPosition, objList);
 
         if (intersects.length > 0 && intersects[0].uv) {
             var uv = intersects[0].uv;
