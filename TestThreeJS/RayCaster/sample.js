@@ -3,6 +3,7 @@
     var controls, datGUI, stats;
     var container = $("#webGL-container")[0];
     var raycaster = new THREE.Raycaster();
+    raycaster.params.Points.threshold = 10;
     var panel = [];
     var points;
     var objList = [];
@@ -87,6 +88,7 @@
         //material.depthTest = false;
         var geometry = new THREE.BufferGeometry();
         geometry.addAttribute('position', new THREE.BufferAttribute(p_position, 3));
+        geometry.computeBoundingBox();
 
         points = new THREE.Points(geometry, new THREE.PointsMaterial({ size: 10 }));
         points.name = 'points';
@@ -142,6 +144,9 @@
             var uv = intersects[0].uv;
             var name = intersects[0].object.name;
             console.log(name+ ": "+uv.x+", "+uv.y);
+        } else if (intersects.length > 0) {
+            var name = intersects[0].object.name;
+            console.log(name);
         }
 
     };
