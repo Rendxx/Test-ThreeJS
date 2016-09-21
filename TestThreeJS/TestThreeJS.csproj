@@ -24,6 +24,8 @@
     <Content Include="NormalMapping\sample.html" />
     <Content Include="NormalMapping\sample.js" />
     <Content Include="NormalMapping\test-normal.png" />
+    <Content Include="LineTest\sample.html" />
+    <Content Include="LineTest\sample.js" />
     <Content Include="RenderTex\test.js" />
     <Content Include="RenderTex\logoModel\City_tex_01.png" />
     <Content Include="RenderTex\logoModel\City_tex_02.png" />
