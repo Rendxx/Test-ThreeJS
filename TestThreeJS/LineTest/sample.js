@@ -41,13 +41,43 @@
     }
 
     function addObj() {
-        var geometry = new THREE.PlaneGeometry(5, 80, 32);
-        var material = new THREE.ShaderMaterial({
-            vertexShader: document.getElementById('vertex_shader').textContent,
-            fragmentShader: document.getElementById('fragment_shader').textContent
+        var geometry = new THREE.BufferGeometry();
+        var index = new Int8Array(6);
+        index[0] = 0;
+        index[1] = 1;
+        index[2] = 2;
+        index[3] = 0;
+        index[4] = 2;
+        index[5] = 3;
+
+        var normals = new Float32Array(6 * 3);
+        normals[0] = normals[1] = normals[2] = 1;
+        normals[3 + 0] = normals[3 + 1] = normals[3 + 2] = 1;
+        normals[6 + 0] = normals[6 + 1] = normals[6 + 2] = 1;
+        normals[9 + 0] = normals[9 + 1] = normals[9 + 2] = 1;
+        normals[12 + 0] = normals[12 + 1] = normals[12 + 2] = 1;
+        normals[15 + 0] = normals[15 + 1] = normals[15 + 2] = 1;
+
+
+        var position = new Float32Array(6 * 3);
+        position[0] = position[1] = position[2] = 10;
+        position[3 + 0] = position[3 + 1] = position[3 + 2] = 20;
+        position[6 + 0] = position[6 + 1] = position[6 + 2] = 30;
+        position[9 + 0] = position[9 + 1] = position[9 + 2] = 40;
+        position[12 + 0] = position[12 + 1] = position[12 + 2] = 50;
+        position[15 + 0] = position[15 + 1] = position[15 + 2] = 60;
+
+        geometry.addAttribute('index', new THREE.BufferAttribute(index, 1));
+        geometry.addAttribute('normal', new THREE.BufferAttribute(normals, 3));
+        geometry.addAttribute('position', new THREE.BufferAttribute(position, 3));
+        geometry.computeBoundingSphere();
+        var material = new LineMaterial({
+            width: 10,
+            color: new THREE.Color(0xff0000),
+            start: new THREE.Vector3(-40, 0, 0),
+            end: new THREE.Vector3(40, 0, 0)
         });
-        var line = new THREE.Mesh(geometry, material);
-        line.position.z = 20;
+        var line = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xeeeeee, side: THREE.DoubleSide }));
         lines.push(line);
         scene.add(line);
 
@@ -56,7 +86,8 @@
         var geometry = new THREE.PlaneGeometry(100, 100, 32);
         var material = new THREE.MeshBasicMaterial({ color: 0xeeeeee, side: THREE.DoubleSide });
         panel = new THREE.Mesh(geometry, material);
-        scene.add(panel);
+        panel.position.z = -20;
+        //scene.add(panel);
     };
 
     function render() {

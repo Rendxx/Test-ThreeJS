@@ -32,27 +32,52 @@
     <script src="../lib/three.min.js"></script>
     <script src="../lib/OrbitControls.js"></script>
     <script src="../lib/stats.min.js"></script>
+    <script src="LineMaterial.js"></script>
     <script type="text/javascript" src="sample.js"></script>
 
     <script id="vertex_shader" type="x-shader/x-vertex">
+        attribute float index;
+
+        uniform float width;
+        uniform vec3 start;
+        uniform vec3 end;
 
         void main() {
         mat4 mv = mat4(modelViewMatrix);
+        /*
         mv[0][0]=1.0;
         mv[0][1]=0.0;
         mv[0][2]=0.0;
 
-        gl_Position = projectionMatrix * mv * vec4( position, 1.0 );
+        mv[1][0]=0.0;
+        mv[1][1]=1.0;
+        mv[1][2]=0.0;
 
+        mv[2][0]=0.0;
+        mv[2][1]=0.0;
+        mv[2][2]=1.0;
+        */
+
+        mv[1][0]=0.0;
+        mv[1][1]=1.0;
+        mv[1][2]=0.0;
+        vec4 s =  projectionMatrix * mv * vec4( start, 1.0);
+        vec4 e =  projectionMatrix * mv * vec4( end, 1.0 );
+        vec4 line =  normalize(s - e);
+        if (index==1.0) gl_Position =  vec4( -width*line.y+s.x, width*line.x+s.y, 1.0, 1.0 );
+        else if (index==2.0) gl_Position =  vec4( width*line.y+s.x, -width*line.x+s.y, 1.0, 1.0 );
+        else if (index==3.0) gl_Position =  vec4( width*line.y+e.x, -width*line.x+e.y, 1.0, 1.0 );
+        else gl_Position =  vec4( -width*line.y+e.x, width*line.x+e.y, 1.0, 1.0 );
         }
 
     </script>
 
     <script id="fragment_shader" type="x-shader/x-fragment">
-
+        uniform vec3 color;
+        uniform float opacity;
         void main() {
 
-        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0 );
+        gl_FragColor = vec4(color, opacity );
 
         }
     </script>
