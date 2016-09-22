@@ -82,6 +82,7 @@
         geometry.addAttribute('position', new THREE.BufferAttribute(position, 3));
         geometry.computeBoundingSphere();
         var material = new LineMaterial({
+            viewportSize: new THREE.Vector2(window.innerWidth, window.innerHeight),
             width: 10,
             color: new THREE.Color(0xff0000),
             start: new THREE.Vector3(-40, 0, 10),
@@ -90,6 +91,8 @@
         var line = new THREE.Mesh(geometry, material);
         lines.push(line);
         scene.add(line);
+
+        window.m = material;
 
         // material
 

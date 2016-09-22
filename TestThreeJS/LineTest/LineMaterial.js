@@ -4,11 +4,10 @@ var LineMaterial = function (parameters) {
     THREE.ShaderMaterial.call(this);
     parameters = parameters || {};
 
-    var ratio = (new THREE.Vector3(0, 0, 0)).subVectors(parameters.end, parameters.start).length();
-
     var uniforms = {
+        "viewportSize": { value: parameters.viewportSize },
         "color": { value: parameters.color || new THREE.Color() },
-        "width": { type: "f", value: (parameters.width || 1) / ratio },
+        "width": { type: "f", value: (parameters.width || 1) },
         "opacity": { type: "f", value: parameters.opacity || 1 },
         "start": { value: parameters.start },
         "end": { value: parameters.end }
@@ -19,7 +18,6 @@ var LineMaterial = function (parameters) {
         vertexShader: document.getElementById('vertex_shader').textContent,
         fragmentShader: document.getElementById('fragment_shader').textContent
     });
-
 };
 LineMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
 LineMaterial.prototype.constructor = LineMaterial;
