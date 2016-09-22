@@ -84,10 +84,10 @@
         var material = new LineMaterial({
             width: 10,
             color: new THREE.Color(0xff0000),
-            start: new THREE.Vector3(-40, 0, 0),
-            end: new THREE.Vector3(40, 0, 0)
+            start: new THREE.Vector3(-40, 0, 10),
+            end: new THREE.Vector3(40, 0, 10)
         });
-        var line = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide }));
+        var line = new THREE.Mesh(geometry, material);
         lines.push(line);
         scene.add(line);
 

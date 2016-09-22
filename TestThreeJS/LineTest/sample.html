@@ -36,8 +36,7 @@
     <script type="text/javascript" src="sample.js"></script>
 
     <script id="vertex_shader" type="x-shader/x-vertex">
-        attribute float index;
-
+        attribute float pIndex;
         uniform float width;
         uniform vec3 start;
         uniform vec3 end;
@@ -58,15 +57,13 @@
         mv[2][2]=1.0;
         */
 
-        mv[1][0]=0.0;
-        mv[1][1]=1.0;
-        mv[1][2]=0.0;
         vec4 s =  projectionMatrix * mv * vec4( start, 1.0);
         vec4 e =  projectionMatrix * mv * vec4( end, 1.0 );
-        vec4 line =  normalize(s - e);
-        if (index==1.0) gl_Position =  vec4( -width*line.y+s.x, width*line.x+s.y, 1.0, 1.0 );
-        else if (index==2.0) gl_Position =  vec4( width*line.y+s.x, -width*line.x+s.y, 1.0, 1.0 );
-        else if (index==3.0) gl_Position =  vec4( width*line.y+e.x, -width*line.x+e.y, 1.0, 1.0 );
+        
+        vec4 line =  normalize(e - s);
+        if (pIndex==0.0) gl_Position =  vec4( -width*line.y+s.x, width*line.x+s.y, 1.0, 1.0 );
+        else if (pIndex==1.0) gl_Position =  vec4( width*line.y+s.x, -width*line.x+s.y, 1.0, 1.0 );
+        else if (pIndex==2.0) gl_Position =  vec4( width*line.y+e.x, -width*line.x+e.y, 1.0, 1.0 );
         else gl_Position =  vec4( -width*line.y+e.x, width*line.x+e.y, 1.0, 1.0 );
         }
 

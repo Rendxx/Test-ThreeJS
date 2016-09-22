@@ -4,9 +4,11 @@ var LineMaterial = function (parameters) {
     THREE.ShaderMaterial.call(this);
     parameters = parameters || {};
 
+    var ratio = (new THREE.Vector3(0, 0, 0)).subVectors(parameters.end, parameters.start).length();
+
     var uniforms = {
         "color": { value: parameters.color || new THREE.Color() },
-        "width": { type: "f", value: parameters.width || 1 },
+        "width": { type: "f", value: (parameters.width || 1) / ratio },
         "opacity": { type: "f", value: parameters.opacity || 1 },
         "start": { value: parameters.start },
         "end": { value: parameters.end }
