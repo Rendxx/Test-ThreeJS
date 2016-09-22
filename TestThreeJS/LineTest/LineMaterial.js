@@ -18,6 +18,7 @@ var LineMaterial = function (parameters) {
         vertexShader: document.getElementById('vertex_shader').textContent,
         fragmentShader: document.getElementById('fragment_shader').textContent
     });
+    this.side = THREE.DoubleSide;
 };
 LineMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
 LineMaterial.prototype.constructor = LineMaterial;

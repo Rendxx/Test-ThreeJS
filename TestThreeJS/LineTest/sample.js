@@ -29,7 +29,10 @@
 
         /*add controls*/
         controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.addEventListener('change', render);
+        controls.addEventListener('change', function () {
+            render();
+            //console.log(camera.position);
+        });
 
         addObj();
 
@@ -85,22 +88,63 @@
             viewportSize: new THREE.Vector2(window.innerWidth, window.innerHeight),
             width: 10,
             color: new THREE.Color(0xff0000),
-            start: new THREE.Vector3(-40, 0, 10),
-            end: new THREE.Vector3(40, 0, 10)
+            start: new THREE.Vector3(-800, 10, 10),
+            end: new THREE.Vector3(800, 10, 10),
+            opacity: 0.6
         });
+
         var line = new THREE.Mesh(geometry, material);
         lines.push(line);
         scene.add(line);
 
-        window.m = material;
+        // end
 
-        // material
+        var geometry3 = new THREE.BufferGeometry();
+        var position3 = new Float32Array(2 * 3);
+
+        position3[0] = -800;
+        position3[1] = 10;
+        position3[2] = 10;
+
+        position3[3] = 800;
+        position3[4] = 10;
+        position3[5] = 10;
+
+        geometry3.addAttribute('position', new THREE.BufferAttribute(position3, 3));
+        geometry3.computeBoundingSphere();
+        var material3 = new EndMaterial({
+            width: 10,
+            color: new THREE.Color(0xff0000),
+            opacity: 0.6
+        });
+
+
+        var end = new THREE.Points(geometry3, material3);
+        scene.add(end);
+
+
+
+        // panel
 
         var geometry2 = new THREE.PlaneGeometry(100, 100, 32);
         var material = new THREE.MeshBasicMaterial({ color: 0x333333, side: THREE.DoubleSide });
         panel = new THREE.Mesh(geometry2, material);
-        panel.position.z = -20;
-        scene.add(panel);
+        panel.position.z = -80;
+        //scene.add(panel);
+
+
+
+        var geometry4 = new THREE.Geometry();
+        geometry4.vertices.push(new THREE.Vector3(-800, 0, 0));
+        geometry4.vertices.push(new THREE.Vector3(800, 0, 0));
+
+            var material4 = new THREE.LineBasicMaterial({
+                color: 0x0000ff
+            });
+            var line4 = new THREE.Line(geometry4, material4);
+            line4.position.y = 10;
+            line4.position.z = -10;
+        scene.add(line4);
     };
 
     function render() {
