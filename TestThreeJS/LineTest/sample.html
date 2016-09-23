@@ -47,6 +47,26 @@
         vec4 s =  projectionMatrix * modelViewMatrix * vec4( start, 1.0);
         vec4 e =  projectionMatrix * modelViewMatrix * vec4( end, 1.0 );
 
+
+
+
+        if (e.w<= -1.0){
+        e.y=e.y/-e.w;
+        e.x=e.x/-e.w;
+        e.z=e.x/-e.w;
+
+        float t = max(max(abs(e.z-1.0),abs(e.x-1.0)),abs(e.y-1.0));
+        e.x=e.x/t;
+        e.y=e.y/t;
+        e.z=e.z/t;
+
+        e.w=1.0;
+        }
+
+
+
+
+
         vec2 lineWidth = vec2(width/viewportSize.x, width/viewportSize.y);
         vec2 line =  normalize((normalize(e) - normalize(s)).xy);
 
@@ -54,12 +74,17 @@
         if (s.w< 0.0) sign_s=-1.0;
         float sign_e = 1.0;
         if (e.w< 0.0) sign_e=-1.0;
+        if (pIndex==0.0) gl_Position =  vec4(( -lineWidth.x*line.y+s.x/s.w*sign_s), (lineWidth.y*line.x+s.y/s.w*sign_s), 0.99, 1.0 );
+        else if (pIndex==1.0) gl_Position =  vec4( (lineWidth.x*line.y+s.x/s.w*sign_s), (-lineWidth.y*line.x+s.y/s.w*sign_s),0.99, 1.0 );
+        else if (pIndex==2.0) gl_Position =  vec4( (lineWidth.x*line.y+e.x/e.w), (-lineWidth.y*line.x+e.y/e.w), 0.99, 1.0  );
+        else gl_Position =  vec4( (-lineWidth.x*line.y+e.x/e.w), (lineWidth.y*line.x+e.y/e.w), 0.99, 1.0 );
 
-        if (pIndex==0.0) gl_Position =  vec4(( -lineWidth.x*line.y+s.x/s.w*sign_s), (lineWidth.y*line.x+s.y/s.w*sign_s), 0, 1.0 );
-        else if (pIndex==1.0) gl_Position =  vec4( (lineWidth.x*line.y+s.x/s.w*sign_s), (-lineWidth.y*line.x+s.y/s.w*sign_s),0, 1.0 );
-        else if (pIndex==2.0) gl_Position =  vec4( (lineWidth.x*line.y+e.x/e.w*sign_e), (-lineWidth.y*line.x+e.y/e.w*sign_e), 0, 1.0  );
-        else gl_Position =  vec4( (-lineWidth.x*line.y+e.x/e.w*sign_e), (lineWidth.y*line.x+e.y/e.w*sign_e), 0, 1.0 );
-
+        /*
+        if (pIndex==0.0) gl_Position =  vec4(( -lineWidth.x*line.y*s.w*sign_s+s.x), (lineWidth.y*line.x*s.w*sign_s+s.y), s.z, s.w );
+        else if (pIndex==1.0) gl_Position =  vec4( (lineWidth.x*line.y*s.w*sign_s+s.x), (-lineWidth.y*line.x*s.w*sign_s+s.y), s.z, s.w );
+        else if (pIndex==2.0) gl_Position =  vec4( (lineWidth.x*line.y*e.w*sign_e+e.x), (-lineWidth.y*line.x*e.w*sign_e+e.y), e.z, e.w  );
+        else gl_Position =  vec4( (-lineWidth.x*line.y*e.w*sign_e+e.x), (lineWidth.y*line.x*e.w*sign_e+e.y), e.z, e.w );
+        */
         }
 
     </script>

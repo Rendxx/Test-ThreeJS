@@ -88,8 +88,8 @@
             viewportSize: new THREE.Vector2(window.innerWidth, window.innerHeight),
             width: 10,
             color: new THREE.Color(0xff0000),
-            start: new THREE.Vector3(-800, 10, 10),
-            end: new THREE.Vector3(800, 10, 10),
+            start: new THREE.Vector3(-800, 10, 0),
+            end: new THREE.Vector3(800, 10, 0),
             opacity: 0.6
         });
 
@@ -104,11 +104,11 @@
 
         position3[0] = -800;
         position3[1] = 10;
-        position3[2] = 10;
+        position3[2] = 0;
 
         position3[3] = 800;
         position3[4] = 10;
-        position3[5] = 10;
+        position3[5] = 0;
 
         geometry3.addAttribute('position', new THREE.BufferAttribute(position3, 3));
         geometry3.computeBoundingSphere();
@@ -130,7 +130,7 @@
         var material = new THREE.MeshBasicMaterial({ color: 0x333333, side: THREE.DoubleSide });
         panel = new THREE.Mesh(geometry2, material);
         panel.position.z = -80;
-        //scene.add(panel);
+        scene.add(panel);
 
 
 
@@ -139,11 +139,12 @@
         geometry4.vertices.push(new THREE.Vector3(800, 0, 0));
 
             var material4 = new THREE.LineBasicMaterial({
-                color: 0x0000ff
+                color: 0x0000ff,
+                depthTest:0.0
             });
             var line4 = new THREE.Line(geometry4, material4);
             line4.position.y = 10;
-            line4.position.z = -10;
+            line4.position.z = 0;
         scene.add(line4);
     };
 
