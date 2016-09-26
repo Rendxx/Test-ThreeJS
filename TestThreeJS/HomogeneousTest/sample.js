@@ -1,21 +1,14 @@
 ﻿$(function () {
     var scene, camera, renderer;
-    var controls, datGUI, stats;
+    var datGUI, stats;
     var container = $("#webGL-container")[0];
-    var raycaster = new THREE.Raycaster();
-    raycaster.params.Points.threshold = 10;
-    var lines = [];
-    var panel;
-
-    /*variables for lights*/
-    var ambient;
 
     function init() {
         var SCREEN_WIDTH = window.innerWidth;
         var SCREEN_HEIGHT = window.innerHeight;
         /*creates empty scene object and renderer*/
-        camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, .1, 5000);
-        camera.position.z = 800;
+        camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, 10, 200);
+        camera.position.z = 100;
 
         scene = new THREE.Scene();
 
@@ -24,34 +17,24 @@
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.autoClear = false; // To allow render overlay on top of sprited sphere
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.gammaInput = true;
-        renderer.gammaOutput = true;
-
-        /*add controls*/
-        controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.addEventListener('change', function () {
-            render();
-            //console.log(camera.position);
-        });
 
         drawBox({
-            top: -0.9,
+            top: 0.9,
             left: -0.9,
-            bottom: 0.9,
+            bottom: -0.9,
             right: 0.9,
-            depth: 0.8,
+            depth: 0,
             w: 1.0,
-            color: new THREE.Color(0.5, 0, 0)
+            color: new THREE.Color(0.5, 0.5, 0.5)
         });
 
         drawBox({
-            top: -0.5,
+            top: 0.5,
             left: -0.5,
-            bottom: 0.8,
-            right: 0.8,
-            depth: -0.5,
-            w: 1.0,
-            color: new THREE.Color(0, 0.5, 0)
+            bottom: -0.5,
+            right: 0.5,
+            depth: 0.5,
+            w: 1.0
         });
 
         $("#webGL-container").append(renderer.domElement);
@@ -71,7 +54,7 @@
         var depth = opts.depth || 1.0;
         var w = opts.w || 1.0;
 
-        var color = opts.color || new THREE.Color(1.0, 0.0, 0.0);
+        var color = opts.color || new THREE.Color(0.0, 0.0, 0.0);
 
         var positionAtt = new Float32Array([
             left, top, depth,
