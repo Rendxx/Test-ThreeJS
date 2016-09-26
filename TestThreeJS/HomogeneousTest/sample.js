@@ -29,11 +29,11 @@
         });
 
         drawBox({
-            top: 0.5,
+            top: 0.1,
             left: -0.5,
-            bottom: -0.5,
+            bottom: -0.9,
             right: 0.5,
-            depth: 0.5,
+            depth: 1.0,
             w: 1.0
         });
 
@@ -57,14 +57,14 @@
         var color = opts.color || new THREE.Color(0.0, 0.0, 0.0);
 
         var positionAtt = new Float32Array([
-            left, top, depth,
             left, bottom, depth,
             right, bottom, depth,
+            left, top, depth,
             right, top, depth
         ]);
 
         var indexAtt = new Int16Array([
-            0, 1, 2, 2, 3, 0
+            0, 1, 2, 2, 1, 3
         ]);
 
         var colorAtt = new Float32Array([
