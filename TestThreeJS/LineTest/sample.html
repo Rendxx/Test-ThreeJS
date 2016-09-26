@@ -53,8 +53,7 @@
         if (e.w<= -1.0){
         float t = (-1.0-s.w)/(e.w-s.w);
         e=(e-s)*t+s;
-        e.x=-e.x;
-        e.y=-e.y;
+        e.w=-e.w;
         }
 
 
