@@ -51,14 +51,10 @@
 
 
         if (e.w<= -1.0){
-        float a = s.x-e.x==0?0:(s.y-e.y)/(s.x-e.x);
-        float b = s.y-a*s.x;
-
-        e.x=e.x/t;
-        e.y=e.y/t;
-        e.z=e.z/t;
-
-        e.w=1.0;
+        float t = (-1.0-s.w)/(e.w-s.w);
+        e=(e-s)*t+s;
+        e.x=-e.x;
+        e.y=-e.y;
         }
 
 
