@@ -51,11 +51,7 @@
 
 
         if (e.w<= -1.0){
-        e.y=e.y/-e.w;
-        e.x=e.x/-e.w;
-        e.z=e.x/-e.w;
-
-        float t = max(max(abs(e.z-1.0),abs(e.x-1.0)),abs(e.y-1.0));
+        float t = max(abs(e.x),abs(e.y));
         e.x=e.x/t;
         e.y=e.y/t;
         e.z=e.z/t;
