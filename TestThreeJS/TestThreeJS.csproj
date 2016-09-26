@@ -20,6 +20,8 @@
     <Content Include="Animation\sample.js" />
     <Content Include="BufferGeometry\sample.html" />
     <Content Include="BufferGeometry\sample.js" />
+    <Content Include="HomogeneousTest\sample.html" />
+    <Content Include="HomogeneousTest\sample.js" />
     <Content Include="LineTest\EndMaterial.js" />
     <Content Include="LineTest\LineMaterial.js" />
     <Content Include="NormalMapping\normalMap.jpg" />
