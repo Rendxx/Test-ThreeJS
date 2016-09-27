@@ -37,6 +37,7 @@
     <script type="text/javascript" src="sample.js"></script>
 
     <script id="vertex_shader" type="x-shader/x-vertex">
+        varying vec3 v_color;
         attribute float pIndex;
         uniform vec2 viewportSize;
         uniform float width;
@@ -47,13 +48,25 @@
         vec4 s =  projectionMatrix * modelViewMatrix * vec4( start, 1.0);
         vec4 e =  projectionMatrix * modelViewMatrix * vec4( end, 1.0 );
 
+        v_color=vec3((e.x>1.0?0.0:1.0),0.0,0.0);
+
+
+        if (e.w< 0.0){
 
 
 
-        if (e.w<= -1.0){
-        float t = (-1.0-s.w)/(e.w-s.w);
+
+        float t = (1.0-s.z)/(e.z-s.z);
+        var test = (e-s)*t+s;
+        if (t.x>-1.0&&t.x< 1.0){
+            t = (1.0-s.z)/(e.z-s.z);
+        }
+        float t2 = (1.0-s.x)/(e.x-s.x);
+        float t3 = (1.0-s.y)/(e.y-s.y);
         e=(e-s)*t+s;
-        e.w=-e.w;
+        e.x=e.x;
+        e.y=e.y;
+        e.w=1.0;
         }
 
 
@@ -83,9 +96,11 @@
     </script>
 
     <script id="fragment_shader" type="x-shader/x-fragment">
+        varying vec3 v_color;
         uniform vec3 color;
         uniform float opacity;
         void main() {
+        //gl_FragColor = vec4(v_color.rgb, 1.0 );
         gl_FragColor = vec4(color, opacity );
         }
     </script>

@@ -33,8 +33,8 @@
             left: -0.5,
             bottom: -0.9,
             right: 0.5,
-            depth: 1.0,
-            w: 1.0
+            depth: -0.7,
+            w: 0.6
         });
 
         $("#webGL-container").append(renderer.domElement);
