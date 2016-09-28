@@ -37,7 +37,6 @@
     <script type="text/javascript" src="sample.js"></script>
 
     <script id="vertex_shader" type="x-shader/x-vertex">
-        varying vec3 v_color;
         attribute float pIndex;
         uniform vec2 viewportSize;
         uniform float width;
@@ -48,18 +47,8 @@
         vec4 s =  projectionMatrix * modelViewMatrix * vec4( start, 1.0);
         vec4 e =  projectionMatrix * modelViewMatrix * vec4( end, 1.0 );
 
-        v_color=vec3(e.w/800.0,0,0);
-        if (e.w< 0.0){
-
-
-
-        float t = (0.1-s.w)/(e.w-s.w);
-        e=(e-s)*t+s;
-        e.x=e.x;
-        e.y=e.y;
-        }
-
-
+        if (e.w< 0.0){ e=(e-s)*(0.1-s.w)/(e.w-s.w)+s; }
+        if (s.w< 0.0){ s=(s-e)*(0.1-e.w)/(s.w-e.w)+e; }
 
 
         vec2 lineWidth = vec2(width/viewportSize.x, width/viewportSize.y);
@@ -73,23 +62,14 @@
         else if (pIndex==1.0) gl_Position =  vec4( (lineWidth.x*line.y+s.x/s.w*sign_s), (-lineWidth.y*line.x+s.y/s.w*sign_s),0.99, 1.0 );
         else if (pIndex==2.0) gl_Position =  vec4( (lineWidth.x*line.y+e.x/e.w), (-lineWidth.y*line.x+e.y/e.w), 0.99, 1.0  );
         else gl_Position =  vec4( (-lineWidth.x*line.y+e.x/e.w), (lineWidth.y*line.x+e.y/e.w), 0.99, 1.0 );
-
-        /*
-        if (pIndex==0.0) gl_Position =  vec4(( -lineWidth.x*line.y*s.w*sign_s+s.x), (lineWidth.y*line.x*s.w*sign_s+s.y), s.z, s.w );
-        else if (pIndex==1.0) gl_Position =  vec4( (lineWidth.x*line.y*s.w*sign_s+s.x), (-lineWidth.y*line.x*s.w*sign_s+s.y), s.z, s.w );
-        else if (pIndex==2.0) gl_Position =  vec4( (lineWidth.x*line.y*e.w*sign_e+e.x), (-lineWidth.y*line.x*e.w*sign_e+e.y), e.z, e.w  );
-        else gl_Position =  vec4( (-lineWidth.x*line.y*e.w*sign_e+e.x), (lineWidth.y*line.x*e.w*sign_e+e.y), e.z, e.w );
-        */
         }
 
     </script>
 
     <script id="fragment_shader" type="x-shader/x-fragment">
-        varying vec3 v_color;
         uniform vec3 color;
         uniform float opacity;
         void main() {
-        //gl_FragColor = vec4(v_color, 1.0 );
         gl_FragColor = vec4(color, opacity );
         }
     </script>
@@ -97,15 +77,9 @@
 
     <script id="vertex_shader2" type="x-shader/x-vertex">
         uniform float width;
-        varying float behindCamera;
 
         void main() {
-        vec4 t = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-        float sign = 1.0;
-        behindCamera=0.0;
-        if (t.w< 0.0) {sign=-1.0;behindCamera=1.0;}
-
-        gl_Position = vec4( t.x/t.w*sign, t.y/t.w*sign, 0.0, 1.0 );
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
         gl_PointSize = width;
         }
 
@@ -114,13 +88,9 @@
     <script id="fragment_shader2" type="x-shader/x-fragment">
         uniform vec3 color;
         uniform float opacity;
-        varying float behindCamera;
         void main() {
         float dis = length(gl_PointCoord*2.0-1.0);
         if(dis > 1.0){discard;}
-        if (behindCamera==1.0)
-        gl_FragColor = vec4(2.0*color/3.0, opacity );
-        else
         gl_FragColor = vec4(color, opacity );
         }
     </script>
