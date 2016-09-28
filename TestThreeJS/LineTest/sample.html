@@ -48,18 +48,15 @@
         vec4 s =  projectionMatrix * modelViewMatrix * vec4( start, 1.0);
         vec4 e =  projectionMatrix * modelViewMatrix * vec4( end, 1.0 );
 
-        v_color=vec3(e.x/abs(e.x),e.y/abs(e.y),e.z/abs(e.z));
-
+        v_color=vec3(e.w/800.0,0,0);
         if (e.w< 0.0){
 
 
 
-
-        float t = (1.0-s.z)/(e.z-s.z);
+        float t = (0.1-s.w)/(e.w-s.w);
         e=(e-s)*t+s;
         e.x=e.x;
         e.y=e.y;
-        e.w=1.0;
         }
 
 
@@ -92,8 +89,8 @@
         uniform vec3 color;
         uniform float opacity;
         void main() {
-        gl_FragColor = vec4(v_color.rgb, 1.0 );
-        //gl_FragColor = vec4(color, opacity );
+        //gl_FragColor = vec4(v_color, 1.0 );
+        gl_FragColor = vec4(color, opacity );
         }
     </script>
 
