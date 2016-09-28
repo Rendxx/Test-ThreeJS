@@ -21,6 +21,7 @@
 
         // render
         renderer = new THREE.WebGLRenderer();
+        renderer.setClearColor(0x111111);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.autoClear = false; // To allow render overlay on top of sprited sphere
         renderer.setSize(window.innerWidth, window.innerHeight);
