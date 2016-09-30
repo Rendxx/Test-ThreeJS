@@ -58,29 +58,21 @@
         
         var position = new Float32Array(6 * 3);
 
-        position[0] = -40;
-        position[1] = 10;
-        position[2] = 10;
+        position[0] = 0;
+        position[1] = 0;
+        position[2] = 0;
 
-        position[3] = -40;
-        position[4] = -10;
-        position[5] = 10;
+        position[3] = 0;
+        position[4] = 0;
+        position[5] = 0;
 
-        position[6] = 40;
-        position[7] = -10;
-        position[8] = 10;
+        position[6] = 0;
+        position[7] = 0;
+        position[8] = 0;
         
-        position[9] = -40;
-        position[10] = 10;
-        position[11] = 10;
-
-        position[12] = 40;
-        position[13] = -10;
-        position[14] = 10;
-
-        position[15] = 40;
-        position[16] = 10;
-        position[17] = 10;
+        position[9] = 0;
+        position[10] = 0;
+        position[11] = 0;
         
         geometry.addAttribute('pIndex', new THREE.BufferAttribute(index, 1));
         geometry.addAttribute('position', new THREE.BufferAttribute(position, 3));
@@ -94,6 +86,7 @@
             opacity: 0.6
         });
 
+        material.transparent = true;
         var line = new THREE.Mesh(geometry, material);
         lines.push(line);
         scene.add(line);
@@ -118,6 +111,7 @@
             color: new THREE.Color(0xff0000),
             opacity: 0.6
         });
+        material3.transparent = true;
 
 
         var end = new THREE.Points(geometry3, material3);
