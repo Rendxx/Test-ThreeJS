@@ -57,22 +57,6 @@
         index[5] = 3;
         
         var position = new Float32Array(6 * 3);
-
-        position[0] = 0;
-        position[1] = 0;
-        position[2] = 0;
-
-        position[3] = 0;
-        position[4] = 0;
-        position[5] = 0;
-
-        position[6] = 0;
-        position[7] = 0;
-        position[8] = 0;
-        
-        position[9] = 0;
-        position[10] = 0;
-        position[11] = 0;
         
         geometry.addAttribute('pIndex', new THREE.BufferAttribute(index, 1));
         geometry.addAttribute('position', new THREE.BufferAttribute(position, 3));
