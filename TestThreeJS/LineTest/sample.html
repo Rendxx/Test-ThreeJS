@@ -64,10 +64,10 @@
         float sign_e = 1.0;
         if (e.w< 0.0) sign_e=-1.0;
 
-        if (pIndex==0.0) gl_Position =  vec4(( -lineWidth.x*line.y+s.x/s.w*sign_s), (lineWidth.y*line.x+s.y/s.w*sign_s), 0.99, 1.0 );
-        else if (pIndex==1.0) gl_Position =  vec4( (lineWidth.x*line.y+s.x/s.w*sign_s), (-lineWidth.y*line.x+s.y/s.w*sign_s),0.99, 1.0 );
-        else if (pIndex==2.0) gl_Position =  vec4( (lineWidth.x*line.y+e.x/e.w), (-lineWidth.y*line.x+e.y/e.w), 0.99, 1.0  );
-        else gl_Position =  vec4( (-lineWidth.x*line.y+e.x/e.w), (lineWidth.y*line.x+e.y/e.w), 0.99, 1.0 );
+        if (pIndex==0.0) gl_Position =  vec4(( -lineWidth.x*line.y+s.x/s.w*sign_s), (lineWidth.y*line.x+s.y/s.w*sign_s), 0.5, 1.0 );
+        else if (pIndex==1.0) gl_Position =  vec4( (lineWidth.x*line.y+s.x/s.w*sign_s), (-lineWidth.y*line.x+s.y/s.w*sign_s),0.5, 1.0 );
+        else if (pIndex==2.0) gl_Position =  vec4( (lineWidth.x*line.y+e.x/e.w), (-lineWidth.y*line.x+e.y/e.w), 0.5, 1.0  );
+        else gl_Position =  vec4( (-lineWidth.x*line.y+e.x/e.w), (lineWidth.y*line.x+e.y/e.w), 0.5, 1.0 );
         }
 
     </script>
@@ -84,22 +84,55 @@
 
 
     <script id="vertex_shader2" type="x-shader/x-vertex">
+        /*
         uniform float width;
-
         void main() {
         gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
         gl_PointSize = width;
         }
+        */
 
+        uniform vec2 viewportSize;
+        uniform float width;
+        uniform vec3 start;
+        uniform vec3 end;
+        uniform float nearClip;
+        varying vec3 v_color;
+
+        void main() {
+        float pIndex = position.x;
+        vec4 s =  projectionMatrix * modelViewMatrix * vec4( start, 1.0);
+        vec4 e =  projectionMatrix * modelViewMatrix * vec4( end, 1.0 );
+
+        v_color=vec3(s.w,e.w,1.0);
+        vec4 s2=vec4(s);
+
+        if (s.w< 0.0){ s=(s-e)*(nearClip-e.w)/(s.w-e.w)+e; }
+        if (e.w< 0.0){ e=(e-s2)*(nearClip-s2.w)/(e.w-s2.w)+s2; }
+
+
+        vec2 lineWidth = vec2(width/viewportSize.x, width/viewportSize.y);
+        vec2 line =  normalize((normalize(e) - normalize(s)).xy);
+
+        float sign_s = 1.0;
+        if (s.w< 0.0) sign_s=-1.0;
+        float sign_e = 1.0;
+        if (e.w< 0.0) sign_e=-1.0;
+
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        gl_PointSize = width;
+        }
     </script>
 
     <script id="fragment_shader2" type="x-shader/x-fragment">
         uniform vec3 color;
         uniform float opacity;
+        varying vec3 v_color;
         void main() {
         float dis = length(gl_PointCoord*2.0-1.0);
         if(dis > 1.0){discard;}
         gl_FragColor = vec4(color, opacity );
+        gl_FragColor = vec4(v_color, opacity );
         }
     </script>
 </body>

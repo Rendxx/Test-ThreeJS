@@ -20,11 +20,11 @@
         camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, nearClip, 5000);
         camera.position.z = 800;
         window.camera = camera
-        camera.position.z = 0;
-        camera.rotation.x = -0.66573;
-        camera.rotation.y = 0.70557;
-        camera.rotation.z = 0.471035;
-        camera.position.set(14,140,300);
+        //camera.position.z = 0;
+        //camera.rotation.x = -0.66573;
+        //camera.rotation.y = 0.70557;
+        //camera.rotation.z = 0.471035;
+        //camera.position.set(14,140,300);
 
         scene = new THREE.Scene();
 
@@ -38,11 +38,11 @@
         renderer.gammaOutput = true;
 
         /*add controls*/
-        //controls = new THREE.OrbitControls(camera, renderer.domElement);
-        //controls.addEventListener('change', function () {
-        //    render();
-        //    //console.log(camera.position);
-        //});
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', function () {
+            render();
+            //console.log(camera.position);
+        });
 
         addObj();
 
@@ -108,7 +108,11 @@
         var material3 = new EndMaterial({
             width: 10,
             color: new THREE.Color(0xff0000),
-            opacity: 0.6
+            opacity: 0.6,
+
+            start: pos_1,
+            end: pos_2,
+            nearClip: nearClip
         });
         material3.transparent = true;
 
@@ -116,7 +120,6 @@
         var end = new THREE.Points(geometry3, material3);
         scene.add(end);
 
-        // panel
 
         var geometry2 = new THREE.PlaneGeometry(100, 100, 32);
         var material = new THREE.MeshBasicMaterial({ color: 0x333333, side: THREE.DoubleSide });
