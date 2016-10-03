@@ -20,12 +20,11 @@
         camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, nearClip, 5000);
         camera.position.z = 800;
         window.camera = camera
-        //camera.position.z = 0;
-        //camera.rotation.x = -0.66573;
-        //camera.rotation.y = 0.70557;
-        //camera.rotation.z = 0.471035;
-        //camera.position.set(14,140,300);
-
+        camera.position.z = 0;
+        camera.rotation.x = -0.66573;
+        camera.rotation.y = 0.70557;
+        camera.rotation.z = 0.471035;
+        camera.position.set(13,140,300);
         scene = new THREE.Scene();
 
         // render
@@ -38,11 +37,11 @@
         renderer.gammaOutput = true;
 
         /*add controls*/
-        controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.addEventListener('change', function () {
-            render();
-            //console.log(camera.position);
-        });
+        //controls = new THREE.OrbitControls(camera, renderer.domElement);
+        //controls.addEventListener('change', function () {
+        //    render();
+        //    //console.log(camera.position);
+        //});
 
         addObj();
 
