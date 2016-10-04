@@ -37,6 +37,7 @@
     <script type="text/javascript" src="sample.js"></script>
 
     <script id="vertex_shader" type="x-shader/x-vertex">
+        attribute float pIndex;
         uniform vec2 viewportSize;
         uniform float width;
         uniform vec3 start;
@@ -45,7 +46,6 @@
         varying vec3 v_color;
 
         void main() {
-        float pIndex = position.x;
         vec4 s =  projectionMatrix * modelViewMatrix * vec4( start, 1.0);
         vec4 e =  projectionMatrix * modelViewMatrix * vec4( end, 1.0 );
 
@@ -54,7 +54,6 @@
 
         if (s.w< 0.0){ s=(s-e)*(nearClip-e.w)/(s.w-e.w)+e; }
         if (e.w< 0.0){ e=(e-s2)*(nearClip-s2.w)/(e.w-s2.w)+s2; }
-
 
         vec2 lineWidth = vec2(width/viewportSize.x, width/viewportSize.y);
         vec2 line =  normalize((normalize(e) - normalize(s)).xy);

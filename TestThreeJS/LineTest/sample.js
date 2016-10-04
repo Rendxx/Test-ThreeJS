@@ -24,7 +24,7 @@
         camera.rotation.x = -0.66573;
         camera.rotation.y = 0.70557;
         camera.rotation.z = 0.471035;
-        camera.position.set(13,140,300);
+        camera.position.set(30,140,300);
         scene = new THREE.Scene();
 
         // render
@@ -65,13 +65,35 @@
     };
 
     function drawLine(pos_1, pos_2) {
-        var geometry = new THREE.Geometry();
-        geometry.vertices.push(new THREE.Vector3(0, 0, 0));
-        geometry.vertices.push(new THREE.Vector3(1, 1, 1));
-        geometry.vertices.push(new THREE.Vector3(2, 2, 2));
-        geometry.vertices.push(new THREE.Vector3(3, 3, 3));
-        geometry.faces.push(new THREE.Face3(0, 1, 2));
-        geometry.faces.push(new THREE.Face3(0, 2, 3));
+        var geometry = new THREE.BufferGeometry();
+        var index = new Int8Array(6);
+        index[0] = 0;
+        index[1] = 1;
+        index[2] = 2;
+        index[3] = 0;
+        index[4] = 2;
+        index[5] = 3;
+
+        var position = new Float32Array(6 * 3);
+        position[0] = pos_1.x + 1;
+        position[1] = pos_1.y + 1;
+        position[2] = pos_1.z + 1;
+
+        position[3] = pos_1.x - 1;
+        position[4] = pos_1.y - 1;
+        position[5] = pos_1.z - 1;
+
+        position[6] = pos_2.x - 1;
+        position[7] = pos_2.y - 1;
+        position[8] = pos_2.z - 1;
+
+        position[9] = pos_2.x + 1;
+        position[10] = pos_2.x + 1;
+        position[11] = pos_2.x + 1;
+
+        geometry.addAttribute('pIndex', new THREE.BufferAttribute(index, 1));
+        geometry.addAttribute('position', new THREE.BufferAttribute(position, 3));
+        geometry.computeBoundingSphere();
 
         var material = new LineMaterial({
             viewportSize: new THREE.Vector2(window.innerWidth, window.innerHeight),
