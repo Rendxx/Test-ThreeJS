@@ -37,61 +37,11 @@
 
     function createHUDSprites() {
 
-        var spritey = makeTextSprite(" Hello, ", { fontsize: 60, color: { r: 255, g: 100, b: 100, a: 0.8 } });
+        var spritey = makeTextSprite(" Hello,145 ", { fontsize: 60, color: { r: 255, g: 100, b: 100, a: 0.8 }, bg: { r: 0, g: 0, b: 100, a: 0.6 } });
         spritey.position.set(0, 0, 9);
         sceneOrtho.add(spritey);
     }
 
-    var _helper_canvas = document.createElement('canvas');
-    var _helper_canvas_ctx = _helper_canvas.getContext('2d');
-    function makeTextSprite(message, parameters) {
-        _helper_canvas_ctx.clearRect(0, 0, _helper_canvas.width, _helper_canvas.height);
-        if (parameters === undefined) parameters = {};
-
-        var fontface = parameters.hasOwnProperty("fontface") ?
-            parameters["fontface"] : "Arial";
-
-        var fontsize = parameters.hasOwnProperty("fontsize") ?
-            parameters["fontsize"] : 18;
-
-        var color = parameters.hasOwnProperty("color") ?
-            parameters["color"] : { r: 255, g: 255, b: 255, a: 1.0 };
-
-        var align = parameters.hasOwnProperty("align") ?
-            parameters["align"] : "center";
-
-        // set font parameter
-        _helper_canvas_ctx.font = fontsize + "px " + fontface;
-        //_helper_canvas_ctx.shadowColor = "black";
-        //_helper_canvas_ctx.shadowBlur = 5;
-        //_helper_canvas_ctx.textBaseline = 'top';
-
-        // measure text
-        var metrics = _helper_canvas_ctx.measureText(message);
-        var width = parameters.hasOwnProperty("width") ?
-            parameters["width"]  : Math.ceil(metrics.width);
-        var height = parameters.hasOwnProperty("height") ?
-            parameters["height"]  : fontsize;
-
-        _helper_canvas.width = width;
-        _helper_canvas.height = height;
-        _helper_canvas_ctx.font = fontsize + "px " + fontface;
-
-        // text 
-        _helper_canvas_ctx.fillStyle = "rgba(" + color.r + "," + color.g + ","
-                                      + color.b + "," + color.a + ")";
-        _helper_canvas_ctx.fillText(message, 0, (_helper_canvas.height + fontsize) / 2);
-
-        // canvas contents will be used for a texture
-        var texture = new THREE.Texture(_helper_canvas);
-        texture.needsUpdate = true;
-
-        var spriteMaterial = new THREE.SpriteMaterial({ map: texture });
-        var sprite = new THREE.Sprite(spriteMaterial);
-        sprite.scale.set(width, height, 1.0);
-        return sprite;
-    }
-    
     function addObj() {
         /*create plane*/
         planeGeometry = new THREE.PlaneGeometry(100, 100, 100);
