@@ -105,6 +105,7 @@
     <Content Include="PowerfulShadow\sample.js" />
     <Content Include="Particle\sample.html" />
     <Content Include="Particle\sample.js" />
+    <Content Include="Sprite-Text\text.js" />
     <Content Include="TextureAnimation\effort.blood.png" />
     <Content Include="TextureAnimation\sample.html" />
     <Content Include="TextureAnimation\sample.js" />
