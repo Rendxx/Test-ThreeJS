@@ -10,8 +10,7 @@ var LineMaterial = function (parameters) {
         "width": { type: "f", value: (parameters.width || 1) },
         "opacity": { type: "f", value: parameters.opacity || 1 },
         "start": { value: parameters.start },
-        "end": { value: parameters.end },
-        "nearClip": {value: parameters.nearClip}
+        "end": { value: parameters.end }
     };
 
     this.setValues({

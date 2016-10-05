@@ -37,11 +37,11 @@
         renderer.gammaOutput = true;
 
         /*add controls*/
-        //controls = new THREE.OrbitControls(camera, renderer.domElement);
-        //controls.addEventListener('change', function () {
-        //    render();
-        //    //console.log(camera.position);
-        //});
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', function () {
+            render();
+            //console.log(camera.position);
+        });
 
         addObj();
 
@@ -101,8 +101,7 @@
             color: new THREE.Color(0xff0000),
             start: pos_1,
             end: pos_2,
-            opacity: 0.6,
-            nearClip: nearClip
+            opacity: 0.6
         });
 
         material.transparent = true;

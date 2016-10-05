@@ -42,31 +42,28 @@
         uniform float width;
         uniform vec3 start;
         uniform vec3 end;
-        uniform float nearClip;
         varying vec3 v_color;
 
         void main() {
         vec4 s =  projectionMatrix * modelViewMatrix * vec4( start, 1.0);
         vec4 e =  projectionMatrix * modelViewMatrix * vec4( end, 1.0 );
+        v_color=vec3((s.z*s.w>0.0?1.0:0.0),(s.z>0.0?1.0:0.0),0.0);
 
-        v_color=vec3(s.w,e.w,1.0);
-        vec4 s2=vec4(s);
+        if (s.w< 0.0){ s=((s-e)*(0.1-e.w)/(s.w-e.w)+e); }
+        if (e.w< 0.0){ e=((e-s)*(0.1-s.w)/(e.w-s.w)+s); }
+        s=s/s.w;
+        e=e/e.w;
 
-        if (s.w< 0.0){ s=(s-e)*(nearClip-e.w)/(s.w-e.w)+e; }
-        if (e.w< 0.0){ e=(e-s2)*(nearClip-s2.w)/(e.w-s2.w)+s2; }
+        if (s.z< -1.0){ s=((s-e)*(-1.0-e.z)/(s.z-e.z)+e); }
+        if (e.z< -1.0){ e=((e-s)*(-1.0-s.z)/(e.z-s.z)+s); }
 
         vec2 lineWidth = vec2(width/viewportSize.x, width/viewportSize.y);
         vec2 line =  normalize((normalize(e) - normalize(s)).xy);
 
-        float sign_s = 1.0;
-        if (s.w< 0.0) sign_s=-1.0;
-        float sign_e = 1.0;
-        if (e.w< 0.0) sign_e=-1.0;
-
-        if (pIndex==0.0) gl_Position =  vec4(( -lineWidth.x*line.y+s.x/s.w*sign_s), (lineWidth.y*line.x+s.y/s.w*sign_s), 0.5, 1.0 );
-        else if (pIndex==1.0) gl_Position =  vec4( (lineWidth.x*line.y+s.x/s.w*sign_s), (-lineWidth.y*line.x+s.y/s.w*sign_s),0.5, 1.0 );
-        else if (pIndex==2.0) gl_Position =  vec4( (lineWidth.x*line.y+e.x/e.w), (-lineWidth.y*line.x+e.y/e.w), 0.5, 1.0  );
-        else gl_Position =  vec4( (-lineWidth.x*line.y+e.x/e.w), (lineWidth.y*line.x+e.y/e.w), 0.5, 1.0 );
+        if (pIndex==0.0) gl_Position =  vec4(( -lineWidth.x*line.y+s.x), (lineWidth.y*line.x+s.y), 0.5, 1.0 );
+        else if (pIndex==1.0) gl_Position =  vec4( (lineWidth.x*line.y+s.x), (-lineWidth.y*line.x+s.y),0.5, 1.0 );
+        else if (pIndex==2.0) gl_Position =  vec4( (lineWidth.x*line.y+e.x), (-lineWidth.y*line.x+e.y), 0.5, 1.0  );
+        else gl_Position =  vec4( (-lineWidth.x*line.y+e.x), (lineWidth.y*line.x+e.y), 0.5, 1.0 );
         }
 
     </script>
@@ -77,7 +74,7 @@
         varying vec3 v_color;
         void main() {
         gl_FragColor = vec4(color, opacity );
-        gl_FragColor = vec4(v_color/1000.0,1.0);
+        gl_FragColor = vec4(v_color,1.0);
         }
     </script>
 
