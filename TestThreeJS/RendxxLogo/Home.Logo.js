@@ -374,37 +374,42 @@ window.Rendxx.Home = window.Rendxx.Home || {};
                         if (child.name === "Cube") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
-                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_01.png")
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_01.png"),
+                                specularMap: textureLoader.load("/RendxxLogo/logoModel/City_specularMap_01.png")
                             });
                             child.material = material;
                         } else if (child.name === "Cube.001") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
-                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_02.png")
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_02.png"),
+                                specularMap: textureLoader.load("/RendxxLogo/logoModel/City_specularMap_02.png")
                             });
                             child.material = material;
                         } else if (child.name === "Cube.002") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
-                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_03.png")
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_03.png"),
+                                specularMap: textureLoader.load("/RendxxLogo/logoModel/City_specularMap_03.png")
                             });
                             child.material = material;
                         } else if (child.name === "Cube.003") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
-                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_04.png")
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_04.png"),
+                                specularMap: textureLoader.load("/RendxxLogo/logoModel/City_specularMap_04.png")
                             });
                             child.material = material;
                         } else if (child.name === "Cube.004") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
-                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_05.png")
+                                //normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_05.png")
                             });
                             child.material = material;
                         } else if (child.name === "Cube.005") {
                             var material = new THREE.MeshPhongMaterial({
                                 map: child.material.map,
-                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_ground.png")
+                                normalMap: textureLoader.load("/RendxxLogo/logoModel/City_normalMap_ground.png"),
+                                specularMap: textureLoader.load("/RendxxLogo/logoModel/City_specularMap_ground.png")
                             });
                             child.material = material;
                         } 
