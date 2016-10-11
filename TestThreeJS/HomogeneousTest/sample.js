@@ -23,8 +23,8 @@
             left: -0.9,
             bottom: -0.9,
             right: 0.9,
-            depth: 0,
-            w: 1.0,
+            depth: -2.0,
+            w: 2.0,
             color: new THREE.Color(0.5, 0.5, 0.5)
         });
 
