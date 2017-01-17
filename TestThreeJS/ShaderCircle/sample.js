@@ -51,7 +51,7 @@ $(function () {
         // render
         renderer = new THREE.WebGLRenderer();
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setClearColor(0xeeeeee);
+        renderer.setClearColor(0x000000);
         renderer.autoClear = false; // To allow render overlay on top of sprited sphere
         renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -71,17 +71,21 @@ $(function () {
 
         // geometry
         var position = new Float32Array(10 * 3);
+        var radius = new Float32Array(10);
         for (var i = 0; i < 10; i++) {
-            position[i * 3 + 0] = i * 50;
-            position[i * 3 + 1] = i * 50;
-            position[i * 3 + 2] = i * 50;
+            var t = i * 50;
+            position[i * 3 + 0] = t;
+            position[i * 3 + 1] = t;
+            position[i * 3 + 2] = -t;
+            radius[i] = i;
         }
 
         var geometry = new THREE.BufferGeometry();
         geometry.addAttribute('position', new THREE.BufferAttribute(position, 3));
+        geometry.addAttribute('radius', new THREE.BufferAttribute(radius, 1));
 
         var mesh = new THREE.Points(geometry, material);
-        mesh.position.set(-250, -250, -300);
+        mesh.position.set(-250, -250, -400);
         scene.add(mesh);
     };
 
