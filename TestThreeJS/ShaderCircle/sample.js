@@ -68,6 +68,7 @@ $(function () {
             vertexShader: vs,
             fragmentShader: fs
         });
+        material.transparent = true;
 
         // geometry
         var position = new Float32Array(10 * 3);
