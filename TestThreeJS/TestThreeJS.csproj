@@ -20,6 +20,9 @@
     <Content Include="Animation\sample.js" />
     <Content Include="BufferGeometry\sample.html" />
     <Content Include="BufferGeometry\sample.js" />
+    <Content Include="ShaderCircle\point.fs" />
+    <Content Include="ShaderCircle\sample.html" />
+    <Content Include="ShaderCircle\sample.js" />
     <Content Include="HomogeneousTest\sample.html" />
     <Content Include="HomogeneousTest\sample.js" />
     <Content Include="LineTest\EndMaterial.js" />
@@ -209,9 +212,14 @@
     <Content Include="RenderTex\logoModel\City-2.json" />
     <Content Include="RendxxLogo\logoModel\City-2-testNormalMap.json" />
     <Content Include="NormalMapping\test-normal.fla" />
+    <Content Include="ShaderCircle\point.vs" />
     <None Include="test\sample.less" />
     <None Include="package.json" />
     <Content Include="TextureAnimation\effort.blood.json" />
+    <Content Include="Web.config" />
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
