@@ -1,0 +1,3 @@
+D:\R6\Web\GitHub\Test-ThreeJS\TestThreeJS\bin\TestThreeJS.dll
+D:\R6\Web\GitHub\Test-ThreeJS\TestThreeJS\obj\Release\TestThreeJS.csprojResolveAssemblyReference.cache
+D:\R6\Web\GitHub\Test-ThreeJS\TestThreeJS\obj\Release\TestThreeJS.dll
