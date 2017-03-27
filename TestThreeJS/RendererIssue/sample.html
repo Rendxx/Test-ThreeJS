@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Test</title>
+    <title>Render Issue</title>
     <style>
         html {
             margin: 0;
@@ -21,11 +21,31 @@
             height: auto;
         }
     </style>
+
+    <script id="vertex_shader" type="x-shader/x-vertex">
+        varying vec2 vUv;
+
+        void main() {
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+            vUv = uv;
+        }
+    </script>
+
+    <script id="fragment_shader" type="x-shader/x-fragment">
+        uniform float screenWidth;
+        uniform float screenHeight;
+        uniform sampler2D tex;
+        varying vec2 vUv;
+        void main() {
+            gl_FragColor=texture2D( tex, vUv );
+        }
+    </script>
 </head>
 <body>
     <div id="webGL-container">
     </div>
     <script src="../lib/three.min.js"></script>
+    <script src="../lib/OrbitControls.js"></script>
     <script type="text/javascript" src="sample.js"></script>
 </body>
 </html>
