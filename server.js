@@ -19,6 +19,7 @@ var app = express();
 app.set('port', (process.env.PORT || 3003));
 
 app.use('/', express.static(path.join(__dirname, 'TestThreeJS')));
+app.use('/node/', express.static(path.join(__dirname, 'node_modules')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 

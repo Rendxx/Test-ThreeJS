@@ -2,6 +2,9 @@
   "name": "test-three.js",
   "version": "1.0.0",
   "private": true,
+  "dependencies":{
+    "three": "^0.84.0"
+  },
   "devDependencies": {
     "body-parser": "^1.4.3",
     "express": "^4.4.5"
