@@ -51,14 +51,19 @@
         var texture = loader.load('cloud.png');
 
         // mesh
-        var plane = new THREE.Mesh(
-            new THREE.PlaneGeometry(1024, 1024),
+        var planes= [];
+        for (var i=0;i<4;i++){
+        planes[i] = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(256, 256),
             new THREE.MeshBasicMaterial({
                 map: texture
             })
         );
-        plane.position.set(0, 0, -512);
-        scene.add(plane);
+        planes[i].position.set(400-i*200, 0, -512);
+        planes[i].rotation.y = -Math.PI/2 + i*Math.PI/10;
+        scene.add(planes[i]);
+        }
+
     };
 
     function setupScreenScene() {
@@ -68,7 +73,7 @@
 
         // mesh
         screenPanel = new THREE.Mesh(
-            new THREE.PlaneGeometry(SCREEN_WIDTH, SCREEN_HEIGHT),
+            new THREE.PlaneBufferGeometry(SCREEN_WIDTH, SCREEN_HEIGHT),
             new THREE.ShaderMaterial({
                 uniforms: {
                     "tex": { type: "t", value: renderTarget }
